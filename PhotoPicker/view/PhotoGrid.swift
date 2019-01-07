@@ -59,6 +59,13 @@ public class PhotoGrid: UIView {
         self.init()
         self.configuration = configuration
     }
+    
+    public func scrollToBottom(animated: Bool) {
+        guard photoList.count > 0 else {
+            return
+        }
+        collectionView.scrollToItem(at: IndexPath(item: photoList.count - 1, section: 0), at: .bottom, animated: animated)
+    }
 
 }
 

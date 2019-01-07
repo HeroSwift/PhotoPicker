@@ -60,6 +60,7 @@ class AlbumCell: UITableViewCell {
         
         // 只能随便找个地方写这句了...
         selectionStyle = .none
+        indicatorView.image = configuration.albumIndicatorIcon
         
         contentView.addSubview(view)
         
@@ -144,6 +145,23 @@ class AlbumCell: UITableViewCell {
         
         return view
         
+    }()
+    
+    private lazy var indicatorView: UIImageView = {
+    
+        let view = UIImageView()
+    
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(view)
+        
+        contentView.addConstraints([
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.albumCellPaddingHorizontal),
+        ])
+        
+        return view
+    
     }()
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {

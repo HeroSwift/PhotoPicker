@@ -14,10 +14,10 @@ open class PhotoPickerConfiguration {
     public var albumCellBackgroundColorPressed = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.1)
     
     // 相册单元格的水平内间距
-    public var albumCellPaddingHorizontal: CGFloat = 5
+    public var albumCellPaddingHorizontal: CGFloat = 8
     
     // 相册单元格的垂直内间距
-    public var albumCellPaddingVertical: CGFloat = 5
+    public var albumCellPaddingVertical: CGFloat = 6
     
     // 相册缩略图的宽度
     public var albumThumbnailWidth: CGFloat = 50
@@ -58,11 +58,14 @@ open class PhotoPickerConfiguration {
     // 相册分割线粗细
     public var albumSeparatorThickness = 1 / UIScreen.main.scale
     
+    // 相册向右箭头
+    public var albumIndicatorIcon = UIImage(named: "photo_picker_album_indicator")
+    
     // 获取相册列表的选项
     public var albumFetchOptions = PHFetchOptions()
     
     // 是否显示空相册
-    public var showEmptyAlbum = true
+    public var showEmptyAlbum = false
     
     
 
@@ -77,16 +80,16 @@ open class PhotoPickerConfiguration {
     public var numberOfPhotoPerLine: CGFloat = 4
     
     // 网格的水平内间距
-    public var photoGridPaddingHorizontal: CGFloat = 5
+    public var photoGridPaddingHorizontal: CGFloat = 3
     
     // 网格的垂直内间距
-    public var photoGridPaddingVertical: CGFloat = 5
+    public var photoGridPaddingVertical: CGFloat = 3
     
     // 网格行间距
-    public var photoGridRowSpacing: CGFloat = 5
+    public var photoGridRowSpacing: CGFloat = 3
     
     // 网格列间距
-    public var photoGridColumnSpacing: CGFloat = 5
+    public var photoGridColumnSpacing: CGFloat = 3
     
     // 列表缩略图的加载选项
     public var photoGridThumbnailRequestOptions = PHImageRequestOptions()
@@ -107,10 +110,12 @@ open class PhotoPickerConfiguration {
         photoGridThumbnailRequestOptions.resizeMode = .exact
         photoGridThumbnailRequestOptions.deliveryMode = .opportunistic
         
-//        albumFetchOptions.sortDescriptors = [NSSortDescriptor.init(key: "creationDate", ascending: true)]
+        albumFetchOptions.includeHiddenAssets = false
+        // 是否包含连拍
+        albumFetchOptions.includeAllBurstAssets = true
         
-        photoFetchOptions.sortDescriptors = [NSSortDescriptor.init(key: "creationDate", ascending: true)]
-        photoFetchOptions.predicate = NSPredicate(format: "mediaType IN %@", [PHAssetMediaType.image.rawValue])
+        photoFetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        photoFetchOptions.predicate = NSPredicate(format: "mediaType IN %@", [PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue])
         
     }
     

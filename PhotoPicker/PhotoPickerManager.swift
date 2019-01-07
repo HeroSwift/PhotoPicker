@@ -57,16 +57,16 @@ public class PhotoPickerManager {
     }
     
     // 获取用户创建的相册列表
-    public func fetchUserAlbumList(albumFetchOptions: PHFetchOptions, photoFetchOptions: PHFetchOptions) -> [AlbumAsset] {
-        return fetchAlbumList(albumFetchOptions: albumFetchOptions, photoFetchOptions: photoFetchOptions, isSmart: false)
+    public func fetchUserAlbumList(albumFetchOptions: PHFetchOptions, photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool) -> [AlbumAsset] {
+        return fetchAlbumList(albumFetchOptions: albumFetchOptions, photoFetchOptions: photoFetchOptions, showEmptyAlbum: showEmptyAlbum, isSmart: false)
     }
     
     // 获取智能相册列表
-    public func fetchSmartAlbumList(albumFetchOptions: PHFetchOptions, photoFetchOptions: PHFetchOptions) -> [AlbumAsset] {
-        return fetchAlbumList(albumFetchOptions: albumFetchOptions, photoFetchOptions: photoFetchOptions, isSmart: true)
+    public func fetchSmartAlbumList(albumFetchOptions: PHFetchOptions, photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool) -> [AlbumAsset] {
+        return fetchAlbumList(albumFetchOptions: albumFetchOptions, photoFetchOptions: photoFetchOptions, showEmptyAlbum: showEmptyAlbum, isSmart: true)
     }
     
-    private func fetchAlbumList(albumFetchOptions: PHFetchOptions, photoFetchOptions: PHFetchOptions, isSmart: Bool) -> [AlbumAsset] {
+    private func fetchAlbumList(albumFetchOptions: PHFetchOptions, photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool, isSmart: Bool) -> [AlbumAsset] {
         
         var albumList = [AlbumAsset]()
         
@@ -79,13 +79,12 @@ public class PhotoPickerManager {
             result = PHAssetCollection.fetchTopLevelUserCollections(with: albumFetchOptions) as! PHFetchResult<PHAssetCollection>
         }
         
-        let showEmptyAlbum = true
-        
         for index in 0..<result.count {
             let album = result[index]
             let photoList = fetchPhotoList(options: photoFetchOptions, album: album)
             let photoCount = photoList.count
             if showEmptyAlbum || photoCount > 0 {
+                print("\(album.localizedTitle)  \(album.assetCollectionType)")
                 // 缩略图显示最后一个
                 albumList.append(AlbumAsset(collection: album, thumbnail: photoCount > 0 ? photoList[photoCount - 1] : nil, count: photoCount))
             }
