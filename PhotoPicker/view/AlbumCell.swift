@@ -32,6 +32,25 @@ class AlbumCell: UITableViewCell {
         }
     }
     
+    var index = -1 {
+        didSet {
+            if index == 0 {
+                if oldValue > 0 {
+                    separatorHeightLayoutConstraint.constant = 0
+                    setNeedsLayout()
+                }
+            }
+            else {
+                if oldValue == 0 {
+                    separatorHeightLayoutConstraint.constant = configuration.albumSeparatorThickness
+                    setNeedsLayout()
+                }
+            }
+        }
+    }
+    
+    private var separatorHeightLayoutConstraint: NSLayoutConstraint!
+    
     private lazy var separatorView: UIView = {
         
         let view = UIView()
@@ -39,14 +58,18 @@ class AlbumCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = configuration.albumSeparatorColor
         
-        contentView.backgroundColor = .clear
+        // 只能随便找个地方写这句了...
+        backgroundColor = .clear
+        
         contentView.addSubview(view)
+        
+        separatorHeightLayoutConstraint = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumSeparatorThickness)
         
         contentView.addConstraints([
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumCellPaddingHorizontal),
             NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.albumCellPaddingHorizontal),
-            NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumSeparatorThickness)
+            separatorHeightLayoutConstraint
         ])
         
         return view
@@ -67,8 +90,8 @@ class AlbumCell: UITableViewCell {
         
         contentView.addConstraints([
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: separatorView, attribute: .bottom, multiplier: 1, constant: configuration.albumCellPaddingVertical),
-            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumCellPaddingHorizontal),
             bottomLayoutConstraint,
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumCellPaddingHorizontal),
             NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: configuration.albumThumbnailWidth),
             NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumThumbnailHeight),
         ])

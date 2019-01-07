@@ -75,6 +75,7 @@ extension AlbumList: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! AlbumCell
         
         cell.configuration = configuration
+        cell.index = index
         cell.album = album
         
         return cell

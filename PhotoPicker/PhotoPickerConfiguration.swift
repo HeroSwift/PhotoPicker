@@ -8,7 +8,7 @@ open class PhotoPickerConfiguration {
     //
     
     // 相册列表背景色
-    public var albumListBackgroundColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
+    public var albumListBackgroundColor = UIColor.white
     
     // 相册单元格的水平内间距
     public var albumCellPaddingHorizontal: CGFloat = 5
@@ -50,7 +50,7 @@ open class PhotoPickerConfiguration {
     public var albumCountMarginLeft: CGFloat = 10
     
     // 相册分割线颜色
-    public var albumSeparatorColor = UIColor.gray
+    public var albumSeparatorColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 0.6)
     
     // 相册分割线粗细
     public var albumSeparatorThickness = 1 / UIScreen.main.scale
