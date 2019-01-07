@@ -17,6 +17,9 @@
 		9D3CD2E421E2EB2400B1C2C4 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */; };
 		9D3CD2E621E2EBBA00B1C2C4 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */; };
 		9D3CD2E821E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */; };
+		9D3CD2EC21E3234200B1C2C4 /* AlbumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2EB21E3234200B1C2C4 /* AlbumList.swift */; };
+		9D3CD2EE21E324D000B1C2C4 /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2ED21E324D000B1C2C4 /* AlbumCell.swift */; };
+		9D3CD2F021E3253500B1C2C4 /* AlbumAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2EF21E3253500B1C2C4 /* AlbumAsset.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,9 @@
 		9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
 		9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerConfiguration.swift; sourceTree = "<group>"; };
+		9D3CD2EB21E3234200B1C2C4 /* AlbumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumList.swift; sourceTree = "<group>"; };
+		9D3CD2ED21E324D000B1C2C4 /* AlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
+		9D3CD2EF21E3253500B1C2C4 /* AlbumAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumAsset.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +118,8 @@
 			children = (
 				9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */,
 				9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */,
+				9D3CD2EB21E3234200B1C2C4 /* AlbumList.swift */,
+				9D3CD2ED21E324D000B1C2C4 /* AlbumCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -120,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */,
+				9D3CD2EF21E3253500B1C2C4 /* AlbumAsset.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -239,6 +248,9 @@
 				9D3CD2E821E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift in Sources */,
 				9D3CD2E621E2EBBA00B1C2C4 /* PhotoCell.swift in Sources */,
 				9D3CD2DE21E1051F00B1C2C4 /* PhotoPickerManager.swift in Sources */,
+				9D3CD2EE21E324D000B1C2C4 /* AlbumCell.swift in Sources */,
+				9D3CD2F021E3253500B1C2C4 /* AlbumAsset.swift in Sources */,
+				9D3CD2EC21E3234200B1C2C4 /* AlbumList.swift in Sources */,
 				9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */,
 				9D3CD2E421E2EB2400B1C2C4 /* PhotoAsset.swift in Sources */,
 			);

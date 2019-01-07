@@ -4,16 +4,22 @@ import Photos
 
 class PhotoCell: UICollectionViewCell {
     
-    var options: PHImageRequestOptions!
+    var configuration: PhotoPickerConfiguration!
     
-    var photo: PhotoAsset? = nil {
+    var photo: PhotoAsset! {
         didSet {
-            guard let photo = photo else {
-                return
-            }
             
-            PhotoPickerManager.shared.requestImage(asset: photo.asset, size: contentView.bounds.size, options: options) { (image, info) in
-                self.imageView.image = image
+            PhotoPickerManager.shared.requestImage(
+                asset: photo.asset,
+                size: contentView.bounds.size,
+                options: configuration.photoGridThumbnailRequestOptions
+            ) { (image, info) in
+                if let image = image {
+                    self.imageView.image = image
+                }
+                else {
+                    self.imageView.image = self.configuration.photoGridThumbnailErrorPlaceholder
+                }
             }
             
         }

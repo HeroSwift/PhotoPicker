@@ -1,7 +1,7 @@
 
 import UIKit
 
-public class PhotoGrid: UICollectionViewCell {
+public class PhotoGrid: UIView {
     
     public var photoList = [PhotoAsset]() {
         didSet {
@@ -40,14 +40,14 @@ public class PhotoGrid: UICollectionViewCell {
         view.delegate = self
         view.backgroundColor = configuration.photoGridBackgroundColor
         
-        contentView.addSubview(view)
+        addSubview(view)
         
-        contentView.addConstraints([
+        addConstraints([
             
-            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0)
             
         ])
         
@@ -77,7 +77,7 @@ extension PhotoGrid: UICollectionViewDataSource {
         let index = indexPath.item
         let photo = photoList[index]
 
-        cell.options = configuration.photoGridImageRequestOptions
+        cell.configuration = configuration
         cell.photo = photo
         
         return cell
