@@ -17,12 +17,21 @@ public class AlbumList: UIView {
         
         let view = UITableView()
         
+        if #available(iOS 11.0, *) {
+            view.contentInsetAdjustmentBehavior = .never
+        }
+        
         view.delegate = self
         view.dataSource = self
-        view.showsVerticalScrollIndicator = false
+        
         view.estimatedRowHeight = 100
         view.rowHeight = UITableView.automaticDimension
+        
+        view.showsVerticalScrollIndicator = false
         view.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.backgroundColor = configuration.albumListBackgroundColor
+        view.separatorStyle = .none
         
         view.register(AlbumCell.self, forCellReuseIdentifier: identifier)
         

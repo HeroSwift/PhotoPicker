@@ -9,20 +9,17 @@ public class AlbumAsset {
             return collection.localizedTitle
         }
     }
-    
-    public var count: Int {
-        get {
-            return collection.estimatedAssetCount
-        }
-    }
 
     public var collection: PHAssetCollection
     
     public var thumbnail: PhotoAsset?
     
-    public init(collection: PHAssetCollection, thumbnail: PhotoAsset?) {
+    public var count: Int
+    
+    public init(collection: PHAssetCollection, thumbnail: PhotoAsset?, count: Int) {
         self.collection = collection
         self.thumbnail = thumbnail
+        self.count = count
     }
     
 }

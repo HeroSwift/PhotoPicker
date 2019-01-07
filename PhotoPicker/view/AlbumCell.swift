@@ -32,6 +32,27 @@ class AlbumCell: UITableViewCell {
         }
     }
     
+    private lazy var separatorView: UIView = {
+        
+        let view = UIView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = configuration.albumSeparatorColor
+        
+        contentView.backgroundColor = .clear
+        contentView.addSubview(view)
+        
+        contentView.addConstraints([
+            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumCellPaddingHorizontal),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.albumCellPaddingHorizontal),
+            NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumSeparatorThickness)
+        ])
+        
+        return view
+        
+    }()
+    
     private lazy var thumbnailView: UIImageView = {
         
         let view = UIImageView()
@@ -40,10 +61,14 @@ class AlbumCell: UITableViewCell {
         
         contentView.addSubview(view)
         
+        let bottomLayoutConstraint = NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -configuration.albumCellPaddingVertical)
+        
+        bottomLayoutConstraint.priority = .defaultLow
+        
         contentView.addConstraints([
-            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: configuration.albumCellPaddingVertical),
+            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: separatorView, attribute: .bottom, multiplier: 1, constant: configuration.albumCellPaddingVertical),
             NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumCellPaddingHorizontal),
-            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -configuration.albumCellPaddingVertical),
+            bottomLayoutConstraint,
             NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: configuration.albumThumbnailWidth),
             NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumThumbnailHeight),
         ])

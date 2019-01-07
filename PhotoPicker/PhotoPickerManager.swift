@@ -37,10 +37,6 @@ public class PhotoPickerManager {
     // 获取所有照片
     public func fetchPhotoList(options: PHFetchOptions, album: PHAssetCollection?) -> [PhotoAsset] {
         
-        if #available(iOS 9.0, *) {
-            options.fetchLimit = 0
-        }
-        
         let result: PHFetchResult<PHAsset>
         
         if let album = album {
@@ -87,32 +83,15 @@ public class PhotoPickerManager {
         
         for index in 0..<result.count {
             let album = result[index]
-            let thumbnail = fetchAlbumThumbnail(album: album, options: photoFetchOptions)
-            // 有封面图表示不为空
-            if showEmptyAlbum || thumbnail != nil {
-                albumList.append(AlbumAsset(collection: album, thumbnail: thumbnail))
+            let photoList = fetchPhotoList(options: photoFetchOptions, album: album)
+            let photoCount = photoList.count
+            if showEmptyAlbum || photoCount > 0 {
+                // 缩略图显示最后一个
+                albumList.append(AlbumAsset(collection: album, thumbnail: photoCount > 0 ? photoList[photoCount - 1] : nil, count: photoCount))
             }
         }
 
         return albumList
-        
-    }
-    
-    // 获取相册封面图
-    public func fetchAlbumThumbnail(album: PHAssetCollection, options: PHFetchOptions) -> PhotoAsset? {
-        
-        // 只需要获取一张照片就行了
-        if #available(iOS 9.0, *) {
-            options.fetchLimit = 1
-        }
-        
-        let photoList = fetchPhotoList(options: options, album: album)
-        
-        if photoList.count >= 1 {
-            return photoList[0]
-        }
-        
-        return nil
         
     }
     

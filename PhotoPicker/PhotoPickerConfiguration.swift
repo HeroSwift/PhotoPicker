@@ -7,6 +7,9 @@ open class PhotoPickerConfiguration {
     // MARK: - 相册列表
     //
     
+    // 相册列表背景色
+    public var albumListBackgroundColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
+    
     // 相册单元格的水平内间距
     public var albumCellPaddingHorizontal: CGFloat = 5
     
@@ -14,10 +17,10 @@ open class PhotoPickerConfiguration {
     public var albumCellPaddingVertical: CGFloat = 5
     
     // 相册缩略图的宽度
-    public var albumThumbnailWidth: CGFloat = 60
+    public var albumThumbnailWidth: CGFloat = 50
     
     // 相册缩略图的高度
-    public var albumThumbnailHeight: CGFloat = 60
+    public var albumThumbnailHeight: CGFloat = 50
     
     // 相册缩略图的加载选项
     public var albumThumbnailRequestOptions = PHImageRequestOptions()
@@ -29,7 +32,7 @@ open class PhotoPickerConfiguration {
     public var albumEmptyPlaceholder = UIImage(named: "image")
     
     // 相册标题字体
-    public var albumTitleTextFont = UIFont.systemFont(ofSize: 14)
+    public var albumTitleTextFont = UIFont.systemFont(ofSize: 16)
     
     // 相册标题颜色
     public var albumTitleTextColor = UIColor.black
@@ -38,13 +41,19 @@ open class PhotoPickerConfiguration {
     public var albumTitleMarginLeft: CGFloat = 10
     
     // 相册数量字体
-    public var albumCountTextFont = UIFont.systemFont(ofSize: 12)
+    public var albumCountTextFont = UIFont.systemFont(ofSize: 14)
     
     // 相册数量颜色
     public var albumCountTextColor = UIColor.gray
     
     // 相册数量与标题的距离
     public var albumCountMarginLeft: CGFloat = 10
+    
+    // 相册分割线颜色
+    public var albumSeparatorColor = UIColor.gray
+    
+    // 相册分割线粗细
+    public var albumSeparatorThickness = 1 / UIScreen.main.scale
     
     // 获取相册列表的选项
     public var albumFetchOptions = PHFetchOptions()
@@ -87,10 +96,12 @@ open class PhotoPickerConfiguration {
     
     public init() {
         
-        albumThumbnailRequestOptions.resizeMode = .fast
-        albumThumbnailRequestOptions.deliveryMode = .opportunistic
+        // 设置为 PHImageRequestOptionsResizeModeFast 请求的效率更高
+        // 但返回的图像可能和目标大小不一样并且质量较低
+        albumThumbnailRequestOptions.resizeMode = .exact
+        albumThumbnailRequestOptions.deliveryMode = .highQualityFormat
         
-        photoGridThumbnailRequestOptions.resizeMode = .fast
+        photoGridThumbnailRequestOptions.resizeMode = .exact
         photoGridThumbnailRequestOptions.deliveryMode = .opportunistic
         
 //        albumFetchOptions.sortDescriptors = [NSSortDescriptor.init(key: "creationDate", ascending: true)]
