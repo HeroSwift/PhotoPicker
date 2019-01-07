@@ -13,7 +13,21 @@
 		9D3CD2D521E104EC00B1C2C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D3CD2D421E104EC00B1C2C4 /* Assets.xcassets */; };
 		9D3CD2D821E104EC00B1C2C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D3CD2D621E104EC00B1C2C4 /* LaunchScreen.storyboard */; };
 		9D3CD2DE21E1051F00B1C2C4 /* PhotoPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2DD21E1051F00B1C2C4 /* PhotoPickerManager.swift */; };
+		9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */; };
+		9D3CD2E421E2EB2400B1C2C4 /* PhotoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E321E2EB2400B1C2C4 /* PhotoFile.swift */; };
+		9D3CD2E621E2EBBA00B1C2C4 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */; };
+		9D3CD2E821E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9D3CD2E921E2F44400B1C2C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D3CD2B321E104CF00B1C2C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9D3CD2BB21E104CF00B1C2C4;
+			remoteInfo = PhotoPicker;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9D3CD2BC21E104CF00B1C2C4 /* PhotoPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PhotoPicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -26,6 +40,10 @@
 		9D3CD2D721E104EC00B1C2C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D3CD2D921E104EC00B1C2C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D3CD2DD21E1051F00B1C2C4 /* PhotoPickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerManager.swift; sourceTree = "<group>"; };
+		9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGrid.swift; sourceTree = "<group>"; };
+		9D3CD2E321E2EB2400B1C2C4 /* PhotoFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFile.swift; sourceTree = "<group>"; };
+		9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +85,11 @@
 		9D3CD2BE21E104CF00B1C2C4 /* PhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
+				9D3CD2E221E2EB1100B1C2C4 /* model */,
+				9D3CD2DF21E2E99600B1C2C4 /* view */,
 				9D3CD2C021E104CF00B1C2C4 /* Info.plist */,
 				9D3CD2DD21E1051F00B1C2C4 /* PhotoPickerManager.swift */,
+				9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */,
 			);
 			path = PhotoPicker;
 			sourceTree = "<group>";
@@ -84,6 +105,23 @@
 				9D3CD2D921E104EC00B1C2C4 /* Info.plist */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		9D3CD2DF21E2E99600B1C2C4 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */,
+				9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		9D3CD2E221E2EB1100B1C2C4 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				9D3CD2E321E2EB2400B1C2C4 /* PhotoFile.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +166,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9D3CD2EA21E2F44400B1C2C4 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -197,7 +236,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D3CD2E821E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift in Sources */,
+				9D3CD2E621E2EBBA00B1C2C4 /* PhotoCell.swift in Sources */,
 				9D3CD2DE21E1051F00B1C2C4 /* PhotoPickerManager.swift in Sources */,
+				9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */,
+				9D3CD2E421E2EB2400B1C2C4 /* PhotoFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +254,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D3CD2EA21E2F44400B1C2C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9D3CD2BB21E104CF00B1C2C4 /* PhotoPicker */;
+			targetProxy = 9D3CD2E921E2F44400B1C2C4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9D3CD2D121E104EB00B1C2C4 /* Main.storyboard */ = {
@@ -284,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -342,7 +393,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -357,6 +408,7 @@
 		9D3CD2C521E104CF00B1C2C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -385,6 +437,7 @@
 		9D3CD2C621E104CF00B1C2C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -412,6 +465,7 @@
 		9D3CD2DB21E104EC00B1C2C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N276SVAZ33;
@@ -431,6 +485,7 @@
 		9D3CD2DC21E104EC00B1C2C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N276SVAZ33;
