@@ -7,8 +7,11 @@ open class PhotoPickerConfiguration {
     // MARK: - 相册列表
     //
     
-    // 相册列表背景色
-    public var albumListBackgroundColor = UIColor.white
+    // 相册单元格默认时的背景色
+    public var albumCellBackgroundColorNormal = UIColor.white
+    
+    // 相册单元格按下时的背景色
+    public var albumCellBackgroundColorPressed = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.1)
     
     // 相册单元格的水平内间距
     public var albumCellPaddingHorizontal: CGFloat = 5

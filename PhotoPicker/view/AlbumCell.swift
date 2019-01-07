@@ -59,7 +59,7 @@ class AlbumCell: UITableViewCell {
         view.backgroundColor = configuration.albumSeparatorColor
         
         // 只能随便找个地方写这句了...
-        backgroundColor = .clear
+        selectionStyle = .none
         
         contentView.addSubview(view)
         
@@ -146,4 +146,13 @@ class AlbumCell: UITableViewCell {
         
     }()
     
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        if highlighted {
+            backgroundColor = configuration.albumCellBackgroundColorPressed
+        }
+        else {
+            backgroundColor = .clear
+        }
+    }
 }
