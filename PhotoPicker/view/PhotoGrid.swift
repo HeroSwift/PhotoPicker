@@ -3,7 +3,7 @@ import UIKit
 
 public class PhotoGrid: UICollectionViewCell {
     
-    public var photoList = [PhotoFile]() {
+    public var photoList = [PhotoAsset]() {
         didSet {
             collectionView.reloadData()
         }
@@ -77,6 +77,7 @@ extension PhotoGrid: UICollectionViewDataSource {
         let index = indexPath.item
         let photo = photoList[index]
 
+        cell.options = configuration.photoGridImageRequestOptions
         cell.photo = photo
         
         return cell

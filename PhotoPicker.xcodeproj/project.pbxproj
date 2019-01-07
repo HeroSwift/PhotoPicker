@@ -14,7 +14,7 @@
 		9D3CD2D821E104EC00B1C2C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D3CD2D621E104EC00B1C2C4 /* LaunchScreen.storyboard */; };
 		9D3CD2DE21E1051F00B1C2C4 /* PhotoPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2DD21E1051F00B1C2C4 /* PhotoPickerManager.swift */; };
 		9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */; };
-		9D3CD2E421E2EB2400B1C2C4 /* PhotoFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E321E2EB2400B1C2C4 /* PhotoFile.swift */; };
+		9D3CD2E421E2EB2400B1C2C4 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */; };
 		9D3CD2E621E2EBBA00B1C2C4 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */; };
 		9D3CD2E821E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */; };
 /* End PBXBuildFile section */
@@ -41,7 +41,7 @@
 		9D3CD2D921E104EC00B1C2C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D3CD2DD21E1051F00B1C2C4 /* PhotoPickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerManager.swift; sourceTree = "<group>"; };
 		9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGrid.swift; sourceTree = "<group>"; };
-		9D3CD2E321E2EB2400B1C2C4 /* PhotoFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFile.swift; sourceTree = "<group>"; };
+		9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
 		9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,7 +119,7 @@
 		9D3CD2E221E2EB1100B1C2C4 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				9D3CD2E321E2EB2400B1C2C4 /* PhotoFile.swift */,
+				9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -240,7 +240,7 @@
 				9D3CD2E621E2EBBA00B1C2C4 /* PhotoCell.swift in Sources */,
 				9D3CD2DE21E1051F00B1C2C4 /* PhotoPickerManager.swift in Sources */,
 				9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */,
-				9D3CD2E421E2EB2400B1C2C4 /* PhotoFile.swift in Sources */,
+				9D3CD2E421E2EB2400B1C2C4 /* PhotoAsset.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

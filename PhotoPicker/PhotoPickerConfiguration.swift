@@ -1,4 +1,5 @@
 import UIKit
+import Photos
 
 open class PhotoPickerConfiguration {
 
@@ -20,6 +21,12 @@ open class PhotoPickerConfiguration {
     // 网格列间距
     public var photoGridColumnSpacing: CGFloat = 5
     
-    public init() { }
+    // 列表图片的加载选项
+    public var photoGridImageRequestOptions = PHImageRequestOptions()
+    
+    public init() {
+        photoGridImageRequestOptions.resizeMode = .fast
+        photoGridImageRequestOptions.deliveryMode = .opportunistic
+    }
     
 }

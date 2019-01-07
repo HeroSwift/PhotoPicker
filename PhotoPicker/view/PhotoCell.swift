@@ -1,11 +1,21 @@
 
 import UIKit
+import Photos
 
 class PhotoCell: UICollectionViewCell {
     
-    var photo: PhotoFile? = nil {
+    var options: PHImageRequestOptions!
+    
+    var photo: PhotoAsset? = nil {
         didSet {
-            imageView.image = photo?.image
+            guard let photo = photo else {
+                return
+            }
+            
+            PhotoPickerManager.shared.requestImage(asset: photo.asset, size: contentView.bounds.size, options: options) { (image, info) in
+                self.imageView.image = image
+            }
+            
         }
     }
     
