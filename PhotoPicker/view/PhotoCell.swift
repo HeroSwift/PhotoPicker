@@ -8,7 +8,7 @@ class PhotoCell: UICollectionViewCell {
     
     var photo: PhotoAsset! {
         didSet {
-            
+
             PhotoPickerManager.shared.requestImage(
                 asset: photo.asset,
                 size: contentView.bounds.size,
@@ -20,6 +20,16 @@ class PhotoCell: UICollectionViewCell {
                 else {
                     self.imageView.image = self.configuration.photoGridThumbnailErrorPlaceholder
                 }
+            }
+            
+            if photo.type == .gif {
+                badgeView.image = configuration.photoBadgeGifIcon
+            }
+            else if photo.type == .live {
+                badgeView.image = configuration.photoBadgeLiveIcon
+            }
+            else if photo.type == .webp {
+                badgeView.image = configuration.photoBadgeWebpIcon
             }
             
         }
@@ -41,6 +51,28 @@ class PhotoCell: UICollectionViewCell {
             NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
+            
+        ])
+        
+        return view
+        
+    }()
+    
+    // 角标，如 live photo/GIF
+    private lazy var badgeView: UIImageView = {
+       
+        let view = UIImageView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.contentMode = .center
+
+        contentView.addSubview(view)
+        
+        contentView.addConstraints([
+            
+            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -configuration.photoBadgeMarginBottom),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.photoBadgeMarginRight),
             
         ])
         

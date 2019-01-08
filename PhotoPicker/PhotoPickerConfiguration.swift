@@ -100,6 +100,21 @@ open class PhotoPickerConfiguration {
     // 获取照片列表的选项
     public var photoFetchOptions = PHFetchOptions()
     
+    
+    //
+    // MARK: - 照片角标
+    //
+    
+    // 角标到右边的距离
+    public var photoBadgeMarginRight: CGFloat = 2
+    
+    // 角标到下边的距离
+    public var photoBadgeMarginBottom: CGFloat = 2
+    
+    public var photoBadgeGifIcon = UIImage(named: "photo_picker_badge_gif")
+    public var photoBadgeLiveIcon = UIImage(named: "photo_picker_badge_live")
+    public var photoBadgeWebpIcon = UIImage(named: "photo_picker_badge_webp")
+    
     public init() {
         
         // 设置为 PHImageRequestOptionsResizeModeFast 请求的效率更高
