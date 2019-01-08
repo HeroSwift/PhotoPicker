@@ -4,7 +4,16 @@ import Photos
 
 class PhotoCell: UICollectionViewCell {
     
-    var configuration: PhotoPickerConfiguration!
+    var onToggleChecked: (() -> Void)?
+    
+    var configuration: PhotoPickerConfiguration! {
+        didSet {
+            guard configuration !== oldValue else {
+                return
+            }
+            selectButton.isHidden = !configuration.selectable
+        }
+    }
     
     var photo: PhotoAsset! {
         didSet {
@@ -34,10 +43,23 @@ class PhotoCell: UICollectionViewCell {
                 badgeView.isHidden = false
             }
             
+            if configuration.selectable {
+                checked = photo.checkedIndex >= 0
+            }
         }
     }
     
     private var imageRequestID: PHImageRequestID?
+    
+    private var checked = false {
+        didSet {
+            
+            selectButton.checked = checked
+            
+            selectButton.count = configuration.countable && photo.checkedIndex >= 0 ? photo.checkedIndex + 1 : -1
+            
+        }
+    }
     
     private var thumbnail: UIImage? {
         didSet {
@@ -51,7 +73,7 @@ class PhotoCell: UICollectionViewCell {
             }
         }
     }
-    
+
     private lazy var thumbnailView: UIImageView = {
         
         let view = UIImageView()
@@ -62,7 +84,7 @@ class PhotoCell: UICollectionViewCell {
         
         view.image = configuration.photoThumbnailLoadingPlaceholder
         
-        contentView.addSubview(view)
+        contentView.insertSubview(view, at: 0)
         
         contentView.addConstraints([
             
@@ -77,15 +99,39 @@ class PhotoCell: UICollectionViewCell {
         
     }()
     
-    // 角标，如 live photo/GIF
+    private lazy var selectButton: SelectButton = {
+        
+        let view = SelectButton(configuration: configuration)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.addSubview(view)
+        
+        contentView.addConstraints([
+            
+            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: configuration.selectButtonMarginTop),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.selectButtonMarginRight),
+            NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: configuration.selectButtonWidth),
+            NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.selectButtonHeight),
+            
+        ])
+        
+        view.onClick = {
+            self.onToggleChecked?()
+        }
+        
+        return view
+        
+    }()
+    
+    // 角标，如 live、gif、webp
     private lazy var badgeView: UIImageView = {
        
         let view = UIImageView()
         
+        view.isHidden = true
         view.translatesAutoresizingMaskIntoConstraints = false
         
-        view.isHidden = true
-
         contentView.addSubview(view)
         
         contentView.addConstraints([
@@ -104,6 +150,9 @@ class PhotoCell: UICollectionViewCell {
         if let requestID = imageRequestID {
             PhotoPickerManager.shared.cancelImageRequest(requestID)
             imageRequestID = nil
+        }
+        if configuration.selectable {
+            checked = false
         }
         thumbnail = configuration.photoThumbnailLoadingPlaceholder
         badgeView.isHidden = true

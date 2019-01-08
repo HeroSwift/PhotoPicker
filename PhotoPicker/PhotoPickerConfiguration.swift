@@ -52,11 +52,6 @@ open class PhotoPickerConfiguration {
     // 相册向右箭头
     public var albumIndicatorIcon = UIImage(named: "photo_picker_album_indicator")
     
-    // 是否显示空相册
-    public var showEmptyAlbum = false
-    
-    
-
     //
     // MARK: - 照片网格
     //
@@ -79,7 +74,54 @@ open class PhotoPickerConfiguration {
     // 网格列间距
     public var photoGridColumnSpacing: CGFloat = 2
 
+    
+    //
+    // MARK: - 计数器
+    //
+    
+    // 选择按钮宽度
+    public var selectButtonWidth: CGFloat = 44
+    
+    // 选择按钮高度
+    public var selectButtonHeight: CGFloat = 44
+    
+    // 选择按钮到顶部的距离
+    public var selectButtonMarginTop: CGFloat = 0
+    
+    // 选择按钮到右边的距离
+    public var selectButtonMarginRight: CGFloat = 0
+    
+    // 选择按钮的标题字体
+    public var selectButtonTitleTextFont = UIFont.systemFont(ofSize: 14)
+    
+    // 选择按钮的标题颜色
+    public var selectButtonTitleTextColor = UIColor.white
+    
+    // 未选中时的图片
+    public var selectButtonImageUnchecked = UIImage(named: "photo_picker_select_button_unchecked")
+    
+    // 选中且不需要计数时的图片
+    public var selectButtonImageChecked = UIImage(named: "photo_picker_select_button_checked")
+    
+    // 选中且需要计数时的图片
+    public var selectButtonImageCheckedCountable = UIImage(named: "photo_picker_select_button_checked_countable")
+    
+    //
+    // MARK: - 各种可选配置
+    //
+    
+    // 是否显示空相册
+    public var showEmptyAlbum = false
+    
+    // 是否可以多选
+    public var selectable = true
+    
+    // 是否支持计数
+    public var countable = true
 
+    // 最大支持的多选数量
+    public var maxSelectCount = 10
+    
     //
     // MARK: - 各种选项
     //

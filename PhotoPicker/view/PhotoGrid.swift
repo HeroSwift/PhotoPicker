@@ -9,6 +9,8 @@ public class PhotoGrid: UIView {
         }
     }
     
+    public var selectedPhotoList = [PhotoAsset]()
+    
     private var configuration: PhotoPickerConfiguration!
     
     private let cellIdentifier = "cell"
@@ -84,8 +86,14 @@ extension PhotoGrid: UICollectionViewDataSource {
         let index = indexPath.item
         let photo = photoList[index]
 
+        photo.index = index
+        
         cell.configuration = configuration
         cell.photo = photo
+        
+        cell.onToggleChecked = {
+            self.toggleChecked(photo: photo)
+        }
         
         return cell
     }
@@ -94,20 +102,7 @@ extension PhotoGrid: UICollectionViewDataSource {
 
 extension PhotoGrid: UICollectionViewDelegate {
     
-    // 点击事件
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
-        
-    }
-    
-    // 按下事件
-    public func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
-        
-    }
-    
-    // 松手事件
-    public func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
         
     }
@@ -159,6 +154,43 @@ extension PhotoGrid {
         // 正方形就行
         return CGSize(width: width, height: width)
         
+    }
+    
+    private func toggleChecked(photo: PhotoAsset) {
+        
+        // checked 获取反选值
+        let checked = photo.checkedIndex < 0
+        let selectedCount = selectedPhotoList.count
+        
+        if checked {
+            // 到达最大值，就无法再选了
+            if selectedCount == configuration.maxSelectCount {
+                return
+            }
+            photo.checkedIndex = selectedCount
+            selectedPhotoList.append(photo)
+        }
+        else {
+            selectedPhotoList.remove(at: photo.checkedIndex)
+            photo.checkedIndex = -1
+            
+            // 重排顺序
+            for i in 0..<selectedCount - 1 {
+                let selectedPhoto = selectedPhotoList[i]
+                if i != selectedPhoto.checkedIndex {
+                    selectedPhoto.checkedIndex = i
+                    collectionView.reloadItems(at: [getIndexPath(index: selectedPhoto.index)])
+                }
+            }
+            
+        }
+        
+        collectionView.reloadItems(at: [getIndexPath(index: photo.index)])
+        
+    }
+    
+    private func getIndexPath(index: Int) -> IndexPath {
+        return IndexPath(item: index, section: 0)
     }
     
 }
