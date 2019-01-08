@@ -30,6 +30,14 @@ public class PhotoGrid: UIView {
     
     private let cellIdentifier = "cell"
     
+    private var cellSize: CGSize! {
+        didSet {
+            cellPixelSize = PhotoPickerManager.shared.getPixelSize(size: cellSize)
+        }
+    }
+    
+    private var cellPixelSize: CGSize!
+    
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         
         let view = UICollectionViewFlowLayout()
@@ -107,6 +115,11 @@ public class PhotoGrid: UIView {
         return result
         
     }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        cellSize = getCellSize()
+    }
 
 }
 
@@ -136,6 +149,7 @@ extension PhotoGrid: UICollectionViewDataSource {
         }
         
         cell.configuration = configuration
+        cell.size = cellPixelSize
         cell.photo = photo
         
         cell.onToggleChecked = {
@@ -182,7 +196,7 @@ extension PhotoGrid: UICollectionViewDelegateFlowLayout {
     
     // 设置单元格尺寸
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return getCellSize()
+        return cellSize
     }
     
 }
@@ -212,6 +226,12 @@ extension PhotoGrid {
         let selectedCount = selectedPhotoList.count
         
         if checked {
+            
+            // 因为有动画，用户可能在动画过程中快速点击了新的照片
+            // 这里应该忽略
+            if selectedCount == configuration.maxSelectCount {
+                return
+            }
             
             photo.checkedIndex = selectedCount
             selectedPhotoList.append(photo)

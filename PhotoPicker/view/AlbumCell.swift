@@ -5,6 +5,8 @@ import Photos
 class AlbumCell: UITableViewCell {
 
     var configuration: PhotoPickerConfiguration!
+
+    var thumbnailSize: CGSize!
     
     var album: AlbumAsset! {
         didSet {
@@ -17,7 +19,7 @@ class AlbumCell: UITableViewCell {
                 if poster.thumbnail == nil {
                     imageRequestID = PhotoPickerManager.shared.requestImage(
                         asset: asset,
-                        size: thumbnailView.bounds.size,
+                        size: thumbnailSize,
                         options: configuration.albumThumbnailRequestOptions
                     ) { [weak self] image, _ in
                         
@@ -67,17 +69,6 @@ class AlbumCell: UITableViewCell {
     
     private var separatorHeightLayoutConstraint: NSLayoutConstraint!
     
-    private var thumbnail: UIImage? {
-        didSet {
-            if let thumbnail = thumbnail {
-                thumbnailView.image = thumbnail
-            }
-            else {
-                thumbnailView.image = configuration.albumThumbnailErrorPlaceholder
-            }
-        }
-    }
-    
     private lazy var separatorView: UIView = {
         
         let view = UIView()
@@ -104,6 +95,17 @@ class AlbumCell: UITableViewCell {
         
     }()
     
+    private var thumbnail: UIImage? {
+        didSet {
+            if let thumbnail = thumbnail {
+                thumbnailView.image = thumbnail
+            }
+            else {
+                thumbnailView.image = configuration.albumThumbnailErrorPlaceholder
+            }
+        }
+    }
+
     private lazy var thumbnailView: UIImageView = {
         
         let view = UIImageView()

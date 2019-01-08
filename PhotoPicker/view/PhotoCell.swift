@@ -15,6 +15,8 @@ class PhotoCell: UICollectionViewCell {
         }
     }
     
+    var size: CGSize!
+    
     var photo: PhotoAsset! {
         didSet {
             
@@ -25,7 +27,7 @@ class PhotoCell: UICollectionViewCell {
             if photo.thumbnail == nil {
                 imageRequestID = PhotoPickerManager.shared.requestImage(
                     asset: asset,
-                    size: thumbnailView.bounds.size,
+                    size: size,
                     options: configuration.photoThumbnailRequestOptions
                 ) { [weak self] image, _ in
                     
@@ -62,7 +64,7 @@ class PhotoCell: UICollectionViewCell {
             
             if configuration.selectable {
                 checked = photo.checkedIndex >= 0
-                overlayView.isHidden = photo.selectable
+                selectable = photo.selectable
             }
         }
     }
@@ -80,6 +82,14 @@ class PhotoCell: UICollectionViewCell {
         }
     }
     
+    private var selectable = true {
+        didSet {
+            
+            overlayView.isHidden = selectable
+            
+        }
+    }
+    
     private var thumbnail: UIImage? {
         didSet {
             if let thumbnail = thumbnail {
@@ -90,7 +100,7 @@ class PhotoCell: UICollectionViewCell {
             }
         }
     }
-
+    
     private lazy var thumbnailView: UIImageView = {
         
         let view = UIImageView()
@@ -163,7 +173,7 @@ class PhotoCell: UICollectionViewCell {
     }()
     
     // 当选择数量到达上限后显示的蒙板
-    internal lazy var overlayView: UIView = {
+    private lazy var overlayView: UIView = {
        
         let view = UIView()
 
@@ -188,6 +198,7 @@ class PhotoCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+
         if let requestID = imageRequestID {
             PhotoPickerManager.shared.cancelImageRequest(requestID)
             imageRequestID = nil
@@ -195,8 +206,10 @@ class PhotoCell: UICollectionViewCell {
         if configuration.selectable {
             checked = false
         }
+
         thumbnail = configuration.photoThumbnailLoadingPlaceholder
         badgeView.isHidden = true
+
     }
     
 }

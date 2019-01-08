@@ -75,6 +75,9 @@ public class PhotoPickerManager: NSObject {
     // 用户创建的相册
     private var userAlbums: PHFetchResult<PHCollection>!
     
+    // 缓存器
+    private var cacheManager = PHCachingImageManager()
+    
     // 所有操作之前必须先确保拥有权限
     public func requestPermissions() {
         switch PHPhotoLibrary.authorizationStatus() {
@@ -163,17 +166,20 @@ public class PhotoPickerManager: NSObject {
         
     }
     
-    public func requestImage(asset: PHAsset, size: CGSize, options: PHImageRequestOptions, completion: @escaping (UIImage?, [AnyHashable: Any]?) -> Void) -> PHImageRequestID {
-        // 要转成像素值
+    public func getPixelSize(size: CGSize) -> CGSize {
         let scale = UIScreen.main.scale
-        let targetSize = CGSize(width: size.width * scale, height: size.height * scale)
-        return PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: completion)
+        return CGSize(width: size.width * scale, height: size.height * scale)
+    }
+    
+    // size 是像素单位
+    public func requestImage(asset: PHAsset, size: CGSize, options: PHImageRequestOptions, completion: @escaping (UIImage?, [AnyHashable: Any]?) -> Void) -> PHImageRequestID {
+        return cacheManager.requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: options, resultHandler: completion)
     }
     
     public func cancelImageRequest(_ requestID: PHImageRequestID) {
-        PHImageManager.default().cancelImageRequest(requestID)
+        cacheManager.cancelImageRequest(requestID)
     }
-
+    
 }
 
 extension PhotoPickerManager: PHPhotoLibraryChangeObserver {

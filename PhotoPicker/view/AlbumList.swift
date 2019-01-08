@@ -11,7 +11,12 @@ public class AlbumList: UIView {
     
     private var configuration: PhotoPickerConfiguration!
     
-    private let identifier = "cell"
+    private let cellIdentifier = "cell"
+    
+    private lazy var cellThumbnailPixelSize: CGSize = {
+        let size = CGSize(width: configuration.albumThumbnailWidth, height: configuration.albumThumbnailHeight)
+        return PhotoPickerManager.shared.getPixelSize(size: size)
+    }()
     
     private lazy var tableView: UITableView = {
         
@@ -33,7 +38,7 @@ public class AlbumList: UIView {
         view.backgroundColor = configuration.albumCellBackgroundColorNormal
         view.separatorStyle = .none
         
-        view.register(AlbumCell.self, forCellReuseIdentifier: identifier)
+        view.register(AlbumCell.self, forCellReuseIdentifier: cellIdentifier)
         
         addSubview(view)
         
@@ -72,9 +77,10 @@ extension AlbumList: UITableViewDataSource, UITableViewDelegate {
         let index = indexPath.row
         let album = albumList[ index ]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! AlbumCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! AlbumCell
         
         cell.configuration = configuration
+        cell.thumbnailSize = cellThumbnailPixelSize
         cell.album = album
         cell.index = index
         

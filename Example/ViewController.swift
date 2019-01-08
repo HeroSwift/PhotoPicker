@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         let configuration = PhotoPickerConfiguration()
-        
+
         let grid = PhotoGrid(configuration: configuration)
         grid.translatesAutoresizingMaskIntoConstraints = false
 
