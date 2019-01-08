@@ -120,7 +120,7 @@ open class PhotoPickerConfiguration {
     public var selectable = true
     
     // 是否支持计数
-    public var countable = false
+    public var countable = true
 
     // 最大支持的多选数量
     public var maxSelectCount = 9

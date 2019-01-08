@@ -24,6 +24,7 @@ class PhotoCell: UICollectionViewCell {
                     size: thumbnailView.bounds.size,
                     options: configuration.photoThumbnailRequestOptions
                 ) { [weak self] image, _ in
+                    self?.imageRequestID = nil
                     self?.photo.thumbnail = image
                     self?.thumbnail = image
                 }
@@ -70,8 +71,6 @@ class PhotoCell: UICollectionViewCell {
     
     private var thumbnail: UIImage? {
         didSet {
-            imageRequestID = nil
-            
             if let thumbnail = thumbnail {
                 thumbnailView.image = thumbnail
             }

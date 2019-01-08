@@ -16,6 +16,7 @@ class AlbumCell: UITableViewCell {
                         size: thumbnailView.bounds.size,
                         options: configuration.albumThumbnailRequestOptions
                     ) { [weak self] image, _ in
+                        self?.imageRequestID = nil
                         self?.album.poster?.thumbnail = image
                         self?.thumbnail = image
                     }
@@ -57,8 +58,6 @@ class AlbumCell: UITableViewCell {
     
     private var thumbnail: UIImage? {
         didSet {
-            imageRequestID = nil
-            
             if let thumbnail = thumbnail {
                 thumbnailView.image = thumbnail
             }
