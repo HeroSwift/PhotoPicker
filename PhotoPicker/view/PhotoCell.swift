@@ -12,13 +12,13 @@ class PhotoCell: UICollectionViewCell {
             PhotoPickerManager.shared.requestImage(
                 asset: photo.asset,
                 size: contentView.bounds.size,
-                options: configuration.photoGridThumbnailRequestOptions
+                options: configuration.photoThumbnailRequestOptions
             ) { (image, info) in
                 if let image = image {
                     self.imageView.image = image
                 }
                 else {
-                    self.imageView.image = self.configuration.photoGridThumbnailErrorPlaceholder
+                    self.imageView.image = self.configuration.photoThumbnailErrorPlaceholder
                 }
             }
             

@@ -25,15 +25,6 @@ open class PhotoPickerConfiguration {
     // 相册缩略图的高度
     public var albumThumbnailHeight: CGFloat = 50
     
-    // 相册缩略图的加载选项
-    public var albumThumbnailRequestOptions = PHImageRequestOptions()
-    
-    // 相册缩略图加载错误时的默认图
-    public var albumThumbnailErrorPlaceholder = UIImage(named: "image")
-    
-    // 相册为空时的缩略图
-    public var albumEmptyPlaceholder = UIImage(named: "image")
-    
     // 相册标题字体
     public var albumTitleTextFont = UIFont.systemFont(ofSize: 16)
     
@@ -87,16 +78,33 @@ open class PhotoPickerConfiguration {
     
     // 网格列间距
     public var photoGridColumnSpacing: CGFloat = 3
+
+
+    //
+    // MARK: - 各种选项
+    //
+    
+    // 相册缩略图的加载选项
+    public var albumThumbnailRequestOptions = PHImageRequestOptions()
     
     // 列表缩略图的加载选项
-    public var photoGridThumbnailRequestOptions = PHImageRequestOptions()
-    
-    // 列表缩略图加载错误时的默认图
-    public var photoGridThumbnailErrorPlaceholder = UIImage(named: "image")
+    public var photoThumbnailRequestOptions = PHImageRequestOptions()
     
     // 获取照片列表的选项
     public var photoFetchOptions = PHFetchOptions()
     
+    //
+    // MARK: - 各种占位图
+    //
+    
+    // 相册缩略图加载错误时的默认图
+    public var albumThumbnailErrorPlaceholder = UIImage(named: "image")
+    
+    // 相册为空时的缩略图
+    public var albumEmptyPlaceholder = UIImage(named: "image")
+    
+    // 照片缩略图加载错误时的默认图
+    public var photoThumbnailErrorPlaceholder = UIImage(named: "image")
     
     //
     // MARK: - 照片角标
@@ -114,13 +122,9 @@ open class PhotoPickerConfiguration {
     
     public init() {
         
-        // 设置为 PHImageRequestOptionsResizeModeFast 请求的效率更高
-        // 但返回的图像可能和目标大小不一样并且质量较低
         albumThumbnailRequestOptions.resizeMode = .exact
-        albumThumbnailRequestOptions.deliveryMode = .highQualityFormat
         
-        photoGridThumbnailRequestOptions.resizeMode = .exact
-        photoGridThumbnailRequestOptions.deliveryMode = .opportunistic
+        photoThumbnailRequestOptions.resizeMode = .exact
 
         photoFetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         photoFetchOptions.predicate = NSPredicate(format: "mediaType IN %@", [PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue])
