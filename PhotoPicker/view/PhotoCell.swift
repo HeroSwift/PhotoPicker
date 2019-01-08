@@ -29,14 +29,18 @@ class PhotoCell: UICollectionViewCell {
                     asset: asset,
                     size: size,
                     options: configuration.photoThumbnailRequestOptions
-                ) { [weak self] image, _ in
+                ) { [weak self] image, info in
                     
                     guard let _self = self, _self.assetIdentifier == asset.localIdentifier else {
                         return
                     }
                     
+                    // 此回调会连续触发，这里只缓存高清图
+                    if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 1 {
+                        _self.photo.thumbnail = image
+                    }
+                    
                     _self.imageRequestID = nil
-                    _self.photo.thumbnail = image
                     _self.thumbnail = image
                     
                 }

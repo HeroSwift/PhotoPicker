@@ -21,14 +21,18 @@ class AlbumCell: UITableViewCell {
                         asset: asset,
                         size: thumbnailSize,
                         options: configuration.albumThumbnailRequestOptions
-                    ) { [weak self] image, _ in
+                    ) { [weak self] image, info in
                         
                         guard let _self = self, _self.posterIdentifier == asset.localIdentifier else {
                             return
                         }
                         
+                        // 此回调会连续触发，这里只缓存高清图
+                        if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 1 {
+                            _self.album.poster?.thumbnail = image
+                        }
+                        
                         _self.imageRequestID = nil
-                        _self.album.poster?.thumbnail = image
                         _self.thumbnail = image
                         
                     }

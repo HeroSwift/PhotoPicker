@@ -159,10 +159,10 @@ open class PhotoPickerConfiguration {
     //
     
     // 角标到右边的距离
-    public var photoBadgeMarginRight: CGFloat = 2
+    public var photoBadgeMarginRight: CGFloat = 5
     
     // 角标到下边的距离
-    public var photoBadgeMarginBottom: CGFloat = 2
+    public var photoBadgeMarginBottom: CGFloat = 5
     
     public var photoBadgeGifIcon = UIImage(named: "photo_picker_badge_gif")
     public var photoBadgeLiveIcon = UIImage(named: "photo_picker_badge_live")
