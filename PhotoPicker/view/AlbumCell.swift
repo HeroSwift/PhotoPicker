@@ -41,7 +41,7 @@ class AlbumCell: UITableViewCell {
                 }
             }
             else {
-                if oldValue == 0 {
+                if oldValue <= 0 {
                     separatorHeightLayoutConstraint.constant = configuration.albumSeparatorThickness
                     setNeedsLayout()
                 }
@@ -64,7 +64,7 @@ class AlbumCell: UITableViewCell {
         
         contentView.addSubview(view)
         
-        separatorHeightLayoutConstraint = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumSeparatorThickness)
+        separatorHeightLayoutConstraint = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 0)
         
         contentView.addConstraints([
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0),
