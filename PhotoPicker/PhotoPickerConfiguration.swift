@@ -61,9 +61,6 @@ open class PhotoPickerConfiguration {
     // 相册向右箭头
     public var albumIndicatorIcon = UIImage(named: "photo_picker_album_indicator")
     
-    // 获取相册列表的选项
-    public var albumFetchOptions = PHFetchOptions()
-    
     // 是否显示空相册
     public var showEmptyAlbum = false
     
@@ -124,11 +121,7 @@ open class PhotoPickerConfiguration {
         
         photoGridThumbnailRequestOptions.resizeMode = .exact
         photoGridThumbnailRequestOptions.deliveryMode = .opportunistic
-        
-        albumFetchOptions.includeHiddenAssets = false
-        // 是否包含连拍
-        albumFetchOptions.includeAllBurstAssets = true
-        
+
         photoFetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         photoFetchOptions.predicate = NSPredicate(format: "mediaType IN %@", [PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue])
         

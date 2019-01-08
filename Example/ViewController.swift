@@ -47,7 +47,7 @@ class ViewController: UIViewController {
 
         ])
 
-        list.albumList = PhotoPickerManager.shared.fetchAlbumList(albumFetchOptions: configuration.albumFetchOptions, photoFetchOptions: configuration.photoFetchOptions, showEmptyAlbum: false)
+        list.albumList = PhotoPickerManager.shared.fetchAlbumList(photoFetchOptions: configuration.photoFetchOptions, showEmptyAlbum: false, showVideo: true)
         
     }
 

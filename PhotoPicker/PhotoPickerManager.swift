@@ -121,7 +121,7 @@ public class PhotoPickerManager: NSObject {
     }
     
     // 获取相册列表
-    public func fetchAlbumList(albumFetchOptions: PHFetchOptions, photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool) -> [AlbumAsset] {
+    public func fetchAlbumList(photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool, showVideo: Bool) -> [AlbumAsset] {
         
         var albumList = [PHAssetCollection]()
         
@@ -142,10 +142,14 @@ public class PhotoPickerManager: NSObject {
         appendAlbum(panoramas.firstObject)
         appendAlbum(timelapses.firstObject)
         
+        if showVideo {
+            appendAlbum(videos.firstObject)
+        }
+        
         userAlbums.enumerateObjects { album, index, stop in
             appendAlbum(album as? PHAssetCollection)
         }
-        
+
         var result = [AlbumAsset]()
         
         albumList.forEach { album in
