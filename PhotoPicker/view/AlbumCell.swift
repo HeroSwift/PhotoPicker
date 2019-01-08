@@ -10,15 +10,25 @@ class AlbumCell: UITableViewCell {
         didSet {
             
             if let poster = album.poster {
+                
+                let asset = poster.asset
+                posterIdentifier = asset.localIdentifier
+                
                 if poster.thumbnail == nil {
                     imageRequestID = PhotoPickerManager.shared.requestImage(
-                        asset: poster.asset,
+                        asset: asset,
                         size: thumbnailView.bounds.size,
                         options: configuration.albumThumbnailRequestOptions
                     ) { [weak self] image, _ in
-                        self?.imageRequestID = nil
-                        self?.album.poster?.thumbnail = image
-                        self?.thumbnail = image
+                        
+                        guard let _self = self, _self.posterIdentifier == asset.localIdentifier else {
+                            return
+                        }
+                        
+                        _self.imageRequestID = nil
+                        _self.album.poster?.thumbnail = image
+                        _self.thumbnail = image
+                        
                     }
                 }
                 else {
@@ -52,6 +62,7 @@ class AlbumCell: UITableViewCell {
         }
     }
     
+    private var posterIdentifier: String!
     private var imageRequestID: PHImageRequestID?
     
     private var separatorHeightLayoutConstraint: NSLayoutConstraint!

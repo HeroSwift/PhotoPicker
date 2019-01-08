@@ -6,6 +6,7 @@ public class PhotoAsset {
     
     public var asset: PHAsset
     
+    // 请求过的缩略图，避免多次请求
     public var thumbnail: UIImage?
     
     // 在网格中的顺序

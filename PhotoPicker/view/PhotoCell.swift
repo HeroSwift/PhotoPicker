@@ -17,16 +17,26 @@ class PhotoCell: UICollectionViewCell {
     
     var photo: PhotoAsset! {
         didSet {
-
+            
+            let asset = photo.asset
+            
+            assetIdentifier = asset.localIdentifier
+            
             if photo.thumbnail == nil {
                 imageRequestID = PhotoPickerManager.shared.requestImage(
-                    asset: photo.asset,
+                    asset: asset,
                     size: thumbnailView.bounds.size,
                     options: configuration.photoThumbnailRequestOptions
                 ) { [weak self] image, _ in
-                    self?.imageRequestID = nil
-                    self?.photo.thumbnail = image
-                    self?.thumbnail = image
+                    
+                    guard let _self = self, _self.assetIdentifier == asset.localIdentifier else {
+                        return
+                    }
+                    
+                    _self.imageRequestID = nil
+                    _self.photo.thumbnail = image
+                    _self.thumbnail = image
+                    
                 }
             }
             else {
@@ -57,6 +67,7 @@ class PhotoCell: UICollectionViewCell {
         }
     }
     
+    private var assetIdentifier: String!
     private var imageRequestID: PHImageRequestID?
     
     private var checked = false {

@@ -1,9 +1,24 @@
 
 import UIKit
+import Photos
 
 public class PhotoGrid: UIView {
     
-    public var photoList = [PhotoAsset]() {
+    public var fetchResult: PHFetchResult<PHAsset>! {
+        didSet {
+            
+            var list = [PhotoAsset]()
+            
+            fetchResult.enumerateObjects { asset, _, _ in
+                list.append(PhotoAsset(asset: asset))
+            }
+            
+            photoList = list
+            
+        }
+    }
+    
+    private var photoList = [PhotoAsset]() {
         didSet {
             collectionView.reloadData()
         }
@@ -60,6 +75,11 @@ public class PhotoGrid: UIView {
     public convenience init(configuration: PhotoPickerConfiguration) {
         self.init()
         self.configuration = configuration
+        PHPhotoLibrary.shared().register(self)
+    }
+    
+    deinit {
+        PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
     
     public func scrollToBottom(animated: Bool) {
@@ -240,3 +260,17 @@ extension PhotoGrid {
     }
     
 }
+
+extension PhotoGrid: PHPhotoLibraryChangeObserver {
+    
+    public func photoLibraryDidChange(_ changeInstance: PHChange) {
+        DispatchQueue.main.sync {
+            
+            if let changeDetails = changeInstance.changeDetails(for: fetchResult) {
+                fetchResult = changeDetails.fetchResultAfterChanges
+            }
+            
+        }
+    }
+}
+

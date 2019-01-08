@@ -99,24 +99,13 @@ public class PhotoPickerManager: NSObject {
     
     
     // 获取所有照片
-    public func fetchPhotoList(options: PHFetchOptions, album: PHAssetCollection?) -> [PhotoAsset] {
-        
-        let result: PHFetchResult<PHAsset>
-        
+    public func fetchPhotoList(options: PHFetchOptions, album: PHAssetCollection? = nil) -> PHFetchResult<PHAsset> {
+
         if let album = album {
-            result = PHAsset.fetchAssets(in: album, options: options)
+            return PHAsset.fetchAssets(in: album, options: options)
         }
-        else {
-            result = PHAsset.fetchAssets(in: allPhotos.firstObject!, options: options)
-        }
-        
-        var photoList = [PhotoAsset]()
-        
-        for index in 0..<result.count {
-            photoList.append(PhotoAsset(asset: result[index]))
-        }
-        
-        return photoList
+
+        return PHAsset.fetchAssets(in: allPhotos.firstObject!, options: options)
         
     }
     
@@ -160,7 +149,11 @@ public class PhotoPickerManager: NSObject {
             if showEmptyAlbum || photoCount > 0 {
                 // 缩略图显示最后一个
                 result.append(
-                    AlbumAsset(collection: album, poster: photoCount > 0 ? photoList[photoCount - 1] : nil, count: photoCount)
+                    AlbumAsset(
+                        collection: album,
+                        poster: photoCount > 0 ? PhotoAsset(asset: photoList[photoCount - 1]) : nil,
+                        count: photoCount
+                    )
                 )
             }
             

@@ -31,7 +31,7 @@ class ViewController: UIViewController {
 
         ])
 
-        grid.photoList = PhotoPickerManager.shared.fetchPhotoList(options: configuration.photoFetchOptions, album: nil)
+        grid.fetchResult = PhotoPickerManager.shared.fetchPhotoList(options: configuration.photoFetchOptions, album: nil)
         
 //        let list = AlbumList(configuration: configuration)
 //        list.translatesAutoresizingMaskIntoConstraints = false
