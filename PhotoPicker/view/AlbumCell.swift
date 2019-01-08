@@ -1,5 +1,6 @@
 
 import UIKit
+import Photos
 
 class AlbumCell: UITableViewCell {
 
@@ -9,17 +10,12 @@ class AlbumCell: UITableViewCell {
         didSet {
             
             if let thumbnail = album.thumbnail {
-                PhotoPickerManager.shared.requestImage(
+                imageRequestID = PhotoPickerManager.shared.requestImage(
                     asset: thumbnail.asset,
                     size: thumbnailView.bounds.size,
                     options: configuration.albumThumbnailRequestOptions
-                ) { (image, info) in
-                    if let image = image {
-                        self.thumbnailView.image = image
-                    }
-                    else {
-                        self.thumbnailView.image = self.configuration.albumThumbnailErrorPlaceholder
-                    }
+                ) { [weak self] image, _ in
+                    self?.thumbnail = image
                 }
             }
             else {
@@ -49,7 +45,22 @@ class AlbumCell: UITableViewCell {
         }
     }
     
+    private var imageRequestID: PHImageRequestID?
+    
     private var separatorHeightLayoutConstraint: NSLayoutConstraint!
+    
+    private var thumbnail: UIImage? {
+        didSet {
+            imageRequestID = nil
+            
+            if let thumbnail = thumbnail {
+                thumbnailView.image = thumbnail
+            }
+            else {
+                thumbnailView.image = configuration.albumThumbnailErrorPlaceholder
+            }
+        }
+    }
     
     private lazy var separatorView: UIView = {
         
@@ -80,6 +91,9 @@ class AlbumCell: UITableViewCell {
     private lazy var thumbnailView: UIImageView = {
         
         let view = UIImageView()
+        
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
         
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -173,4 +187,13 @@ class AlbumCell: UITableViewCell {
             backgroundColor = .clear
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        if let requestID = imageRequestID {
+            PhotoPickerManager.shared.cancelImageRequest(requestID)
+            imageRequestID = nil
+        }
+    }
+    
 }

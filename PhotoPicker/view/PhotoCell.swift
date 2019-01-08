@@ -9,39 +9,58 @@ class PhotoCell: UICollectionViewCell {
     var photo: PhotoAsset! {
         didSet {
 
-            PhotoPickerManager.shared.requestImage(
+            imageRequestID = PhotoPickerManager.shared.requestImage(
                 asset: photo.asset,
                 size: contentView.bounds.size,
                 options: configuration.photoThumbnailRequestOptions
-            ) { (image, info) in
-                if let image = image {
-                    self.imageView.image = image
-                }
-                else {
-                    self.imageView.image = self.configuration.photoThumbnailErrorPlaceholder
-                }
+            ) { [weak self] image, _ in
+                self?.thumbnail = image
             }
             
+            var badgeImage: UIImage? = nil
+            
             if photo.type == .gif {
-                badgeView.image = configuration.photoBadgeGifIcon
+                badgeImage = configuration.photoBadgeGifIcon
             }
             else if photo.type == .live {
-                badgeView.image = configuration.photoBadgeLiveIcon
+                badgeImage = configuration.photoBadgeLiveIcon
             }
             else if photo.type == .webp {
-                badgeView.image = configuration.photoBadgeWebpIcon
+                badgeImage = configuration.photoBadgeWebpIcon
+            }
+            
+            if let image = badgeImage {
+                badgeView.image = image
+                badgeView.isHidden = false
             }
             
         }
     }
     
-    private lazy var imageView: UIImageView = {
+    private var imageRequestID: PHImageRequestID?
+    
+    private var thumbnail: UIImage? {
+        didSet {
+            imageRequestID = nil
+            
+            if let thumbnail = thumbnail {
+                thumbnailView.image = thumbnail
+            }
+            else {
+                thumbnailView.image = configuration.photoThumbnailErrorPlaceholder
+            }
+        }
+    }
+    
+    private lazy var thumbnailView: UIImageView = {
         
         let view = UIImageView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
+        
+        view.image = configuration.photoThumbnailLoadingPlaceholder
         
         contentView.addSubview(view)
         
@@ -65,7 +84,7 @@ class PhotoCell: UICollectionViewCell {
         
         view.translatesAutoresizingMaskIntoConstraints = false
         
-        view.contentMode = .center
+        view.isHidden = true
 
         contentView.addSubview(view)
         
@@ -79,5 +98,15 @@ class PhotoCell: UICollectionViewCell {
         return view
         
     }()
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        if let requestID = imageRequestID {
+            PhotoPickerManager.shared.cancelImageRequest(requestID)
+            imageRequestID = nil
+        }
+        thumbnail = configuration.photoThumbnailLoadingPlaceholder
+        badgeView.isHidden = true
+    }
     
 }

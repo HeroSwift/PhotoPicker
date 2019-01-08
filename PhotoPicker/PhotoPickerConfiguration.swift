@@ -65,19 +65,19 @@ open class PhotoPickerConfiguration {
     public var photoGridBackgroundColor = UIColor.clear
     
     // 一行的照片数量
-    public var numberOfPhotoPerLine: CGFloat = 4
+    public var numberOfPhotoPerLine: CGFloat = 3
     
     // 网格的水平内间距
-    public var photoGridPaddingHorizontal: CGFloat = 3
+    public var photoGridPaddingHorizontal: CGFloat = 2
     
     // 网格的垂直内间距
-    public var photoGridPaddingVertical: CGFloat = 3
+    public var photoGridPaddingVertical: CGFloat = 2
     
     // 网格行间距
-    public var photoGridRowSpacing: CGFloat = 3
+    public var photoGridRowSpacing: CGFloat = 2
     
     // 网格列间距
-    public var photoGridColumnSpacing: CGFloat = 3
+    public var photoGridColumnSpacing: CGFloat = 2
 
 
     //
@@ -102,6 +102,9 @@ open class PhotoPickerConfiguration {
     
     // 相册为空时的缩略图
     public var albumEmptyPlaceholder = UIImage(named: "image")
+    
+    // 照片缩略图等待加载时的默认图
+    public var photoThumbnailLoadingPlaceholder = UIImage(named: "image")
     
     // 照片缩略图加载错误时的默认图
     public var photoThumbnailErrorPlaceholder = UIImage(named: "image")

@@ -170,11 +170,15 @@ public class PhotoPickerManager: NSObject {
         
     }
     
-    public func requestImage(asset: PHAsset, size: CGSize, options: PHImageRequestOptions, completion: @escaping (UIImage?, [AnyHashable: Any]?) -> Void) {
+    public func requestImage(asset: PHAsset, size: CGSize, options: PHImageRequestOptions, completion: @escaping (UIImage?, [AnyHashable: Any]?) -> Void) -> PHImageRequestID {
         // 要转成像素值
         let scale = UIScreen.main.scale
         let targetSize = CGSize(width: size.width * scale, height: size.height * scale)
-        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: completion)
+        return PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options, resultHandler: completion)
+    }
+    
+    public func cancelImageRequest(_ requestID: PHImageRequestID) {
+        PHImageManager.default().cancelImageRequest(requestID)
     }
 
 }
