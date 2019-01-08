@@ -6,6 +6,8 @@ public class PhotoAsset {
     
     public var asset: PHAsset
     
+    public var thumbnail: UIImage?
+    
     // 在网格中的顺序
     public var index = -1
     

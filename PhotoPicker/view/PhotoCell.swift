@@ -18,12 +18,18 @@ class PhotoCell: UICollectionViewCell {
     var photo: PhotoAsset! {
         didSet {
 
-            imageRequestID = PhotoPickerManager.shared.requestImage(
-                asset: photo.asset,
-                size: contentView.bounds.size,
-                options: configuration.photoThumbnailRequestOptions
-            ) { [weak self] image, _ in
-                self?.thumbnail = image
+            if photo.thumbnail == nil {
+                imageRequestID = PhotoPickerManager.shared.requestImage(
+                    asset: photo.asset,
+                    size: thumbnailView.bounds.size,
+                    options: configuration.photoThumbnailRequestOptions
+                ) { [weak self] image, _ in
+                    self?.photo.thumbnail = image
+                    self?.thumbnail = image
+                }
+            }
+            else {
+                thumbnailView.image = photo.thumbnail
             }
             
             var badgeImage: UIImage? = nil

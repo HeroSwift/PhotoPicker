@@ -9,13 +9,19 @@ class AlbumCell: UITableViewCell {
     var album: AlbumAsset! {
         didSet {
             
-            if let thumbnail = album.thumbnail {
-                imageRequestID = PhotoPickerManager.shared.requestImage(
-                    asset: thumbnail.asset,
-                    size: thumbnailView.bounds.size,
-                    options: configuration.albumThumbnailRequestOptions
-                ) { [weak self] image, _ in
-                    self?.thumbnail = image
+            if let poster = album.poster {
+                if poster.thumbnail == nil {
+                    imageRequestID = PhotoPickerManager.shared.requestImage(
+                        asset: poster.asset,
+                        size: thumbnailView.bounds.size,
+                        options: configuration.albumThumbnailRequestOptions
+                    ) { [weak self] image, _ in
+                        self?.album.poster?.thumbnail = image
+                        self?.thumbnail = image
+                    }
+                }
+                else {
+                    thumbnailView.image = poster.thumbnail
                 }
             }
             else {

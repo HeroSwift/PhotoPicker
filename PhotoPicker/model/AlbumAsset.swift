@@ -12,13 +12,13 @@ public class AlbumAsset {
 
     public var collection: PHAssetCollection
     
-    public var thumbnail: PhotoAsset?
+    public var poster: PhotoAsset?
     
     public var count: Int
     
-    public init(collection: PHAssetCollection, thumbnail: PhotoAsset?, count: Int) {
+    public init(collection: PHAssetCollection, poster: PhotoAsset?, count: Int) {
         self.collection = collection
-        self.thumbnail = thumbnail
+        self.poster = poster
         self.count = count
     }
     

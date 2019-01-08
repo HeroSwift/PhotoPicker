@@ -160,7 +160,7 @@ public class PhotoPickerManager: NSObject {
             if showEmptyAlbum || photoCount > 0 {
                 // 缩略图显示最后一个
                 result.append(
-                    AlbumAsset(collection: album, thumbnail: photoCount > 0 ? photoList[photoCount - 1] : nil, count: photoCount)
+                    AlbumAsset(collection: album, poster: photoCount > 0 ? photoList[photoCount - 1] : nil, count: photoCount)
                 )
             }
             
