@@ -106,6 +106,9 @@ open class PhotoPickerConfiguration {
     // 选中且需要计数时的图片
     public var selectButtonImageCheckedCountable = UIImage(named: "photo_picker_select_button_checked_countable")
     
+    // 当选择的照片数量到达上线后的蒙层颜色
+    public var photoThumbnailOverlayColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
+    
     //
     // MARK: - 各种可选配置
     //
@@ -117,10 +120,10 @@ open class PhotoPickerConfiguration {
     public var selectable = true
     
     // 是否支持计数
-    public var countable = true
+    public var countable = false
 
     // 最大支持的多选数量
-    public var maxSelectCount = 10
+    public var maxSelectCount = 9
     
     //
     // MARK: - 各种选项

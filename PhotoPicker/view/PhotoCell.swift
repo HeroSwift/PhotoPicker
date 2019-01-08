@@ -45,6 +45,7 @@ class PhotoCell: UICollectionViewCell {
             
             if configuration.selectable {
                 checked = photo.checkedIndex >= 0
+                overlayView.isHidden = photo.selectable
             }
         }
     }
@@ -138,6 +139,30 @@ class PhotoCell: UICollectionViewCell {
             
             NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -configuration.photoBadgeMarginBottom),
             NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.photoBadgeMarginRight),
+            
+        ])
+        
+        return view
+        
+    }()
+    
+    // 当选择数量到达上限后显示的蒙板
+    internal lazy var overlayView: UIView = {
+       
+        let view = UIView()
+
+        view.isHidden = true
+        view.backgroundColor = configuration.photoThumbnailOverlayColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(view)
+        
+        contentView.addConstraints([
+            
+            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: 0),
             
         ])
         

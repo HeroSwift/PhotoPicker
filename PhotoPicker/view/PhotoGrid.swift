@@ -9,7 +9,7 @@ public class PhotoGrid: UIView {
         }
     }
     
-    public var selectedPhotoList = [PhotoAsset]()
+    private var selectedPhotoList = [PhotoAsset]()
     
     private var configuration: PhotoPickerConfiguration!
     
@@ -68,6 +68,25 @@ public class PhotoGrid: UIView {
         }
         collectionView.scrollToItem(at: IndexPath(item: photoList.count - 1, section: 0), at: .bottom, animated: animated)
     }
+    
+    public func getSelectedPhotoList() -> [PhotoAsset] {
+        
+        var result = [PhotoAsset]()
+        
+        selectedPhotoList.forEach { photo in
+            result.append(photo)
+        }
+        
+        // 不计数就用照片原来的顺序
+        if !configuration.countable {
+            result.sort { a, b in
+                return a.index > b.index
+            }
+        }
+        
+        return result
+        
+    }
 
 }
 
@@ -88,6 +107,14 @@ extension PhotoGrid: UICollectionViewDataSource {
 
         photo.index = index
         
+        // 选中状态下可以反选
+        if photo.checkedIndex >= 0 {
+            photo.selectable = true
+        }
+        else {
+            photo.selectable = selectedPhotoList.count < configuration.maxSelectCount
+        }
+        
         cell.configuration = configuration
         cell.photo = photo
         
@@ -104,7 +131,9 @@ extension PhotoGrid: UICollectionViewDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
-        
+        guard cell.photo.selectable else {
+            return
+        }
     }
     
 }
@@ -163,30 +192,47 @@ extension PhotoGrid {
         let selectedCount = selectedPhotoList.count
         
         if checked {
-            // 到达最大值，就无法再选了
-            if selectedCount == configuration.maxSelectCount {
-                return
-            }
+            
             photo.checkedIndex = selectedCount
             selectedPhotoList.append(photo)
+            
+            // 到达最大值，就无法再选了
+            if selectedCount + 1 == configuration.maxSelectCount {
+                collectionView.reloadData()
+            }
+            else {
+                collectionView.reloadItems(at: [getIndexPath(index: photo.index)])
+            }
+            
         }
         else {
+            
             selectedPhotoList.remove(at: photo.checkedIndex)
             photo.checkedIndex = -1
             
+            var changes = [IndexPath]()
+            
+            changes.append(getIndexPath(index: photo.index))
+            
             // 重排顺序
-            for i in 0..<selectedCount - 1 {
+            for i in 0..<selectedPhotoList.count {
                 let selectedPhoto = selectedPhotoList[i]
                 if i != selectedPhoto.checkedIndex {
                     selectedPhoto.checkedIndex = i
-                    collectionView.reloadItems(at: [getIndexPath(index: selectedPhoto.index)])
+                    changes.append(getIndexPath(index: selectedPhoto.index))
                 }
             }
             
+            // 上个状态是到达上限
+            if selectedCount == configuration.maxSelectCount {
+                collectionView.reloadData()
+            }
+            else {
+                collectionView.reloadItems(at: changes)
+            }
+            
         }
-        
-        collectionView.reloadItems(at: [getIndexPath(index: photo.index)])
-        
+
     }
     
     private func getIndexPath(index: Int) -> IndexPath {

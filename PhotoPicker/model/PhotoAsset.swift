@@ -12,6 +12,9 @@ public class PhotoAsset {
     // 选中的顺序，大于 0 表示已选中
     public var checkedIndex = -1
     
+    // 是否可选
+    public var selectable = true
+    
     // 先给个默认值
     public var type = AssetType.image
     
