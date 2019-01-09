@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     
     @IBAction func onClick(_ sender: Any) {
         
-        let controller = PhotoGridViewController()
+        let controller = PhotoPickerViewController()
         controller.configuration = configuration
         controller.modalPresentationStyle = .overCurrentContext
         

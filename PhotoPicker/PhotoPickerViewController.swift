@@ -1,7 +1,7 @@
 
 import UIKit
 
-public class PhotoGridViewController: UIViewController {
+public class PhotoPickerViewController: UIViewController {
     
     public var configuration: PhotoPickerConfiguration!
     
@@ -15,7 +15,7 @@ public class PhotoGridViewController: UIViewController {
         
         view.addConstraints([
             
-            NSLayoutConstraint(item: photoGrid, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: photoGrid, attribute: .top, relatedBy: .equal, toItem: topBar, attribute: .bottom, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: photoGrid, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: photoGrid, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: photoGrid, attribute: .bottom, relatedBy: .equal, toItem: bottomBar, attribute: .top, multiplier: 1, constant: 0),
@@ -23,6 +23,29 @@ public class PhotoGridViewController: UIViewController {
         ])
         
         return photoGrid
+        
+    }()
+    
+    private lazy var topBar: TopBar = {
+        
+        let topBar = TopBar(configuration: configuration)
+        
+        topBar.title = "所有招聘"
+        
+        topBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        topBar.onCancelClick = {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        view.addSubview(topBar)
+        
+        view.addConstraints([
+            NSLayoutConstraint(item: topBar, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: topBar, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
+        ])
+        
+        return topBar
         
     }()
     
@@ -48,9 +71,7 @@ public class PhotoGridViewController: UIViewController {
     public override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
-        
+
         gridView.fetchResult = PhotoPickerManager.shared.fetchPhotoList(options: configuration.photoFetchOptions)
 
     }

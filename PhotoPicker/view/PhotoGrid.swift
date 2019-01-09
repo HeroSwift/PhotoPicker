@@ -244,11 +244,11 @@ extension PhotoGrid {
         let (addedRects, removedRects) = differencesBetweenRects(previousPreheatRect, preheatRect)
         
         let addedAssets = addedRects
-            .flatMap { rect in rectToIndexPaths(rect: rect) }
+            .flatMap { rect in indexPathsForElements(rect: rect) }
             .map { indexPath in fetchResult[indexPath.item] }
 
         let removedAssets = removedRects
-            .flatMap { rect in rectToIndexPaths(rect: rect) }
+            .flatMap { rect in indexPathsForElements(rect: rect) }
             .map { indexPath in fetchResult[indexPath.item] }
         
         // Update the assets the PHCachingImageManager is caching.
@@ -260,25 +260,9 @@ extension PhotoGrid {
         
     }
     
-    private func rectToIndexPaths(rect: CGRect) -> [IndexPath] {
-        
-        var result = [IndexPath]()
-        
-        let y = rect.origin.y + rect.height / 2
-        
-        let width = rect.width
-        let numberOfPhoto = configuration.numberOfPhotoPerLine
-        
-        let itemWidth = width / numberOfPhoto
-        
-        for i in 1...Int(numberOfPhoto) {
-            if let indexPath = collectionView.indexPathForItem(at: CGPoint(x: itemWidth * CGFloat(i) - itemWidth / 2, y: y)) {
-                result.append(indexPath)
-            }
-        }
-        
-        return result
-        
+    private func indexPathsForElements(rect: CGRect) -> [IndexPath] {
+        let allLayoutAttributes = flowLayout.layoutAttributesForElements(in: rect)!
+        return allLayoutAttributes.map { $0.indexPath }
     }
     
     private func differencesBetweenRects(_ old: CGRect, _ new: CGRect) -> (added: [CGRect], removed: [CGRect]) {

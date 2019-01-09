@@ -24,7 +24,8 @@
 		9DB2CEBD21E586AD0065C7C2 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEBC21E586AD0065C7C2 /* BottomBar.swift */; };
 		9DB2CEBF21E58B380065C7C2 /* RawButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEBE21E58B380065C7C2 /* RawButton.swift */; };
 		9DB2CEC321E5AC270065C7C2 /* SimpleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC121E5AC270065C7C2 /* SimpleButton.swift */; };
-		9DB2CEC621E5DB890065C7C2 /* PhotoGirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC521E5DB890065C7C2 /* PhotoGirdViewController.swift */; };
+		9DB2CEC621E5DB890065C7C2 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC521E5DB890065C7C2 /* PhotoPickerViewController.swift */; };
+		9DB2CEC821E5E5780065C7C2 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC721E5E5780065C7C2 /* TopBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +60,8 @@
 		9DB2CEBC21E586AD0065C7C2 /* BottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
 		9DB2CEBE21E58B380065C7C2 /* RawButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawButton.swift; sourceTree = "<group>"; };
 		9DB2CEC121E5AC270065C7C2 /* SimpleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleButton.swift; sourceTree = "<group>"; };
-		9DB2CEC521E5DB890065C7C2 /* PhotoGirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGirdViewController.swift; sourceTree = "<group>"; };
+		9DB2CEC521E5DB890065C7C2 /* PhotoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewController.swift; sourceTree = "<group>"; };
+		9DB2CEC721E5E5780065C7C2 /* TopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +109,7 @@
 				9D3CD2C021E104CF00B1C2C4 /* Info.plist */,
 				9D3CD2DD21E1051F00B1C2C4 /* PhotoPickerManager.swift */,
 				9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */,
-				9DB2CEC521E5DB890065C7C2 /* PhotoGirdViewController.swift */,
+				9DB2CEC521E5DB890065C7C2 /* PhotoPickerViewController.swift */,
 			);
 			path = PhotoPicker;
 			sourceTree = "<group>";
@@ -135,6 +137,7 @@
 				9DB2CEBE21E58B380065C7C2 /* RawButton.swift */,
 				9D83171921E4AFB7000B1211 /* SelectButton.swift */,
 				9DB2CEBC21E586AD0065C7C2 /* BottomBar.swift */,
+				9DB2CEC721E5E5780065C7C2 /* TopBar.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -275,7 +278,8 @@
 				9D3CD2EE21E324D000B1C2C4 /* AlbumCell.swift in Sources */,
 				9DB2CEBF21E58B380065C7C2 /* RawButton.swift in Sources */,
 				9D3CD2F021E3253500B1C2C4 /* AlbumAsset.swift in Sources */,
-				9DB2CEC621E5DB890065C7C2 /* PhotoGirdViewController.swift in Sources */,
+				9DB2CEC821E5E5780065C7C2 /* TopBar.swift in Sources */,
+				9DB2CEC621E5DB890065C7C2 /* PhotoPickerViewController.swift in Sources */,
 				9D3CD2EC21E3234200B1C2C4 /* AlbumList.swift in Sources */,
 				9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */,
 				9D3CD2E421E2EB2400B1C2C4 /* PhotoAsset.swift in Sources */,

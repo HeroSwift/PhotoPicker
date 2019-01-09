@@ -115,6 +115,7 @@ public class BottomBar: UIView {
     }
     
     public override func layoutSubviews() {
+        
         super.layoutSubviews()
         
         let width = UIScreen.main.bounds.width
