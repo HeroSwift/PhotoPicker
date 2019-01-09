@@ -4,6 +4,8 @@ import Photos
 
 public class PhotoGrid: UIView {
     
+    var onSelectedPhotoListChange: (() -> Void)?
+    
     public var fetchResult: PHFetchResult<PHAsset>! {
         didSet {
             
@@ -18,13 +20,17 @@ public class PhotoGrid: UIView {
         }
     }
     
-    private var photoList = [PhotoAsset]() {
+    var photoList = [PhotoAsset]() {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    private var selectedPhotoList = [PhotoAsset]()
+    var selectedPhotoList = [PhotoAsset]() {
+        didSet {
+            onSelectedPhotoListChange?()
+        }
+    }
     
     private var configuration: PhotoPickerConfiguration!
     

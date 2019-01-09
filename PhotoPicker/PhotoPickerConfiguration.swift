@@ -109,6 +109,70 @@ open class PhotoPickerConfiguration {
     // 当选择的照片数量到达上线后的蒙层颜色
     public var photoThumbnailOverlayColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
     
+    
+    //
+    // MARK: - 底部栏
+    //
+    
+    // 底部栏高度
+    public var bottomBarHeight: CGFloat = 44
+    
+    // 底部栏背景色
+    public var bottomBarBackgroundColor = UIColor(red: 0.15, green: 0.17, blue: 0.20, alpha: 1)
+    
+    //
+    // MARK: - 原图按钮
+    //
+    
+    // 原图按钮的标题字体
+    public var rawButtonTitleTextFont = UIFont.systemFont(ofSize: 13)
+    
+    // 原图按钮的标题颜色
+    public var rawButtonTitleTextColor = UIColor.white
+    
+    // 原图按钮的标题到图标的距离
+    public var rawButtonTitleMarginLeft: CGFloat = 3
+    
+    // 原图按钮未选中时的图片
+    public var rawButtonImageUnchecked = UIImage(named: "photo_picker_raw_button_unchecked")
+    
+    // 原图按钮选中时的图片
+    public var rawButtonImageChecked = UIImage(named: "photo_picker_raw_button_checked")
+    
+    // 原图按钮的标题
+    public var rawButtonTitle = "原图"
+    
+    //
+    // MARK: - 确定按钮
+    //
+    
+    // 确定按钮的标题字体
+    public var submitButtonTitleTextFont = UIFont.systemFont(ofSize: 12)
+    
+    // 确定按钮的标题颜色
+    public var submitButtonTitleTextColor = UIColor.white
+    
+    // 确定按钮的背景色
+    public var submitButtonBackgroundColorNormal = UIColor(red: 0.10, green: 0.60, blue: 0.09, alpha: 0.8)
+    
+    // 确定按钮的背景色
+    public var submitButtonBackgroundColorPressed = UIColor(red: 0.10, green: 0.60, blue: 0.09, alpha: 1)
+    
+    // 确定按钮的圆角
+    public var submitButtonBorderRadius: CGFloat = 4
+    
+    // 确定按钮水平内间距
+    public var submitButtonPaddingHorizontal: CGFloat = 15
+    
+    // 确定按钮到右边的距离
+    public var submitButtonMarginRight: CGFloat = 10
+    
+    // 确定按钮高度
+    public var submitButtonHeight: CGFloat = 30
+    
+    // 确定按钮的标题
+    public var submitButtonTitle = "发送"
+    
     //
     // MARK: - 各种可选配置
     //

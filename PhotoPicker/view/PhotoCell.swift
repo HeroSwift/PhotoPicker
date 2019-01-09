@@ -36,7 +36,7 @@ class PhotoCell: UICollectionViewCell {
                     }
                     
                     // 此回调会连续触发，这里只缓存高清图
-                    if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 1 {
+                    if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 0 {
                         _self.photo.thumbnail = image
                     }
                     

@@ -28,14 +28,14 @@ class SelectButton: UIView {
             
             if count > 0 {
                 if oldValue <= 0 {
-                    countView.isHidden = false
+                    titleView.isHidden = false
                 }
-                countView.text = "\(count)"
-                countView.sizeToFit()
+                titleView.text = "\(count)"
+                titleView.sizeToFit()
             }
             else {
                 if oldValue > 0 {
-                    countView.isHidden = true
+                    titleView.isHidden = true
                 }
             }
             
@@ -66,7 +66,7 @@ class SelectButton: UIView {
         
     }()
     
-    private lazy var countView: UILabel = {
+    private lazy var titleView: UILabel = {
        
         let view = UILabel()
         
@@ -89,16 +89,14 @@ class SelectButton: UIView {
         self.configuration = configuration
         
         image = configuration.selectButtonImageUnchecked
-        countView.font = configuration.selectButtonTitleTextFont
-        countView.textColor = configuration.selectButtonTitleTextColor
+        titleView.font = configuration.selectButtonTitleTextFont
+        titleView.textColor = configuration.selectButtonTitleTextColor
         
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        if let event = event {
-            onClick?()
-        }
+        onClick?()
     }
     
 }
