@@ -164,8 +164,11 @@ open class PhotoPickerConfiguration {
     // 确定按钮水平内间距
     public var submitButtonPaddingHorizontal: CGFloat = 15
     
+    // 确定按钮到顶部的距离
+    public var submitButtonMarginTop: CGFloat = 8
+    
     // 确定按钮到右边的距离
-    public var submitButtonMarginRight: CGFloat = 10
+    public var submitButtonMarginRight: CGFloat = 14
     
     // 确定按钮高度
     public var submitButtonHeight: CGFloat = 30

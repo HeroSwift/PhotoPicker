@@ -17,6 +17,7 @@ public class BottomBar: UIView {
             
             rawButton.setImage(image, for: .normal)
             rawButton.setImage(image, for: .highlighted)
+            
         }
     }
     
@@ -58,7 +59,7 @@ public class BottomBar: UIView {
         
         addConstraints([
             NSLayoutConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: submitButton, attribute: .centerY, multiplier: 1, constant: 0),
         ])
         
         return view
@@ -93,14 +94,18 @@ public class BottomBar: UIView {
         addSubview(view)
         
         addConstraints([
+            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: configuration.submitButtonMarginTop),
             NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: -configuration.submitButtonMarginRight),
-            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.submitButtonHeight)
         ])
         
         return view
         
     }()
+    
+    public override var intrinsicContentSize: CGSize {
+        return frame.size
+    }
     
     public convenience init(configuration: PhotoPickerConfiguration) {
         
@@ -115,6 +120,24 @@ public class BottomBar: UIView {
     
     @objc private func onRawButtonClick() {
         isRawChecked = !isRawChecked
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let width = UIScreen.main.bounds.width
+        var height = configuration.bottomBarHeight
+        
+        if #available(iOS 11.0, *) {
+            height += safeAreaInsets.bottom
+        }
+        
+        let oldSize = frame.size
+        if oldSize.width != width || oldSize.height != height {
+            frame.size = CGSize(width: width, height: height)
+            invalidateIntrinsicContentSize()
+        }
+        
     }
     
 }
