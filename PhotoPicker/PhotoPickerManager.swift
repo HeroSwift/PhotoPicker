@@ -180,10 +180,12 @@ public class PhotoPickerManager: NSObject {
         cacheManager.cancelImageRequest(requestID)
     }
     
+    // size 是像素单位
     public func startCachingImages(assets: [PHAsset], size: CGSize, options: PHImageRequestOptions) {
         cacheManager.startCachingImages(for: assets, targetSize: size, contentMode: .aspectFill, options: options)
     }
     
+    // size 是像素单位
     public func stopCachingImages(assets: [PHAsset], size: CGSize, options: PHImageRequestOptions) {
         cacheManager.stopCachingImages(for: assets, targetSize: size, contentMode: .aspectFill, options: options)
     }

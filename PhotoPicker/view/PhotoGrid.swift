@@ -44,6 +44,8 @@ public class PhotoGrid: UIView {
     
     private var cellPixelSize: CGSize!
     
+    private var previousPreheatRect = CGRect.zero
+    
     private lazy var flowLayout: UICollectionViewFlowLayout = {
         
         let view = UICollectionViewFlowLayout()
@@ -94,6 +96,7 @@ public class PhotoGrid: UIView {
     
     deinit {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
+        PhotoPickerManager.shared.stopAllCachingImages()
     }
     
     public func scrollToBottom(animated: Bool) {
@@ -169,11 +172,15 @@ extension PhotoGrid: UICollectionViewDataSource {
 
 extension PhotoGrid: UICollectionViewDelegate {
     
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
-        guard cell.photo.selectable else {
-            return
-        }
+//    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
+//        guard cell.photo.selectable else {
+//            return
+//        }
+//    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateCachedAssets()
     }
     
 }
@@ -207,7 +214,99 @@ extension PhotoGrid: UICollectionViewDelegateFlowLayout {
     
 }
 
+extension PhotoGrid: PHPhotoLibraryChangeObserver {
+    
+    public func photoLibraryDidChange(_ changeInstance: PHChange) {
+        DispatchQueue.main.sync {
+            
+            if let changeDetails = changeInstance.changeDetails(for: fetchResult) {
+                fetchResult = changeDetails.fetchResultAfterChanges
+            }
+            
+        }
+    }
+}
+
 extension PhotoGrid {
+    
+    private func updateCachedAssets() {
+
+        // The preheat window is twice the height of the visible rect.
+        let visibleSize = collectionView.bounds.size
+        let visibleRect = CGRect(origin: collectionView.contentOffset, size: visibleSize)
+        let preheatRect = visibleRect.insetBy(dx: 0, dy: -0.5 * visibleRect.height)
+        
+        // Update only if the visible area is significantly different from the last preheated area.
+        let delta = abs(preheatRect.midY - previousPreheatRect.midY)
+        guard delta > visibleSize.height / 3 else { return }
+        
+        // Compute the assets to start caching and to stop caching.
+        let (addedRects, removedRects) = differencesBetweenRects(previousPreheatRect, preheatRect)
+        
+        let addedAssets = addedRects
+            .flatMap { rect in rectToIndexPaths(rect: rect) }
+            .map { indexPath in fetchResult[indexPath.item] }
+
+        let removedAssets = removedRects
+            .flatMap { rect in rectToIndexPaths(rect: rect) }
+            .map { indexPath in fetchResult[indexPath.item] }
+        
+        // Update the assets the PHCachingImageManager is caching.
+        PhotoPickerManager.shared.startCachingImages(assets: addedAssets, size: cellPixelSize, options: configuration.photoThumbnailRequestOptions)
+        PhotoPickerManager.shared.stopCachingImages(assets: removedAssets, size: cellPixelSize, options: configuration.photoThumbnailRequestOptions)
+        
+        // Store the preheat rect to compare against in the future.
+        previousPreheatRect = preheatRect
+        
+    }
+    
+    private func rectToIndexPaths(rect: CGRect) -> [IndexPath] {
+        
+        var result = [IndexPath]()
+        
+        let y = rect.origin.y + rect.height / 2
+        
+        let width = rect.width
+        let numberOfPhoto = configuration.numberOfPhotoPerLine
+        
+        let itemWidth = width / numberOfPhoto
+        
+        for i in 1...Int(numberOfPhoto) {
+            if let indexPath = collectionView.indexPathForItem(at: CGPoint(x: itemWidth * CGFloat(i) - itemWidth / 2, y: y)) {
+                result.append(indexPath)
+            }
+        }
+        
+        return result
+        
+    }
+    
+    private func differencesBetweenRects(_ old: CGRect, _ new: CGRect) -> (added: [CGRect], removed: [CGRect]) {
+        if old.intersects(new) {
+            var added = [CGRect]()
+            if new.maxY > old.maxY {
+                added += [CGRect(x: new.origin.x, y: old.maxY,
+                                 width: new.width, height: new.maxY - old.maxY)]
+            }
+            if old.minY > new.minY {
+                added += [CGRect(x: new.origin.x, y: new.minY,
+                                 width: new.width, height: old.minY - new.minY)]
+            }
+            var removed = [CGRect]()
+            if new.maxY < old.maxY {
+                removed += [CGRect(x: new.origin.x, y: new.maxY,
+                                   width: new.width, height: old.maxY - new.maxY)]
+            }
+            if old.minY < new.minY {
+                removed += [CGRect(x: new.origin.x, y: old.minY,
+                                   width: new.width, height: new.minY - old.minY)]
+            }
+            return (added, removed)
+        }
+        else {
+            return ([new], [old])
+        }
+    }
     
     private func getCellSize() -> CGSize {
         
@@ -285,18 +384,5 @@ extension PhotoGrid {
         return IndexPath(item: index, section: 0)
     }
     
-}
-
-extension PhotoGrid: PHPhotoLibraryChangeObserver {
-    
-    public func photoLibraryDidChange(_ changeInstance: PHChange) {
-        DispatchQueue.main.sync {
-            
-            if let changeDetails = changeInstance.changeDetails(for: fetchResult) {
-                fetchResult = changeDetails.fetchResultAfterChanges
-            }
-            
-        }
-    }
 }
 
