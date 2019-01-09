@@ -110,7 +110,7 @@ public class PhotoPickerViewController: UIViewController {
         photoGridView.translatesAutoresizingMaskIntoConstraints = false
         
         photoGridView.onSelectedPhotoListChange = {
-            self.bottomBar.count = photoGridView.selectedPhotoList.count
+            self.bottomBar.selectedCount = photoGridView.selectedPhotoList.count
         }
         
         view.insertSubview(photoGridView, belowSubview: topBar)
@@ -154,7 +154,7 @@ public class PhotoPickerViewController: UIViewController {
         let bottomBar = BottomBar(configuration: configuration)
         
         bottomBar.isRawChecked = false
-        bottomBar.count = 0
+        bottomBar.selectedCount = 0
         
         bottomBar.translatesAutoresizingMaskIntoConstraints = false
         
@@ -190,28 +190,34 @@ public class PhotoPickerViewController: UIViewController {
         
         let checked = !topBar.titleView.checked
         
+        // 因为 albumListView 是惰性初始化的
+        // 当第一次 toggle 时，下面这句会创建 albumListView
+        // 如果不加 DispatchQueue.main.asyncAfter，创建 albumListView 时的 auto layout 会参与动画
+        // 但这是不必要的
         if checked {
             albumListView.isHidden = false
-            albumListBottomLayoutConstraint.constant = 0
-        }
-        else {
-            albumListBottomLayoutConstraint.constant = -albumListHeight
         }
         
-        UIView.animate(
-            withDuration: 0.2,
-            delay: 0,
-            options: .curveEaseOut,
-            animations: {
-                self.topBar.titleView.checked = checked
-                self.view.layoutIfNeeded()
-            },
-            completion: { success in
-                if !checked {
-                    self.albumListView.isHidden = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            
+            self.albumListBottomLayoutConstraint.constant = checked ? 0 : -self.albumListHeight
+
+            UIView.animate(
+                withDuration: 0.2,
+                delay: 0,
+                options: .curveEaseOut,
+                animations: {
+                    self.topBar.titleView.checked = checked
+                    self.view.layoutIfNeeded()
+                },
+                completion: { success in
+                    if !checked {
+                        self.albumListView.isHidden = true
+                    }
                 }
-            }
-        )
+            )
+            
+        }
         
     }
     

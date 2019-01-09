@@ -16,15 +16,15 @@ public class BottomBar: UIView {
         }
     }
     
-    public var count = -1 {
+    public var selectedCount = -1 {
         didSet {
-            guard count != oldValue else {
+            guard selectedCount != oldValue else {
                 return
             }
-            if count > 0 {
+            if selectedCount > 0 {
                 submitButton.isEnabled = true
                 submitButton.alpha = 1
-                submitButton.setTitle("\(configuration.submitButtonTitle)(\(count))", for: .normal)
+                submitButton.setTitle("\(configuration.submitButtonTitle)(\(selectedCount))", for: .normal)
             }
             else {
                 submitButton.isEnabled = false
@@ -109,7 +109,7 @@ public class BottomBar: UIView {
         
         let width = UIScreen.main.bounds.width
         var height = configuration.bottomBarHeight
-        print(width)
+
         if #available(iOS 11.0, *) {
             height += safeAreaInsets.bottom
         }

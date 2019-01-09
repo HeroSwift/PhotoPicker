@@ -3,9 +3,7 @@
 import UIKit
 
 class TitleButton: UIControl {
-    
-    var onToggleChecked: (() -> Void)?
-    
+
     var title = "" {
         didSet {
             titleView.text = title
@@ -20,7 +18,7 @@ class TitleButton: UIControl {
                 return
             }
             
-            // 加这句可以让动画更舒服，不信可去掉试试
+            // - 0.01 可以让动画更舒服，不信可去掉试试
             let pi = CGFloat.pi - 0.01
             
             if checked {
@@ -82,10 +80,6 @@ class TitleButton: UIControl {
         self.init()
         self.configuration = configuration
 
-    }
-    
-    @objc private func onClick() {
-        onToggleChecked?()
     }
     
 }
