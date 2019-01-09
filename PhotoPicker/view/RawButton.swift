@@ -2,46 +2,60 @@
 
 import UIKit
 
-class RawButton: UIButton {
+class RawButton: UIControl {
 
+    var image: UIImage? {
+        didSet {
+            imageView.image = image
+        }
+    }
+    
     private var configuration: PhotoPickerConfiguration!
     
-    public override var intrinsicContentSize: CGSize {
-        let size = super.intrinsicContentSize
-        return CGSize(
-            width: size.width + configuration.rawButtonTitleMarginLeft,
-            height: size.height
-        )
-    }
+    private lazy var imageView: UIImageView = {
+       
+        let view = UIImageView()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(view)
+        addConstraints([
+            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: configuration.rawButtonPaddingVertical),
+            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -configuration.rawButtonPaddingVertical),
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: configuration.rawButtonPaddingHorizontal),
+        ])
+        
+        return view
+        
+    }()
     
-    override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
-        let titleRect = super.titleRect(forContentRect: contentRect)
-        let imageSize = currentImage?.size ?? .zero
-        let availableWidth = contentRect.width - imageEdgeInsets.right - imageSize.width - titleRect.width
-        return titleRect.offsetBy(dx: round(availableWidth / 2), dy: 0)
-    }
+    private lazy var titleView: UILabel = {
+        
+        let view = UILabel()
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(view)
+        addConstraints([
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: imageView, attribute: .right, multiplier: 1, constant: configuration.rawButtonTitleMarginLeft),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: -configuration.rawButtonPaddingHorizontal),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: imageView, attribute: .centerY, multiplier: 1, constant: 0),
+        ])
+        
+        return view
+        
+    }()
     
     convenience init(configuration: PhotoPickerConfiguration) {
         
         self.init()
         self.configuration = configuration
-        
-        setTitle(configuration.rawButtonTitle, for: .normal)
 
-        titleLabel?.font = configuration.rawButtonTitleTextFont
-        titleLabel?.textColor = configuration.rawButtonTitleTextColor
+        titleView.font = configuration.rawButtonTitleTextFont
+        titleView.textColor = configuration.rawButtonTitleTextColor
         
-        contentHorizontalAlignment = .left
-        
-        titleEdgeInsets = UIEdgeInsets(top: 0, left: configuration.rawButtonTitleMarginLeft, bottom: 0, right: 0)
+        titleView.text = configuration.rawButtonTitle
 
-        contentEdgeInsets = UIEdgeInsets(
-            top: configuration.rawButtonPaddingVertical,
-            left: configuration.rawButtonPaddingHorizontal,
-            bottom: configuration.rawButtonPaddingVertical,
-            right: configuration.rawButtonPaddingHorizontal
-        )
-        
     }
     
 }

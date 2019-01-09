@@ -44,7 +44,27 @@ public class TopBar: UIView {
         
         addConstraints([
             NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: configuration.cancelButtonMarginLeft),
-            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -configuration.cancelButtonMarginBottom),
+            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: bottomBorder, attribute: .top, multiplier: 1, constant: -configuration.cancelButtonMarginBottom),
+        ])
+        
+        return view
+        
+    }()
+    
+    private lazy var bottomBorder: UIView = {
+       
+        let view = UIView()
+        
+        view.backgroundColor = configuration.topBarBorderColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(view)
+        
+        addConstraints([
+            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.topBarBorderWidth),
         ])
         
         return view

@@ -5,18 +5,13 @@ public class BottomBar: UIView {
     
     public var isRawChecked = false {
         didSet {
-            
-            let image: UIImage?
-            
+
             if isRawChecked {
-                image = configuration.rawButtonImageChecked
+                rawButton.image = configuration.rawButtonImageChecked
             }
             else {
-                image = configuration.rawButtonImageUnchecked
+                rawButton.image = configuration.rawButtonImageUnchecked
             }
-            
-            rawButton.setImage(image, for: .normal)
-            rawButton.setImage(image, for: .highlighted)
             
         }
     }

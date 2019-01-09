@@ -11,7 +11,7 @@ open class PhotoPickerConfiguration {
     public var albumCellBackgroundColorNormal = UIColor.white
     
     // 相册单元格按下时的背景色
-    public var albumCellBackgroundColorPressed = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.1)
+    public var albumCellBackgroundColorPressed = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.1)
     
     // 相册单元格的水平内间距
     public var albumCellPaddingHorizontal: CGFloat = 8
@@ -118,7 +118,13 @@ open class PhotoPickerConfiguration {
     public var topBarHeight: CGFloat = 44
     
     // 顶部栏背景色
-    public var topBarBackgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+    public var topBarBackgroundColor = UIColor.white
+    
+    // 顶部栏边框颜色
+    public var topBarBorderColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
+    
+    // 顶部栏边框大小
+    public var topBarBorderWidth = 1 / UIScreen.main.scale
     
     
     //
@@ -192,7 +198,7 @@ open class PhotoPickerConfiguration {
     public var rawButtonTitleTextColor = UIColor.white
     
     // 原图按钮的标题到图标的距离
-    public var rawButtonTitleMarginLeft: CGFloat = 3
+    public var rawButtonTitleMarginLeft: CGFloat = 5
     
     // 原图按钮水平内间距，用来扩大点击区域
     public var rawButtonPaddingHorizontal: CGFloat = 8
@@ -241,7 +247,7 @@ open class PhotoPickerConfiguration {
     public var submitButtonHeight: CGFloat = 28
     
     // 确定按钮的标题
-    public var submitButtonTitle = "发送"
+    public var submitButtonTitle = "确定"
     
     //
     // MARK: - 各种可选配置
