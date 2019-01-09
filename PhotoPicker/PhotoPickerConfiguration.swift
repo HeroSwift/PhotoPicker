@@ -57,7 +57,7 @@ open class PhotoPickerConfiguration {
     //
     
     // 照片网格的背景色
-    public var photoGridBackgroundColor = UIColor.clear
+    public var photoGridBackgroundColor = UIColor.white
     
     // 一行的照片数量
     public var numberOfPhotoPerLine: CGFloat = 3

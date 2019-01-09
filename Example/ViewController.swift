@@ -11,42 +11,23 @@ import PhotoPicker
 
 class ViewController: UIViewController {
 
+    let configuration = PhotoPickerConfiguration()
+    
+    @IBAction func onClick(_ sender: Any) {
+        
+        let controller = PhotoGridViewController()
+        controller.configuration = configuration
+        controller.modalPresentationStyle = .overCurrentContext
+        
+        present(controller, animated: true, completion: nil)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let configuration = PhotoPickerConfiguration()
-
-        let bottomBar = BottomBar(configuration: configuration)
-
-        bottomBar.isRawChecked = false
-        bottomBar.count = 0
         
-        bottomBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bottomBar)
-        
-        view.addConstraints([
-            
-            NSLayoutConstraint(item: bottomBar, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0),
-            NSLayoutConstraint(item: bottomBar, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0),
-        ])
-        
-        
-        let grid = PhotoGrid(configuration: configuration)
-        grid.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(grid)
-
-        view.addConstraints([
-
-            NSLayoutConstraint(item: grid, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 0),
-            NSLayoutConstraint(item: grid, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1.0, constant: 0),
-            NSLayoutConstraint(item: grid, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1.0, constant: 0),
-            NSLayoutConstraint(item: grid, attribute: .bottom, relatedBy: .equal, toItem: bottomBar, attribute: .top, multiplier: 1.0, constant: 0),
-
-        ])
-
-        grid.fetchResult = PhotoPickerManager.shared.fetchPhotoList(options: configuration.photoFetchOptions, album: nil)
         
         
         
