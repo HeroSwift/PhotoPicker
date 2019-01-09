@@ -14,7 +14,7 @@ open class PhotoPickerConfiguration {
     public var albumCellBackgroundColorPressed = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.1)
     
     // 相册单元格的水平内间距
-    public var albumCellPaddingHorizontal: CGFloat = 8
+    public var albumCellPaddingHorizontal: CGFloat = 12
     
     // 相册单元格的垂直内间距
     public var albumCellPaddingVertical: CGFloat = 6
@@ -198,7 +198,7 @@ open class PhotoPickerConfiguration {
     public var rawButtonTitleTextColor = UIColor.white
     
     // 原图按钮的标题到图标的距离
-    public var rawButtonTitleMarginLeft: CGFloat = 5
+    public var rawButtonTitleMarginLeft: CGFloat = 6
     
     // 原图按钮水平内间距，用来扩大点击区域
     public var rawButtonPaddingHorizontal: CGFloat = 8

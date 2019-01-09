@@ -18,13 +18,9 @@ class PhotoPickerManager: NSObject {
     
     var onAlbumListChange: (() -> Void)?
     
-    var albumList: [AlbumAsset]! {
-        didSet {
-            onAlbumListChange?()
-        }
-    }
+    var albumList: [AlbumAsset]!
     
-    private var isSetup = false
+    private var isDirty = false
     
     deinit {
         guard albumList != nil else {
@@ -90,10 +86,10 @@ class PhotoPickerManager: NSObject {
         }
     }
     
-    func setup(photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool, showVideo: Bool) {
+    func setup() -> Bool {
         
         guard albumList == nil else {
-            return
+            return false
         }
         
         allPhotos = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
@@ -121,9 +117,9 @@ class PhotoPickerManager: NSObject {
         
         userAlbums = PHAssetCollection.fetchTopLevelUserCollections(with: nil)
         
-        albumList = fetchAlbumList(photoFetchOptions: photoFetchOptions, showEmptyAlbum: showEmptyAlbum, showVideo: showVideo)
-        
         PHPhotoLibrary.shared().register(self)
+        
+        return true
         
     }
     
@@ -131,60 +127,9 @@ class PhotoPickerManager: NSObject {
     func fetchPhotoList(album: PHAssetCollection, options: PHFetchOptions) -> PHFetchResult<PHAsset> {
         return PHAsset.fetchAssets(in: album, options: options)
     }
-
-    func getPixelSize(size: CGSize) -> CGSize {
-        let scale = UIScreen.main.scale
-        return CGSize(width: size.width * scale, height: size.height * scale)
-    }
-    
-    // size 是像素单位
-    func requestImage(asset: PHAsset, size: CGSize, options: PHImageRequestOptions, completion: @escaping (UIImage?, [AnyHashable: Any]?) -> Void) -> PHImageRequestID {
-        return cacheManager.requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: options, resultHandler: completion)
-    }
-    
-    func cancelImageRequest(_ requestID: PHImageRequestID) {
-        cacheManager.cancelImageRequest(requestID)
-    }
-    
-    // size 是像素单位
-    func startCachingImages(assets: [PHAsset], size: CGSize, options: PHImageRequestOptions) {
-        cacheManager.startCachingImages(for: assets, targetSize: size, contentMode: .aspectFill, options: options)
-    }
-    
-    // size 是像素单位
-    func stopCachingImages(assets: [PHAsset], size: CGSize, options: PHImageRequestOptions) {
-        cacheManager.stopCachingImages(for: assets, targetSize: size, contentMode: .aspectFill, options: options)
-    }
-    
-    func stopAllCachingImages() {
-        cacheManager.stopCachingImagesForAllAssets()
-    }
-    
-}
-
-extension PhotoPickerManager: PHPhotoLibraryChangeObserver {
-    
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        DispatchQueue.main.sync {
-            
-            allPhotos = updateChange(changeInstance: changeInstance, fetchResult: allPhotos)
-            favorites = updateChange(changeInstance: changeInstance, fetchResult: favorites)
-            screenshots = updateChange(changeInstance: changeInstance, fetchResult: screenshots)
-            animations = updateChange(changeInstance: changeInstance, fetchResult: animations)
-            selfPortraints = updateChange(changeInstance: changeInstance, fetchResult: selfPortraints)
-            livePhotos = updateChange(changeInstance: changeInstance, fetchResult: livePhotos)
-            panoramas = updateChange(changeInstance: changeInstance, fetchResult: panoramas)
-            timelapses = updateChange(changeInstance: changeInstance, fetchResult: timelapses)
-            userAlbums = updateChange(changeInstance: changeInstance, fetchResult: userAlbums)
-            
-        }
-    }
-}
-
-extension PhotoPickerManager {
     
     // 获取相册列表
-    private func fetchAlbumList(photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool, showVideo: Bool) -> [AlbumAsset] {
+    func fetchAlbumList(photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool, showVideo: Bool) -> [AlbumAsset] {
         
         var albumList = [PHAssetCollection]()
         
@@ -236,32 +181,83 @@ extension PhotoPickerManager {
         return result
         
     }
+
+    func getPixelSize(size: CGSize) -> CGSize {
+        let scale = UIScreen.main.scale
+        return CGSize(width: size.width * scale, height: size.height * scale)
+    }
+    
+    // size 是像素单位
+    func requestImage(asset: PHAsset, size: CGSize, options: PHImageRequestOptions, completion: @escaping (UIImage?, [AnyHashable: Any]?) -> Void) -> PHImageRequestID {
+        return cacheManager.requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: options, resultHandler: completion)
+    }
+    
+    func cancelImageRequest(_ requestID: PHImageRequestID) {
+        cacheManager.cancelImageRequest(requestID)
+    }
+    
+    // size 是像素单位
+    func startCachingImages(assets: [PHAsset], size: CGSize, options: PHImageRequestOptions) {
+        cacheManager.startCachingImages(for: assets, targetSize: size, contentMode: .aspectFill, options: options)
+    }
+    
+    // size 是像素单位
+    func stopCachingImages(assets: [PHAsset], size: CGSize, options: PHImageRequestOptions) {
+        cacheManager.stopCachingImages(for: assets, targetSize: size, contentMode: .aspectFill, options: options)
+    }
+    
+    func stopAllCachingImages() {
+        cacheManager.stopCachingImagesForAllAssets()
+    }
+    
+}
+
+extension PhotoPickerManager: PHPhotoLibraryChangeObserver {
+    
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        DispatchQueue.main.sync {
+            
+            isDirty = false
+            
+            allPhotos = updateChange(changeInstance: changeInstance, fetchResult: allPhotos)
+            favorites = updateChange(changeInstance: changeInstance, fetchResult: favorites)
+            screenshots = updateChange(changeInstance: changeInstance, fetchResult: screenshots)
+            animations = updateChange(changeInstance: changeInstance, fetchResult: animations)
+            selfPortraints = updateChange(changeInstance: changeInstance, fetchResult: selfPortraints)
+            livePhotos = updateChange(changeInstance: changeInstance, fetchResult: livePhotos)
+            panoramas = updateChange(changeInstance: changeInstance, fetchResult: panoramas)
+            timelapses = updateChange(changeInstance: changeInstance, fetchResult: timelapses)
+            userAlbums = updateChange(changeInstance: changeInstance, fetchResult: userAlbums)
+            
+            if isDirty {
+                onAlbumListChange?()
+            }
+            
+        }
+    }
+}
+
+extension PhotoPickerManager {
     
     private func updateChange(changeInstance: PHChange, fetchResult: PHFetchResult<PHAssetCollection>?) -> PHFetchResult<PHAssetCollection>? {
         
-        guard let fetchResult = fetchResult else {
-            return nil
-        }
-        
-        if let changeDetails = changeInstance.changeDetails(for: fetchResult) {
+        if let fetchResult = fetchResult, let changeDetails = changeInstance.changeDetails(for: fetchResult) {
+            isDirty = true
             return changeDetails.fetchResultAfterChanges
         }
         
-        return nil
+        return fetchResult
         
     }
     
     private func updateChange(changeInstance: PHChange, fetchResult: PHFetchResult<PHCollection>?) -> PHFetchResult<PHCollection>? {
         
-        guard let fetchResult = fetchResult else {
-            return nil
-        }
-        
-        if let changeDetails = changeInstance.changeDetails(for: fetchResult) {
+        if let fetchResult = fetchResult, let changeDetails = changeInstance.changeDetails(for: fetchResult) {
+            isDirty = true
             return changeDetails.fetchResultAfterChanges
         }
         
-        return nil
+        return fetchResult
         
     }
     

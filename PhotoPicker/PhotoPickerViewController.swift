@@ -52,9 +52,7 @@ public class PhotoPickerViewController: UIViewController {
     private lazy var albumListView: AlbumList = {
         
         let albumListView = AlbumList(configuration: configuration)
-        
-        albumListView.albumList = PhotoPickerManager.shared.albumList
-        
+
         albumListView.onAlbumClick = { album in
             self.currentAlbum = album.collection
             self.toggleAlbumList()
@@ -109,7 +107,7 @@ public class PhotoPickerViewController: UIViewController {
             self.bottomBar.selectedCount = photoGridView.selectedPhotoList.count
         }
         
-        view.insertSubview(photoGridView, belowSubview: topBar)
+        view.insertSubview(photoGridView, belowSubview: albumListView)
         
         view.addConstraints([
             
@@ -152,9 +150,13 @@ public class PhotoPickerViewController: UIViewController {
         bottomBar.isRawChecked = false
         bottomBar.selectedCount = 0
         
+        bottomBar.submitButton.onClick = {
+            print(self.photoGridView.getSelectedPhotoList())
+        }
+        
         bottomBar.translatesAutoresizingMaskIntoConstraints = false
         
-        view.insertSubview(bottomBar, belowSubview: topBar)
+        view.insertSubview(bottomBar, belowSubview: albumListView)
         
         view.addConstraints([
             NSLayoutConstraint(item: bottomBar, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
@@ -168,16 +170,15 @@ public class PhotoPickerViewController: UIViewController {
     public override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+
         let manager = PhotoPickerManager.shared
-        
+
         manager.requestPermissions {
-            manager.setup(
-                photoFetchOptions: self.configuration.photoFetchOptions,
-                showEmptyAlbum: self.configuration.showEmptyAlbum,
-                showVideo: self.configuration.showVideo
-            )
-            self.currentAlbum = manager.albumList[0].collection
+            guard manager.setup() else {
+                return
+            }
+            self.updateAlbumList()
+            self.currentAlbum = self.albumListView.albumList[0].collection
         }
         
         manager.onPermissionsGranted = {
@@ -191,6 +192,10 @@ public class PhotoPickerViewController: UIViewController {
         manager.onFetchWithoutPermissions = {
             
         }
+        
+        manager.onAlbumListChange = {
+            self.updateAlbumList()
+        }
 
     }
     
@@ -202,39 +207,41 @@ public class PhotoPickerViewController: UIViewController {
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+
+    private func updateAlbumList() {
+        
+        albumListView.albumList = PhotoPickerManager.shared.fetchAlbumList(
+            photoFetchOptions: configuration.photoFetchOptions,
+            showEmptyAlbum: configuration.showEmptyAlbum,
+            showVideo: configuration.showVideo
+        )
+        
+    }
     
     private func toggleAlbumList() {
         
         let checked = !topBar.titleView.checked
         
-        // 因为 albumListView 是惰性初始化的
-        // 当第一次 toggle 时，下面这句会创建 albumListView
-        // 如果不加 DispatchQueue.main.asyncAfter，创建 albumListView 时的 auto layout 会参与动画
-        // 但这是不必要的
         if checked {
             albumListView.isHidden = false
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            
-            self.albumListBottomLayoutConstraint.constant = checked ? 0 : -self.albumListHeight
+        albumListBottomLayoutConstraint.constant = checked ? 0 : -albumListHeight
 
-            UIView.animate(
-                withDuration: 0.2,
-                delay: 0,
-                options: .curveEaseOut,
-                animations: {
-                    self.topBar.titleView.checked = checked
-                    self.view.layoutIfNeeded()
-                },
-                completion: { success in
-                    if !checked {
-                        self.albumListView.isHidden = true
-                    }
+        UIView.animate(
+            withDuration: 0.2,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.topBar.titleView.checked = checked
+                self.view.layoutIfNeeded()
+            },
+            completion: { success in
+                if !checked {
+                    self.albumListView.isHidden = true
                 }
-            )
-            
-        }
+            }
+        )
         
     }
     

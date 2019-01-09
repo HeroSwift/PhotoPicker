@@ -36,7 +36,7 @@ public class BottomBar: UIView {
     
     private var configuration: PhotoPickerConfiguration!
     
-    private lazy var rawButton: RawButton = {
+    lazy var rawButton: RawButton = {
        
         let view = RawButton(configuration: configuration)
         
@@ -53,7 +53,7 @@ public class BottomBar: UIView {
         
     }()
     
-    private lazy var submitButton: SimpleButton = {
+    lazy var submitButton: SimpleButton = {
     
         let view = SimpleButton()
         
