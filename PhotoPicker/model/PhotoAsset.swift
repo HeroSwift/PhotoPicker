@@ -27,6 +27,7 @@ public class PhotoAsset {
         
         if asset.mediaType == .image {
             let filename = asset.value(forKey: "filename") as! String
+            // 读取出来的扩展名是大写的
             if filename.hasSuffix("GIF") {
                 type = .gif
             }

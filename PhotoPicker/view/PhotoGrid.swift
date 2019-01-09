@@ -14,7 +14,7 @@ public class PhotoGrid: UIView {
             var list = [PhotoAsset]()
             
             fetchResult.enumerateObjects { asset, _, _ in
-                list.append(PhotoAsset(asset: asset))
+                list.insert(PhotoAsset(asset: asset), at: 0)
             }
             
             photoList = list
@@ -72,7 +72,7 @@ public class PhotoGrid: UIView {
         
         view.translatesAutoresizingMaskIntoConstraints = false
         view.showsVerticalScrollIndicator = false
-        view.alwaysBounceVertical = false
+        view.alwaysBounceVertical = true
         
         view.register(PhotoCell.self, forCellWithReuseIdentifier: cellIdentifier)
         view.dataSource = self
