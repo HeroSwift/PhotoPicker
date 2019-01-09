@@ -1,28 +1,130 @@
 
 import UIKit
+import Photos
 
 public class PhotoPickerViewController: UIViewController {
     
     public var configuration: PhotoPickerConfiguration!
     
-    private lazy var gridView: PhotoGrid = {
+    private var albumListHeightLayoutConstraint: NSLayoutConstraint!
+    private var albumListBottomLayoutConstraint: NSLayoutConstraint!
     
-        let photoGrid = PhotoGrid(configuration: configuration)
+    // 默认给 1，避免初始化 albumListView 时读取到的高度为 0，无法判断是显示还是隐藏状态
+    private var albumListHeight: CGFloat = 1 {
+        didSet {
+            
+            guard albumListHeight != oldValue, albumListHeightLayoutConstraint != nil else {
+                return
+            }
+            
+            albumListHeightLayoutConstraint.constant = albumListHeight
+            
+            // 隐藏状态
+            if albumListBottomLayoutConstraint.constant < 0 {
+                albumListBottomLayoutConstraint.constant = -albumListHeight
+            }
+            
+            if !albumListView.isHidden {
+                view.setNeedsLayout()
+            }
+            
+        }
+    }
+    
+    // 当前选中的相册
+    private var currentAlbum: PHAssetCollection! {
+        didSet {
+            
+            guard currentAlbum !== oldValue else {
+                return
+            }
+            
+            photoGridView.fetchResult = PhotoPickerManager.shared.fetchPhotoList(
+                options: configuration.photoFetchOptions,
+                album: currentAlbum
+            )
+            
+            topBar.titleView.title = currentAlbum.localizedTitle!
+            
+        }
+    }
+    
+    private lazy var albumListView: AlbumList = {
         
-        photoGrid.translatesAutoresizingMaskIntoConstraints = false
+        let albumListView = AlbumList(configuration: configuration)
         
-        view.addSubview(photoGrid)
+        albumListView.albumList = PhotoPickerManager.shared.fetchAlbumList(
+            photoFetchOptions: configuration.photoFetchOptions,
+            showEmptyAlbum: configuration.showEmptyAlbum,
+            showVideo: configuration.showVideo
+        )
+        
+        albumListView.onAlbumClick = { album in
+            self.currentAlbum = album.collection
+            self.toggleAlbumList()
+        }
+        
+        albumListView.isHidden = true
+        
+        albumListView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.insertSubview(albumListView, belowSubview: topBar)
+        
+        albumListBottomLayoutConstraint = NSLayoutConstraint(
+            item: albumListView,
+            attribute: .bottom,
+            relatedBy: .equal,
+            toItem: view,
+            attribute: .bottom,
+            multiplier: 1,
+            constant: -albumListHeight
+        )
+        
+        albumListHeightLayoutConstraint = NSLayoutConstraint(
+            item: albumListView,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height,
+            multiplier: 1,
+            constant: albumListHeight
+        )
         
         view.addConstraints([
-            
-            NSLayoutConstraint(item: photoGrid, attribute: .top, relatedBy: .equal, toItem: topBar, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: photoGrid, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: photoGrid, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: photoGrid, attribute: .bottom, relatedBy: .equal, toItem: bottomBar, attribute: .top, multiplier: 1, constant: 0),
+    
+            NSLayoutConstraint(item: albumListView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: albumListView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
+            albumListBottomLayoutConstraint,
+            albumListHeightLayoutConstraint
             
         ])
         
-        return photoGrid
+        return albumListView
+        
+    }()
+    
+    private lazy var photoGridView: PhotoGrid = {
+    
+        let photoGridView = PhotoGrid(configuration: configuration)
+        
+        photoGridView.translatesAutoresizingMaskIntoConstraints = false
+        
+        photoGridView.onSelectedPhotoListChange = {
+            self.bottomBar.count = photoGridView.selectedPhotoList.count
+        }
+        
+        view.insertSubview(photoGridView, belowSubview: topBar)
+        
+        view.addConstraints([
+            
+            NSLayoutConstraint(item: photoGridView, attribute: .top, relatedBy: .equal, toItem: topBar, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: photoGridView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: photoGridView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: photoGridView, attribute: .bottom, relatedBy: .equal, toItem: bottomBar, attribute: .top, multiplier: 1, constant: 0),
+            
+        ])
+        
+        return photoGridView
         
     }()
     
@@ -30,13 +132,11 @@ public class PhotoPickerViewController: UIViewController {
         
         let topBar = TopBar(configuration: configuration)
         
-        topBar.title = "所有招聘"
-        
         topBar.translatesAutoresizingMaskIntoConstraints = false
         
-        topBar.onCancelClick = {
-            self.dismiss(animated: true, completion: nil)
-        }
+        topBar.cancelButton.addTarget(self, action: #selector(onCancelClick), for: .touchUpInside)
+        
+        topBar.titleView.addTarget(self, action: #selector(onTitleClick), for: .touchUpInside)
         
         view.addSubview(topBar)
         
@@ -57,7 +157,8 @@ public class PhotoPickerViewController: UIViewController {
         bottomBar.count = 0
         
         bottomBar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bottomBar)
+        
+        view.insertSubview(bottomBar, belowSubview: topBar)
         
         view.addConstraints([
             NSLayoutConstraint(item: bottomBar, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
@@ -72,12 +173,54 @@ public class PhotoPickerViewController: UIViewController {
         
         super.viewDidLoad()
 
-        gridView.fetchResult = PhotoPickerManager.shared.fetchPhotoList(options: configuration.photoFetchOptions)
+        currentAlbum = PhotoPickerManager.shared.allPhotosAlbum
 
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        albumListHeight = UIScreen.main.bounds.height - topBar.frame.height
     }
     
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    private func toggleAlbumList() {
+        
+        let checked = !topBar.titleView.checked
+        
+        if checked {
+            albumListView.isHidden = false
+            albumListBottomLayoutConstraint.constant = 0
+        }
+        else {
+            albumListBottomLayoutConstraint.constant = -albumListHeight
+        }
+        
+        UIView.animate(
+            withDuration: 0.2,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                self.topBar.titleView.checked = checked
+                self.view.layoutIfNeeded()
+            },
+            completion: { success in
+                if !checked {
+                    self.albumListView.isHidden = true
+                }
+            }
+        )
+        
+    }
+    
+    @objc private func onCancelClick() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func onTitleClick() {
+        toggleAlbumList()
     }
     
 }

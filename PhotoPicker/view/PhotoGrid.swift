@@ -4,7 +4,9 @@ import Photos
 
 public class PhotoGrid: UIView {
     
-    var onSelectedPhotoListChange: (() -> Void)?
+    public var onPhotoClick: ((PhotoAsset) -> Void)?
+    
+    public var onSelectedPhotoListChange: (() -> Void)?
     
     public var fetchResult: PHFetchResult<PHAsset>! {
         didSet {
@@ -16,6 +18,10 @@ public class PhotoGrid: UIView {
             }
             
             photoList = list
+            
+            if selectedPhotoList.count > 0 {
+                selectedPhotoList = [PhotoAsset]()
+            }
             
         }
     }
@@ -172,12 +178,13 @@ extension PhotoGrid: UICollectionViewDataSource {
 
 extension PhotoGrid: UICollectionViewDelegate {
     
-//    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
-//        guard cell.photo.selectable else {
-//            return
-//        }
-//    }
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photo = photoList[indexPath.item]
+        guard photo.selectable else {
+            return
+        }
+        onPhotoClick?(photo)
+    }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateCachedAssets()

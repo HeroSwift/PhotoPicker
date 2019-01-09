@@ -3,17 +3,26 @@ import UIKit
 
 public class TopBar: UIView {
     
-    var onCancelClick: (() -> Void)?
-    
-    var title = "" {
-        didSet {
-            titleView.setTitle(title, for: .normal)
-        }
-    }
-    
     private var configuration: PhotoPickerConfiguration!
     
-    private lazy var cancelButton: UIButton = {
+    lazy var titleView: TitleButton = {
+        
+        let view = TitleButton(configuration: configuration)
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(view)
+        
+        addConstraints([
+            NSLayoutConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: cancelButton, attribute: .centerY, multiplier: 1, constant: 0),
+        ])
+        
+        return view
+        
+    }()
+    
+    lazy var cancelButton: UIButton = {
         
         let view = UIButton()
         
@@ -41,24 +50,7 @@ public class TopBar: UIView {
         return view
         
     }()
-    
-    private lazy var titleView: SimpleButton = {
-        
-        let view = SimpleButton()
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(view)
-        
-        addConstraints([
-            NSLayoutConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
-        ])
-        
-        return view
-        
-    }()
-    
     public override var intrinsicContentSize: CGSize {
         return frame.size
     }
@@ -70,12 +62,6 @@ public class TopBar: UIView {
         
         backgroundColor = configuration.topBarBackgroundColor
         
-        cancelButton.addTarget(self, action: #selector(onCancelButtonClick), for: .touchUpInside)
-        
-    }
-    
-    @objc private func onCancelButtonClick() {
-        onCancelClick?()
     }
     
     public override func layoutSubviews() {

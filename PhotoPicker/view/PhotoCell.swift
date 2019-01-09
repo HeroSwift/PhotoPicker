@@ -147,9 +147,7 @@ class PhotoCell: UICollectionViewCell {
             
         ])
         
-        view.onClick = {
-            self.onToggleChecked?()
-        }
+        view.addTarget(self, action: #selector(onToggleCheckedClick), for: .touchUpInside)
         
         return view
         
@@ -214,6 +212,10 @@ class PhotoCell: UICollectionViewCell {
         thumbnail = configuration.photoThumbnailLoadingPlaceholder
         badgeView.isHidden = true
 
+    }
+    
+    @objc private func onToggleCheckedClick() {
+        onToggleChecked?()
     }
     
 }

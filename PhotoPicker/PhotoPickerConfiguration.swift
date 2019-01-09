@@ -139,13 +139,13 @@ open class PhotoPickerConfiguration {
     public var cancelButtonTitleTextFont = UIFont.systemFont(ofSize: 16)
     
     // 取消按钮的标题颜色
-    public var cancelButtonTitleTextColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+    public var cancelButtonTitleTextColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
     
     // 取消按钮到左边的距离
     public var cancelButtonMarginLeft: CGFloat = 14
     
     // 取消按钮到底部的距离
-    public var cancelButtonMarginBottom: CGFloat = 7
+    public var cancelButtonMarginBottom: CGFloat = 3
     
     // 取消按钮水平内间距，用来扩大点击区域
     public var cancelButtonPaddingHorizontal: CGFloat = 8
@@ -155,6 +155,31 @@ open class PhotoPickerConfiguration {
     
     // 取消按钮的标题
     public var cancelButtonTitle = "取消"
+    
+    
+    //
+    // MARK: - 标题按钮
+    //
+    
+    // 标题按钮的标题字体
+    public var titleButtonTitleTextFont = UIFont.systemFont(ofSize: 18)
+    
+    // 标题按钮的标题颜色
+    public var titleButtonTitleTextColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+    
+    // 标题按钮的图标和文字的距离
+    public var titleButtonTitleMarginRight: CGFloat = 5
+    
+    // 标题按钮水平内间距，用来扩大点击区域
+    public var titleButtonPaddingHorizontal: CGFloat = 8
+    
+    // 标题按钮垂直内间距，用来扩大点击区域
+    public var titleButtonPaddingVertical: CGFloat = 8
+    
+    // 箭头图标
+    public var titleButtonArrow = UIImage(named: "photo_picker_arrow")
+    
+    
     
     //
     // MARK: - 原图按钮
@@ -195,16 +220,13 @@ open class PhotoPickerConfiguration {
     public var submitButtonTitleTextColor = UIColor.white
     
     // 确定按钮的背景色
-    public var submitButtonBackgroundColorNormal = UIColor(red: 0.10, green: 0.60, blue: 0.09, alpha: 0.8)
+    public var submitButtonBackgroundColorNormal = UIColor(red: 0.10, green: 0.60, blue: 0.09, alpha: 1)
     
     // 确定按钮的背景色
-    public var submitButtonBackgroundColorPressed = UIColor(red: 0.10, green: 0.60, blue: 0.09, alpha: 1)
+    public var submitButtonBackgroundColorPressed = UIColor(red: 0.08, green: 0.47, blue: 0.08, alpha: 1)
     
     // 确定按钮的圆角
     public var submitButtonBorderRadius: CGFloat = 4
-    
-    // 确定按钮水平内间距
-    public var submitButtonPaddingHorizontal: CGFloat = 15
     
     // 确定按钮到顶部的距离
     public var submitButtonMarginTop: CGFloat = 7
@@ -212,8 +234,11 @@ open class PhotoPickerConfiguration {
     // 确定按钮到右边的距离
     public var submitButtonMarginRight: CGFloat = 14
     
+    // 确定按钮宽度
+    public var submitButtonWidth: CGFloat = 58
+    
     // 确定按钮高度
-    public var submitButtonHeight: CGFloat = 30
+    public var submitButtonHeight: CGFloat = 28
     
     // 确定按钮的标题
     public var submitButtonTitle = "发送"
@@ -224,6 +249,22 @@ open class PhotoPickerConfiguration {
     
     // 是否显示空相册
     public var showEmptyAlbum = false
+    
+    // 是否显示视频
+    public var showVideo = false {
+        didSet {
+            
+            var mediaTypes = [Int]()
+            
+            mediaTypes.append(PHAssetMediaType.image.rawValue)
+            if showVideo {
+                mediaTypes.append(PHAssetMediaType.video.rawValue)
+            }
+            
+            photoFetchOptions.predicate = NSPredicate(format: "mediaType IN %@", mediaTypes)
+            
+        }
+    }
     
     // 是否可以多选
     public var selectable = true
@@ -239,13 +280,26 @@ open class PhotoPickerConfiguration {
     //
     
     // 相册缩略图的加载选项
-    public var albumThumbnailRequestOptions = PHImageRequestOptions()
+    public lazy var albumThumbnailRequestOptions: PHImageRequestOptions = {
+        let options = PHImageRequestOptions()
+        options.resizeMode = .exact
+        return options
+    }()
     
     // 列表缩略图的加载选项
-    public var photoThumbnailRequestOptions = PHImageRequestOptions()
+    public var photoThumbnailRequestOptions: PHImageRequestOptions = {
+        let options = PHImageRequestOptions()
+        options.resizeMode = .exact
+        return options
+    }()
     
     // 获取照片列表的选项
-    public var photoFetchOptions = PHFetchOptions()
+    public var photoFetchOptions: PHFetchOptions = {
+        let options = PHFetchOptions()
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        options.predicate = NSPredicate(format: "mediaType IN %@", [PHAssetMediaType.image.rawValue])
+        return options
+    }()
     
     //
     // MARK: - 各种占位图
@@ -278,13 +332,6 @@ open class PhotoPickerConfiguration {
     public var photoBadgeWebpIcon = UIImage(named: "photo_picker_badge_webp")
     
     public init() {
-        
-        albumThumbnailRequestOptions.resizeMode = .exact
-        
-        photoThumbnailRequestOptions.resizeMode = .exact
-
-        photoFetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        photoFetchOptions.predicate = NSPredicate(format: "mediaType IN %@", [PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue])
         
     }
     

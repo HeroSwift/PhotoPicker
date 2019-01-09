@@ -3,6 +3,8 @@ import UIKit
 
 public class AlbumList: UIView {
     
+    public var onAlbumClick: ((AlbumAsset) -> Void)?
+    
     public var albumList = [AlbumAsset]() {
         didSet {
             tableView.reloadData()
@@ -86,6 +88,10 @@ extension AlbumList: UITableViewDataSource, UITableViewDelegate {
         
         return cell
         
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        onAlbumClick?(albumList[indexPath.row])
     }
     
 }

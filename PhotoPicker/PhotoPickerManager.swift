@@ -48,6 +48,12 @@ public class PhotoPickerManager: NSObject {
     // 所有照片
     private var allPhotos: PHFetchResult<PHAssetCollection>!
     
+    var allPhotosAlbum: PHAssetCollection {
+        get {
+            return allPhotos.firstObject!
+        }
+    }
+    
     // 收藏
     private var favorites: PHFetchResult<PHAssetCollection>!
     
@@ -102,13 +108,9 @@ public class PhotoPickerManager: NSObject {
     
     
     // 获取所有照片
-    public func fetchPhotoList(options: PHFetchOptions, album: PHAssetCollection? = nil) -> PHFetchResult<PHAsset> {
+    public func fetchPhotoList(options: PHFetchOptions, album: PHAssetCollection) -> PHFetchResult<PHAsset> {
 
-        if let album = album {
-            return PHAsset.fetchAssets(in: album, options: options)
-        }
-
-        return PHAsset.fetchAssets(in: allPhotos.firstObject!, options: options)
+        return PHAsset.fetchAssets(in: album, options: options)
         
     }
     

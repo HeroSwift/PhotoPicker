@@ -68,13 +68,6 @@ public class BottomBar: UIView {
         view.backgroundColorPressed = configuration.submitButtonBackgroundColorPressed
         
         view.titleLabel?.font = configuration.submitButtonTitleTextFont
-        
-        view.contentEdgeInsets = UIEdgeInsets(
-            top: 0,
-            left: configuration.submitButtonPaddingHorizontal,
-            bottom: 0,
-            right: configuration.submitButtonPaddingHorizontal
-        )
 
         if configuration.submitButtonBorderRadius > 0 {
             view.layer.cornerRadius = configuration.submitButtonBorderRadius
@@ -88,7 +81,8 @@ public class BottomBar: UIView {
         addConstraints([
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: configuration.submitButtonMarginTop),
             NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: -configuration.submitButtonMarginRight),
-            NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.submitButtonHeight)
+            NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: configuration.submitButtonWidth),
+            NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.submitButtonHeight),
         ])
         
         return view
@@ -106,11 +100,11 @@ public class BottomBar: UIView {
 
         backgroundColor = configuration.bottomBarBackgroundColor
         
-        rawButton.addTarget(self, action: #selector(onRawButtonClick), for: .touchUpInside)
+        rawButton.addTarget(self, action: #selector(onRawClick), for: .touchUpInside)
         
     }
     
-    @objc private func onRawButtonClick() {
+    @objc private func onRawClick() {
         isRawChecked = !isRawChecked
     }
     
@@ -120,7 +114,7 @@ public class BottomBar: UIView {
         
         let width = UIScreen.main.bounds.width
         var height = configuration.bottomBarHeight
-        
+        print(width)
         if #available(iOS 11.0, *) {
             height += safeAreaInsets.bottom
         }

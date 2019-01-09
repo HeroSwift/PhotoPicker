@@ -1,9 +1,7 @@
 
 import UIKit
 
-class SelectButton: UIView {
-    
-    var onClick: (() -> Void)?
+class SelectButton: UIControl {
     
     var checked = false {
         didSet {
@@ -92,11 +90,6 @@ class SelectButton: UIView {
         titleView.font = configuration.selectButtonTitleTextFont
         titleView.textColor = configuration.selectButtonTitleTextColor
         
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        onClick?()
     }
     
 }

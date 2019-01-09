@@ -26,6 +26,7 @@
 		9DB2CEC321E5AC270065C7C2 /* SimpleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC121E5AC270065C7C2 /* SimpleButton.swift */; };
 		9DB2CEC621E5DB890065C7C2 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC521E5DB890065C7C2 /* PhotoPickerViewController.swift */; };
 		9DB2CEC821E5E5780065C7C2 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC721E5E5780065C7C2 /* TopBar.swift */; };
+		9DB2CECA21E5F0F00065C7C2 /* TitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC921E5F0F00065C7C2 /* TitleButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		9DB2CEC121E5AC270065C7C2 /* SimpleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleButton.swift; sourceTree = "<group>"; };
 		9DB2CEC521E5DB890065C7C2 /* PhotoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewController.swift; sourceTree = "<group>"; };
 		9DB2CEC721E5E5780065C7C2 /* TopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
+		9DB2CEC921E5F0F00065C7C2 /* TitleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +138,7 @@
 				9D3CD2ED21E324D000B1C2C4 /* AlbumCell.swift */,
 				9DB2CEBE21E58B380065C7C2 /* RawButton.swift */,
 				9D83171921E4AFB7000B1211 /* SelectButton.swift */,
+				9DB2CEC921E5F0F00065C7C2 /* TitleButton.swift */,
 				9DB2CEBC21E586AD0065C7C2 /* BottomBar.swift */,
 				9DB2CEC721E5E5780065C7C2 /* TopBar.swift */,
 			);
@@ -284,6 +287,7 @@
 				9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */,
 				9D3CD2E421E2EB2400B1C2C4 /* PhotoAsset.swift in Sources */,
 				9DB2CEBD21E586AD0065C7C2 /* BottomBar.swift in Sources */,
+				9DB2CECA21E5F0F00065C7C2 /* TitleButton.swift in Sources */,
 				9DB2CEC321E5AC270065C7C2 /* SimpleButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
