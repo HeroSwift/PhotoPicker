@@ -43,16 +43,8 @@ public class BottomBar: UIView {
     
     private lazy var rawButton: RawButton = {
        
-        let view = RawButton()
+        let view = RawButton(configuration: configuration)
         
-        view.titleMarginLeft = configuration.rawButtonTitleMarginLeft
-        
-        view.setTitle(configuration.rawButtonTitle, for: .normal)
-        
-        view.titleLabel?.font = configuration.rawButtonTitleTextFont
-        view.titleLabel?.textColor = configuration.rawButtonTitleTextColor
-
-        view.contentHorizontalAlignment = .left
         view.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(view)

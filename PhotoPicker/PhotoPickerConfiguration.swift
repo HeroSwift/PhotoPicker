@@ -131,7 +131,13 @@ open class PhotoPickerConfiguration {
     public var rawButtonTitleTextColor = UIColor.white
     
     // 原图按钮的标题到图标的距离
-    public var rawButtonTitleMarginLeft: CGFloat = 4
+    public var rawButtonTitleMarginLeft: CGFloat = 3
+    
+    // 原图按钮水平内间距，用来扩大点击区域
+    public var rawButtonPaddingHorizontal: CGFloat = 8
+    
+    // 原图按钮垂直内间距，用来扩大点击区域
+    public var rawButtonPaddingVertical: CGFloat = 8
     
     // 原图按钮未选中时的图片
     public var rawButtonImageUnchecked = UIImage(named: "photo_picker_raw_button_unchecked")
