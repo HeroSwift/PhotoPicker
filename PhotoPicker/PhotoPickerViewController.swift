@@ -6,6 +6,9 @@ public class PhotoPickerViewController: UIViewController {
     
     public var configuration: PhotoPickerConfiguration!
     
+    private var topBarHeightLayoutConstraint: NSLayoutConstraint!
+    private var bottomBarHeightLayoutConstraint: NSLayoutConstraint!
+    
     private var albumListHeightLayoutConstraint: NSLayoutConstraint!
     private var albumListBottomLayoutConstraint: NSLayoutConstraint!
     
@@ -19,13 +22,8 @@ public class PhotoPickerViewController: UIViewController {
             
             albumListHeightLayoutConstraint.constant = albumListHeight
             
-            // 隐藏状态
-            if albumListBottomLayoutConstraint.constant < 0 {
-                albumListBottomLayoutConstraint.constant = -albumListHeight
-            }
-            
-            if !albumListView.isHidden {
-                view.setNeedsLayout()
+            if albumListBottomLayoutConstraint.constant > 0 {
+                albumListBottomLayoutConstraint.constant = albumListHeight
             }
             
         }
@@ -68,10 +66,10 @@ public class PhotoPickerViewController: UIViewController {
             item: albumListView,
             attribute: .bottom,
             relatedBy: .equal,
-            toItem: view,
+            toItem: topBar,
             attribute: .bottom,
             multiplier: 1,
-            constant: -albumListHeight
+            constant: 0
         )
         
         albumListHeightLayoutConstraint = NSLayoutConstraint(
@@ -134,9 +132,21 @@ public class PhotoPickerViewController: UIViewController {
         
         view.addSubview(topBar)
         
+        topBarHeightLayoutConstraint = NSLayoutConstraint(
+            item: topBar,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height,
+            multiplier: 1,
+            constant: configuration.topBarHeight
+        )
+        
         view.addConstraints([
             NSLayoutConstraint(item: topBar, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: topBar, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: topBar, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
+            topBarHeightLayoutConstraint
         ])
         
         return topBar
@@ -158,9 +168,21 @@ public class PhotoPickerViewController: UIViewController {
         
         view.insertSubview(bottomBar, belowSubview: albumListView)
         
+        bottomBarHeightLayoutConstraint = NSLayoutConstraint(
+            item: bottomBar,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height,
+            multiplier: 1,
+            constant: configuration.bottomBarHeight
+        )
+        
         view.addConstraints([
             NSLayoutConstraint(item: bottomBar, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: bottomBar, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: bottomBar, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0),
+            bottomBarHeightLayoutConstraint
         ])
         
         return bottomBar
@@ -201,7 +223,27 @@ public class PhotoPickerViewController: UIViewController {
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        albumListHeight = UIScreen.main.bounds.height - topBar.frame.height
+        
+        var height = view.bounds.height
+        
+        if #available(iOS 11.0, *) {
+            
+            let top = view.safeAreaInsets.top
+            let bottom = view.safeAreaInsets.bottom
+            
+            height -= bottom
+            
+            topBarHeightLayoutConstraint.constant = configuration.topBarHeight + top
+            bottomBarHeightLayoutConstraint.constant = configuration.bottomBarHeight + bottom
+            
+        }
+        
+        height -= topBarHeightLayoutConstraint.constant
+        
+        albumListHeight = height
+        
+        view.setNeedsLayout()
+        
     }
     
     public override func didReceiveMemoryWarning() {
@@ -226,7 +268,7 @@ public class PhotoPickerViewController: UIViewController {
             albumListView.isHidden = false
         }
         
-        albumListBottomLayoutConstraint.constant = checked ? 0 : -albumListHeight
+        albumListBottomLayoutConstraint.constant = checked ? albumListHeight : 0
 
         UIView.animate(
             withDuration: 0.2,

@@ -84,10 +84,6 @@ public class BottomBar: UIView {
         
     }()
     
-    public override var intrinsicContentSize: CGSize {
-        return frame.size
-    }
-    
     public convenience init(configuration: PhotoPickerConfiguration) {
         
         self.init()
@@ -101,25 +97,6 @@ public class BottomBar: UIView {
     
     @objc private func onRawClick() {
         isRawChecked = !isRawChecked
-    }
-    
-    public override func layoutSubviews() {
-        
-        super.layoutSubviews()
-        
-        let width = UIScreen.main.bounds.width
-        var height = configuration.bottomBarHeight
-
-        if #available(iOS 11.0, *) {
-            height += safeAreaInsets.bottom
-        }
-        
-        let oldSize = frame.size
-        if oldSize.width != width || oldSize.height != height {
-            frame.size = CGSize(width: width, height: height)
-            invalidateIntrinsicContentSize()
-        }
-        
     }
     
 }

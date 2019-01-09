@@ -71,35 +71,12 @@ public class TopBar: UIView {
         
     }()
 
-    public override var intrinsicContentSize: CGSize {
-        return frame.size
-    }
-    
     public convenience init(configuration: PhotoPickerConfiguration) {
         
         self.init()
         self.configuration = configuration
         
         backgroundColor = configuration.topBarBackgroundColor
-        
-    }
-    
-    public override func layoutSubviews() {
-        
-        super.layoutSubviews()
-        
-        let width = UIScreen.main.bounds.width
-        var height = configuration.topBarHeight
-        
-        if #available(iOS 11.0, *) {
-            height += safeAreaInsets.top
-        }
-        
-        let oldSize = frame.size
-        if oldSize.width != width || oldSize.height != height {
-            frame.size = CGSize(width: width, height: height)
-            invalidateIntrinsicContentSize()
-        }
         
     }
     
