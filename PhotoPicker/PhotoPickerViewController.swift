@@ -40,8 +40,8 @@ public class PhotoPickerViewController: UIViewController {
             }
             
             photoGridView.fetchResult = PhotoPickerManager.shared.fetchPhotoList(
-                options: configuration.photoFetchOptions,
-                album: currentAlbum
+                album: currentAlbum,
+                options: configuration.photoFetchOptions
             )
             
             topBar.titleView.title = currentAlbum.localizedTitle!
@@ -53,11 +53,7 @@ public class PhotoPickerViewController: UIViewController {
         
         let albumListView = AlbumList(configuration: configuration)
         
-        albumListView.albumList = PhotoPickerManager.shared.fetchAlbumList(
-            photoFetchOptions: configuration.photoFetchOptions,
-            showEmptyAlbum: configuration.showEmptyAlbum,
-            showVideo: configuration.showVideo
-        )
+        albumListView.albumList = PhotoPickerManager.shared.albumList
         
         albumListView.onAlbumClick = { album in
             self.currentAlbum = album.collection
@@ -172,8 +168,29 @@ public class PhotoPickerViewController: UIViewController {
     public override func viewDidLoad() {
         
         super.viewDidLoad()
-
-        currentAlbum = PhotoPickerManager.shared.allPhotosAlbum
+        
+        let manager = PhotoPickerManager.shared
+        
+        manager.requestPermissions {
+            manager.setup(
+                photoFetchOptions: self.configuration.photoFetchOptions,
+                showEmptyAlbum: self.configuration.showEmptyAlbum,
+                showVideo: self.configuration.showVideo
+            )
+            self.currentAlbum = manager.albumList[0].collection
+        }
+        
+        manager.onPermissionsGranted = {
+            
+        }
+        
+        manager.onPermissionsDenied = {
+            
+        }
+        
+        manager.onFetchWithoutPermissions = {
+            
+        }
 
     }
     
