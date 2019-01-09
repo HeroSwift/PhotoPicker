@@ -85,11 +85,11 @@ open class PhotoPickerConfiguration {
     // 选择按钮高度
     public var selectButtonHeight: CGFloat = 44
     
-    // 选择按钮到顶部的距离
-    public var selectButtonMarginTop: CGFloat = 0
+    // 选择按钮的图片到顶部的距离
+    public var selectButtonImageMarginTop: CGFloat = 5
     
-    // 选择按钮到右边的距离
-    public var selectButtonMarginRight: CGFloat = 0
+    // 选择按钮的图片到右边的距离
+    public var selectButtonImageMarginRight: CGFloat = 5
     
     // 选择按钮的标题字体
     public var selectButtonTitleTextFont = UIFont.systemFont(ofSize: 14)
@@ -131,7 +131,7 @@ open class PhotoPickerConfiguration {
     public var rawButtonTitleTextColor = UIColor.white
     
     // 原图按钮的标题到图标的距离
-    public var rawButtonTitleMarginLeft: CGFloat = 3
+    public var rawButtonTitleMarginLeft: CGFloat = 4
     
     // 原图按钮未选中时的图片
     public var rawButtonImageUnchecked = UIImage(named: "photo_picker_raw_button_unchecked")
@@ -165,7 +165,7 @@ open class PhotoPickerConfiguration {
     public var submitButtonPaddingHorizontal: CGFloat = 15
     
     // 确定按钮到顶部的距离
-    public var submitButtonMarginTop: CGFloat = 8
+    public var submitButtonMarginTop: CGFloat = 7
     
     // 确定按钮到右边的距离
     public var submitButtonMarginRight: CGFloat = 14
