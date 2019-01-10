@@ -156,7 +156,7 @@ extension PhotoGrid: UICollectionViewDataSource {
         photo.index = index
         
         // 选中状态下可以反选
-        if photo.checkedIndex >= 0 {
+        if photo.order >= 0 {
             photo.selectable = true
         }
         else {
@@ -318,7 +318,7 @@ extension PhotoGrid {
     private func toggleChecked(photo: PhotoAsset) {
         
         // checked 获取反选值
-        let checked = photo.checkedIndex < 0
+        let checked = photo.order < 0
         let selectedCount = selectedPhotoList.count
         
         if checked {
@@ -329,7 +329,7 @@ extension PhotoGrid {
                 return
             }
             
-            photo.checkedIndex = selectedCount
+            photo.order = selectedCount
             selectedPhotoList.append(photo)
             
             // 到达最大值，就无法再选了
@@ -343,8 +343,8 @@ extension PhotoGrid {
         }
         else {
             
-            selectedPhotoList.remove(at: photo.checkedIndex)
-            photo.checkedIndex = -1
+            selectedPhotoList.remove(at: photo.order)
+            photo.order = -1
             
             var changes = [IndexPath]()
             
@@ -353,8 +353,8 @@ extension PhotoGrid {
             // 重排顺序
             for i in 0..<selectedPhotoList.count {
                 let selectedPhoto = selectedPhotoList[i]
-                if i != selectedPhoto.checkedIndex {
-                    selectedPhoto.checkedIndex = i
+                if i != selectedPhoto.order {
+                    selectedPhoto.order = i
                     changes.append(getIndexPath(index: selectedPhoto.index))
                 }
             }

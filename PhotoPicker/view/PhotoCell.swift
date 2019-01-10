@@ -67,7 +67,7 @@ class PhotoCell: UICollectionViewCell {
             }
             
             if configuration.selectable {
-                checked = photo.checkedIndex >= 0
+                checked = photo.order >= 0
                 selectable = photo.selectable
             }
         }
@@ -81,7 +81,7 @@ class PhotoCell: UICollectionViewCell {
             
             selectButton.checked = checked
             
-            selectButton.count = configuration.countable && photo.checkedIndex >= 0 ? photo.checkedIndex + 1 : -1
+            selectButton.count = configuration.countable && photo.order >= 0 ? photo.order + 1 : -1
             
         }
     }

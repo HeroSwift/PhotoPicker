@@ -13,7 +13,7 @@ public class PhotoAsset {
     public var index = -1
     
     // 选中的顺序，大于 0 表示已选中
-    public var checkedIndex = -1
+    public var order = -1
     
     // 是否可选
     public var selectable = true
