@@ -60,7 +60,7 @@ open class PhotoPickerConfiguration {
     public var photoGridBackgroundColor = UIColor.white
     
     // 一行的照片数量
-    public var numberOfPhotoPerLine: CGFloat = 3
+    public var photoGridSpanCount: CGFloat = 3
     
     // 网格的水平内间距
     public var photoGridPaddingHorizontal: CGFloat = 2

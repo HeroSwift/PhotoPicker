@@ -6,78 +6,8 @@ class AlbumCell: UITableViewCell {
 
     var configuration: PhotoPickerConfiguration!
 
-    var posterSize: CGSize!
-    
-    var album: AlbumAsset! {
-        didSet {
-            
-            guard album !== oldValue else {
-                return
-            }
-            
-            if let poster = album.poster {
-                
-                let asset = poster.asset
-                posterIdentifier = asset.localIdentifier
-                
-                if poster.thumbnail == nil {
-                    imageRequestID = PhotoPickerManager.shared.requestImage(
-                        asset: asset,
-                        size: posterSize,
-                        options: configuration.albumPosterRequestOptions
-                    ) { [weak self] image, info in
-                        
-                        guard let _self = self, _self.posterIdentifier == asset.localIdentifier else {
-                            return
-                        }
-                        
-                        // 此回调会连续触发，这里只缓存高清图
-                        if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 0 {
-                            _self.album.poster?.thumbnail = image
-                        }
-                        
-                        _self.imageRequestID = nil
-                        _self.poster = image
-                        
-                    }
-                }
-                else {
-                    posterView.image = poster.thumbnail
-                }
-            }
-            else {
-                posterView.image = configuration.albumEmptyPlaceholder
-            }
-            
-            titleView.text = album.title
-            countView.text = "\(album.count)"
-            
-        }
-    }
-    
-    var index = -1 {
-        didSet {
-            
-            guard index != oldValue else {
-                return
-            }
-            
-            if index == 0 {
-                if oldValue > 0 {
-                    separatorHeightLayoutConstraint.constant = 0
-                    setNeedsLayout()
-                }
-            }
-            else {
-                if oldValue <= 0 {
-                    separatorHeightLayoutConstraint.constant = configuration.albumSeparatorThickness
-                    setNeedsLayout()
-                }
-            }
+    private var index = -1
 
-        }
-    }
-    
     private var posterIdentifier: String!
     private var imageRequestID: PHImageRequestID?
     
@@ -227,6 +157,61 @@ class AlbumCell: UITableViewCell {
             PhotoPickerManager.shared.cancelImageRequest(requestID)
             imageRequestID = nil
         }
+    }
+    
+    func bind(index: Int, album: AlbumAsset, posterSize: CGSize) {
+        
+        if let poster = album.poster {
+            
+            let asset = poster.asset
+            posterIdentifier = asset.localIdentifier
+            
+            if poster.thumbnail == nil {
+                imageRequestID = PhotoPickerManager.shared.requestImage(
+                    asset: asset,
+                    size: posterSize,
+                    options: configuration.albumPosterRequestOptions
+                ) { [weak self] image, info in
+                    
+                    guard let _self = self, _self.posterIdentifier == asset.localIdentifier else {
+                        return
+                    }
+                    
+                    // 此回调会连续触发，这里只缓存高清图
+                    if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 0 {
+                        album.poster?.thumbnail = image
+                    }
+                    
+                    _self.imageRequestID = nil
+                    _self.poster = image
+                    
+                }
+            }
+            else {
+                posterView.image = poster.thumbnail
+            }
+        }
+        else {
+            posterView.image = configuration.albumEmptyPlaceholder
+        }
+        
+        titleView.text = album.title
+        countView.text = "\(album.count)"
+        
+        if index == 0 {
+            if self.index > 0 {
+                separatorHeightLayoutConstraint.constant = 0
+                setNeedsLayout()
+            }
+        }
+        else {
+            if self.index <= 0 {
+                separatorHeightLayoutConstraint.constant = configuration.albumSeparatorThickness
+                setNeedsLayout()
+            }
+        }
+        self.index = index
+        
     }
     
 }

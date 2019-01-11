@@ -75,16 +75,12 @@ extension AlbumList: UITableViewDataSource, UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let index = indexPath.row
-        let album = albumList[ index ]
-        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! AlbumCell
+        let index = indexPath.row
         
         cell.configuration = configuration
-        cell.posterSize = cellPosterPixelSize
-        cell.album = album
-        cell.index = index
+        cell.bind(index: index, album: albumList[ index ], posterSize: cellPosterPixelSize)
         
         return cell
         

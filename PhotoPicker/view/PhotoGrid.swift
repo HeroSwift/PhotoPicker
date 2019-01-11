@@ -301,14 +301,14 @@ extension PhotoGrid {
     
     private func getCellSize() -> CGSize {
         
-        let photoNumber = configuration.numberOfPhotoPerLine
+        let spanCount = configuration.photoGridSpanCount
         
         let paddingHorizontal = configuration.photoGridPaddingHorizontal * 2
         let insetHorizontal = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-        let gapHorizontal = configuration.photoGridColumnSpacing * (photoNumber - 1)
+        let gapHorizontal = configuration.photoGridColumnSpacing * (spanCount - 1)
         
         let spacing = paddingHorizontal + insetHorizontal + gapHorizontal
-        let width = ((collectionView.frame.width - spacing) / photoNumber).rounded(.down)
+        let width = ((collectionView.frame.width - spacing) / spanCount).rounded(.down)
         
         // 正方形就行
         return CGSize(width: width, height: width)
