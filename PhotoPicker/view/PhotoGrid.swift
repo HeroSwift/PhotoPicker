@@ -14,7 +14,7 @@ public class PhotoGrid: UIView {
             var list = [PhotoAsset]()
             
             fetchResult.enumerateObjects { asset, _, _ in
-                list.insert(PhotoAsset(asset: asset), at: 0)
+                list.insert(PhotoAsset.build(asset: asset), at: 0)
             }
             
             photoList = list

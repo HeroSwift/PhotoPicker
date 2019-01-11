@@ -170,7 +170,7 @@ class PhotoPickerManager: NSObject {
                 result.append(
                     AlbumAsset(
                         collection: album,
-                        poster: photoCount > 0 ? PhotoAsset(asset: photoList[photoCount - 1]) : nil,
+                        poster: photoCount > 0 ? PhotoAsset.build(asset: photoList[photoCount - 1]) : nil,
                         count: photoCount
                     )
                 )

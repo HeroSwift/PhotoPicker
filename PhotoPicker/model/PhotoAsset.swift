@@ -4,26 +4,9 @@ import Photos
 
 public class PhotoAsset {
     
-    public var asset: PHAsset
-    
-    // 请求过的缩略图，避免多次请求
-    public var thumbnail: UIImage?
-    
-    // 在网格中的顺序
-    public var index = -1
-    
-    // 选中的顺序，大于 0 表示已选中
-    public var order = -1
-    
-    // 是否可选
-    public var selectable = true
-    
-    // 先给个默认值
-    public var type = AssetType.image
-    
-    public init(asset: PHAsset) {
+    public static func build(asset: PHAsset) -> PhotoAsset {
         
-        self.asset = asset
+        var type = AssetType.image
         
         if asset.mediaType == .image {
             let filename = asset.value(forKey: "filename") as! String
@@ -47,6 +30,29 @@ public class PhotoAsset {
             type = .audio
         }
         
+        return PhotoAsset(asset: asset, type: type)
+        
+    }
+    
+    public var asset: PHAsset
+    
+    public var type: AssetType
+    
+    // 请求过的缩略图，避免多次请求
+    public var thumbnail: UIImage?
+    
+    // 在网格中的顺序
+    public var index = -1
+    
+    // 选中的顺序，大于 0 表示已选中
+    public var order = -1
+    
+    // 是否可选
+    public var selectable = true
+    
+    public init(asset: PHAsset, type: AssetType) {
+        self.asset = asset
+        self.type = type
     }
 
 }

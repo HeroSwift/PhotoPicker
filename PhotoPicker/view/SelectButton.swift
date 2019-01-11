@@ -21,14 +21,14 @@ class SelectButton: UIControl {
         }
     }
     
-    var count = 0 {
+    var order = 0 {
         didSet {
             
-            if count > 0 {
+            if order > 0 {
                 if oldValue <= 0 {
                     titleView.isHidden = false
                 }
-                titleView.text = "\(count)"
+                titleView.text = "\(order)"
                 titleView.sizeToFit()
             }
             else {
