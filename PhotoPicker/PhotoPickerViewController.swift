@@ -39,7 +39,7 @@ public class PhotoPickerViewController: UIViewController {
             
             photoGridView.fetchResult = PhotoPickerManager.shared.fetchPhotoList(
                 album: currentAlbum,
-                options: configuration.photoFetchOptions
+                configuration: configuration
             )
             
             topBar.titleView.title = currentAlbum.localizedTitle!
@@ -252,11 +252,7 @@ public class PhotoPickerViewController: UIViewController {
 
     private func updateAlbumList() {
         
-        albumListView.albumList = PhotoPickerManager.shared.fetchAlbumList(
-            photoFetchOptions: configuration.photoFetchOptions,
-            showEmptyAlbum: configuration.showEmptyAlbum,
-            showVideo: configuration.showVideo
-        )
+        albumListView.albumList = PhotoPickerManager.shared.fetchAlbumList(configuration: configuration)
         
     }
     

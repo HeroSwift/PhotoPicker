@@ -253,25 +253,6 @@ open class PhotoPickerConfiguration {
     // MARK: - 各种可选配置
     //
     
-    // 是否显示空相册
-    public var showEmptyAlbum = false
-    
-    // 是否显示视频
-    public var showVideo = false {
-        didSet {
-            
-            var mediaTypes = [Int]()
-            
-            mediaTypes.append(PHAssetMediaType.image.rawValue)
-            if showVideo {
-                mediaTypes.append(PHAssetMediaType.video.rawValue)
-            }
-            
-            photoFetchOptions.predicate = NSPredicate(format: "mediaType IN %@", mediaTypes)
-            
-        }
-    }
-    
     // 是否可以多选
     public var selectable = true
     
@@ -300,12 +281,9 @@ open class PhotoPickerConfiguration {
     }()
     
     // 获取照片列表的选项
-    public var photoFetchOptions: PHFetchOptions = {
-        let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        options.predicate = NSPredicate(format: "mediaType IN %@", [PHAssetMediaType.image.rawValue])
-        return options
-    }()
+    public var photoSortField = "creationDate"
+    public var photoSortAscending = false
+    public var photoMediaTypes = [ PHAssetMediaType.image.rawValue ]
     
     //
     // MARK: - 各种占位图
@@ -339,6 +317,10 @@ open class PhotoPickerConfiguration {
     
     public init() {
         
+    }
+    
+    open func filterAlbum(title: String, count: Int) -> Bool {
+        return true
     }
     
 }

@@ -124,12 +124,18 @@ class PhotoPickerManager: NSObject {
     }
     
     // 获取所有照片
-    func fetchPhotoList(album: PHAssetCollection, options: PHFetchOptions) -> PHFetchResult<PHAsset> {
+    func fetchPhotoList(album: PHAssetCollection, configuration: PhotoPickerConfiguration) -> PHFetchResult<PHAsset> {
+        
+        let options = PHFetchOptions()
+        options.sortDescriptors = [NSSortDescriptor(key: configuration.photoSortField, ascending: configuration.photoSortAscending)]
+        options.predicate = NSPredicate(format: "mediaType IN %@", configuration.photoMediaTypes)
+        
         return PHAsset.fetchAssets(in: album, options: options)
+        
     }
     
     // 获取相册列表
-    func fetchAlbumList(photoFetchOptions: PHFetchOptions, showEmptyAlbum: Bool, showVideo: Bool) -> [AlbumAsset] {
+    func fetchAlbumList(configuration: PhotoPickerConfiguration) -> [AlbumAsset] {
         
         var albumList = [PHAssetCollection]()
         
@@ -150,11 +156,9 @@ class PhotoPickerManager: NSObject {
         appendAlbum(panoramas.firstObject)
         appendAlbum(timelapses.firstObject)
         
-        if showVideo {
-            appendAlbum(videos.firstObject)
-        }
-        
-        userAlbums.enumerateObjects { album, index, stop in
+        appendAlbum(videos.firstObject)
+
+        userAlbums.enumerateObjects { album, _, _ in
             appendAlbum(album as? PHAssetCollection)
         }
         
@@ -162,15 +166,18 @@ class PhotoPickerManager: NSObject {
         
         albumList.forEach { album in
             
-            let photoList = fetchPhotoList(album: album, options: photoFetchOptions)
+            guard let title = album.localizedTitle else {
+                return
+            }
+            
+            let photoList = fetchPhotoList(album: album, configuration: configuration)
             let photoCount = photoList.count
             
-            if showEmptyAlbum || photoCount > 0 {
-                // 缩略图显示最后一个
+            if configuration.filterAlbum(title: title, count: photoCount) {
                 result.append(
                     AlbumAsset(
                         collection: album,
-                        poster: photoCount > 0 ? PhotoAsset.build(asset: photoList[photoCount - 1]) : nil,
+                        poster: photoCount > 0 ? PhotoAsset.build(asset: photoList[0]) : nil,
                         count: photoCount
                     )
                 )
