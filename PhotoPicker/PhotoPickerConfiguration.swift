@@ -19,11 +19,11 @@ open class PhotoPickerConfiguration {
     // 相册单元格的垂直内间距
     public var albumCellPaddingVertical: CGFloat = 6
     
-    // 相册缩略图的宽度
-    public var albumThumbnailWidth: CGFloat = 50
+    // 相册封面图的宽度
+    public var albumPosterWidth: CGFloat = 50
     
-    // 相册缩略图的高度
-    public var albumThumbnailHeight: CGFloat = 50
+    // 相册封面图的高度
+    public var albumPosterHeight: CGFloat = 50
     
     // 相册标题字体
     public var albumTitleTextFont = UIFont.systemFont(ofSize: 16)
@@ -285,8 +285,8 @@ open class PhotoPickerConfiguration {
     // MARK: - 各种选项
     //
     
-    // 相册缩略图的加载选项
-    public lazy var albumThumbnailRequestOptions: PHImageRequestOptions = {
+    // 相册封面图的加载选项
+    public lazy var albumPosterRequestOptions: PHImageRequestOptions = {
         let options = PHImageRequestOptions()
         options.resizeMode = .exact
         return options
@@ -311,8 +311,8 @@ open class PhotoPickerConfiguration {
     // MARK: - 各种占位图
     //
     
-    // 相册缩略图加载错误时的默认图
-    public var albumThumbnailErrorPlaceholder = UIImage(named: "image")
+    // 相册封面图加载错误时的默认图
+    public var albumPosterErrorPlaceholder = UIImage(named: "image")
     
     // 相册为空时的缩略图
     public var albumEmptyPlaceholder = UIImage(named: "image")

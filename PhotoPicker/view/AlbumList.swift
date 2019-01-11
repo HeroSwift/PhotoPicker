@@ -15,8 +15,8 @@ public class AlbumList: UIView {
     
     private let cellIdentifier = "cell"
     
-    private lazy var cellThumbnailPixelSize: CGSize = {
-        let size = CGSize(width: configuration.albumThumbnailWidth, height: configuration.albumThumbnailHeight)
+    private lazy var cellPosterPixelSize: CGSize = {
+        let size = CGSize(width: configuration.albumPosterWidth, height: configuration.albumPosterHeight)
         return PhotoPickerManager.shared.getPixelSize(size: size)
     }()
     
@@ -82,7 +82,7 @@ extension AlbumList: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! AlbumCell
         
         cell.configuration = configuration
-        cell.thumbnailSize = cellThumbnailPixelSize
+        cell.posterSize = cellPosterPixelSize
         cell.album = album
         cell.index = index
         

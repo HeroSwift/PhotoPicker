@@ -6,10 +6,14 @@ class AlbumCell: UITableViewCell {
 
     var configuration: PhotoPickerConfiguration!
 
-    var thumbnailSize: CGSize!
+    var posterSize: CGSize!
     
     var album: AlbumAsset! {
         didSet {
+            
+            guard album !== oldValue else {
+                return
+            }
             
             if let poster = album.poster {
                 
@@ -19,8 +23,8 @@ class AlbumCell: UITableViewCell {
                 if poster.thumbnail == nil {
                     imageRequestID = PhotoPickerManager.shared.requestImage(
                         asset: asset,
-                        size: thumbnailSize,
-                        options: configuration.albumThumbnailRequestOptions
+                        size: posterSize,
+                        options: configuration.albumPosterRequestOptions
                     ) { [weak self] image, info in
                         
                         guard let _self = self, _self.posterIdentifier == asset.localIdentifier else {
@@ -33,16 +37,16 @@ class AlbumCell: UITableViewCell {
                         }
                         
                         _self.imageRequestID = nil
-                        _self.thumbnail = image
+                        _self.poster = image
                         
                     }
                 }
                 else {
-                    thumbnailView.image = poster.thumbnail
+                    posterView.image = poster.thumbnail
                 }
             }
             else {
-                thumbnailView.image = configuration.albumEmptyPlaceholder
+                posterView.image = configuration.albumEmptyPlaceholder
             }
             
             titleView.text = album.title
@@ -53,6 +57,11 @@ class AlbumCell: UITableViewCell {
     
     var index = -1 {
         didSet {
+            
+            guard index != oldValue else {
+                return
+            }
+            
             if index == 0 {
                 if oldValue > 0 {
                     separatorHeightLayoutConstraint.constant = 0
@@ -65,6 +74,7 @@ class AlbumCell: UITableViewCell {
                     setNeedsLayout()
                 }
             }
+
         }
     }
     
@@ -99,18 +109,18 @@ class AlbumCell: UITableViewCell {
         
     }()
     
-    private var thumbnail: UIImage? {
+    private var poster: UIImage? {
         didSet {
-            if let thumbnail = thumbnail {
-                thumbnailView.image = thumbnail
+            if let poster = poster {
+                posterView.image = poster
             }
             else {
-                thumbnailView.image = configuration.albumThumbnailErrorPlaceholder
+                posterView.image = configuration.albumPosterErrorPlaceholder
             }
         }
     }
 
-    private lazy var thumbnailView: UIImageView = {
+    private lazy var posterView: UIImageView = {
         
         let view = UIImageView()
         
@@ -129,8 +139,8 @@ class AlbumCell: UITableViewCell {
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: separatorView, attribute: .bottom, multiplier: 1, constant: configuration.albumCellPaddingVertical),
             bottomLayoutConstraint,
             NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumCellPaddingHorizontal),
-            NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: configuration.albumThumbnailWidth),
-            NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumThumbnailHeight),
+            NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: configuration.albumPosterWidth),
+            NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumPosterHeight),
         ])
         
         return view
@@ -153,8 +163,8 @@ class AlbumCell: UITableViewCell {
         contentView.addSubview(view)
         
         contentView.addConstraints([
-            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: thumbnailView, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: thumbnailView, attribute: .right, multiplier: 1, constant: configuration.albumTitleMarginLeft),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: posterView, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: posterView, attribute: .right, multiplier: 1, constant: configuration.albumTitleMarginLeft),
         ])
         
         return view
