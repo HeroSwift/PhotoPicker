@@ -164,8 +164,7 @@ extension PhotoGrid: UICollectionViewDataSource {
         }
         
         cell.configuration = configuration
-        cell.size = cellPixelSize
-        cell.photo = photo
+        cell.bind(photo: photo, size: cellPixelSize)
         
         cell.onToggleChecked = {
             self.toggleChecked(photo: photo)

@@ -107,7 +107,7 @@ open class PhotoPickerConfiguration {
     public var selectButtonImageCheckedCountable = UIImage(named: "photo_picker_select_button_checked_countable")
     
     // 当选择的照片数量到达上线后的蒙层颜色
-    public var photoThumbnailOverlayColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
+    public var photoOverlayColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
     
     
     //

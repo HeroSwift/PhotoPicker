@@ -6,6 +6,10 @@ class SelectButton: UIControl {
     var checked = false {
         didSet {
             
+            guard checked != oldValue else {
+                return
+            }
+            
             if checked {
                 if configuration.countable {
                     image = configuration.selectButtonImageCheckedCountable
@@ -23,6 +27,10 @@ class SelectButton: UIControl {
     
     var order = 0 {
         didSet {
+            
+            guard order != oldValue else {
+                return
+            }
             
             if order > 0 {
                 if oldValue <= 0 {
@@ -52,6 +60,7 @@ class SelectButton: UIControl {
         
         let view = UIImageView()
         
+        view.image = configuration.selectButtonImageUnchecked
         view.translatesAutoresizingMaskIntoConstraints = false
         
         insertSubview(view, at: 0)

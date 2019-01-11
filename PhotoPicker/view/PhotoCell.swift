@@ -15,69 +15,15 @@ class PhotoCell: UICollectionViewCell {
         }
     }
     
-    var size: CGSize!
-    
-    var photo: PhotoAsset! {
-        didSet {
-            
-            let asset = photo.asset
-            
-            assetIdentifier = asset.localIdentifier
-            
-            if photo.thumbnail == nil {
-                imageRequestID = PhotoPickerManager.shared.requestImage(
-                    asset: asset,
-                    size: size,
-                    options: configuration.photoThumbnailRequestOptions
-                ) { [weak self] image, info in
-                    
-                    guard let _self = self, _self.assetIdentifier == asset.localIdentifier else {
-                        return
-                    }
-                    
-                    // 此回调会连续触发，这里只缓存高清图
-                    if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 0 {
-                        _self.photo.thumbnail = image
-                    }
-                    
-                    _self.imageRequestID = nil
-                    _self.thumbnail = image
-                    
-                }
-            }
-            else {
-                thumbnailView.image = photo.thumbnail
-            }
-            
-            var badgeImage: UIImage? = nil
-            
-            if photo.type == .gif {
-                badgeImage = configuration.photoBadgeGifIcon
-            }
-            else if photo.type == .live {
-                badgeImage = configuration.photoBadgeLiveIcon
-            }
-            else if photo.type == .webp {
-                badgeImage = configuration.photoBadgeWebpIcon
-            }
-            
-            if let image = badgeImage {
-                badgeView.image = image
-                badgeView.isHidden = false
-            }
-            
-            if configuration.selectable {
-                checked = photo.order >= 0
-                selectable = photo.selectable
-            }
-        }
-    }
-    
+    private var photo: PhotoAsset!
     private var assetIdentifier: String!
     private var imageRequestID: PHImageRequestID?
     
     private var checked = false {
         didSet {
+            
+            // 这里有 checked 和 order 两个操作
+            // 因此不能加 guard checked != oldValue else { return }
             
             selectButton.checked = checked
             
@@ -88,6 +34,10 @@ class PhotoCell: UICollectionViewCell {
     
     private var selectable = true {
         didSet {
+            
+            guard selectable != oldValue else {
+                return
+            }
             
             overlayView.isHidden = selectable
             
@@ -180,7 +130,7 @@ class PhotoCell: UICollectionViewCell {
         let view = UIView()
 
         view.isHidden = true
-        view.backgroundColor = configuration.photoThumbnailOverlayColor
+        view.backgroundColor = configuration.photoOverlayColor
         view.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(view)
@@ -216,6 +166,63 @@ class PhotoCell: UICollectionViewCell {
     
     @objc private func onToggleCheckedClick() {
         onToggleChecked?()
+    }
+    
+    func bind(photo: PhotoAsset, size: CGSize) {
+        
+        self.photo = photo
+        
+        let asset = photo.asset
+        
+        assetIdentifier = asset.localIdentifier
+        
+        if photo.thumbnail == nil {
+            imageRequestID = PhotoPickerManager.shared.requestImage(
+                asset: asset,
+                size: size,
+                options: configuration.photoThumbnailRequestOptions
+            ) { [weak self] image, info in
+                
+                guard let _self = self, _self.assetIdentifier == asset.localIdentifier else {
+                    return
+                }
+                
+                // 此回调会连续触发，这里只缓存高清图
+                if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 0 {
+                    photo.thumbnail = image
+                }
+                
+                _self.imageRequestID = nil
+                _self.thumbnail = image
+                
+            }
+        }
+        else {
+            thumbnailView.image = photo.thumbnail
+        }
+        
+        var badgeImage: UIImage? = nil
+        
+        if photo.type == .gif {
+            badgeImage = configuration.photoBadgeGifIcon
+        }
+        else if photo.type == .live {
+            badgeImage = configuration.photoBadgeLiveIcon
+        }
+        else if photo.type == .webp {
+            badgeImage = configuration.photoBadgeWebpIcon
+        }
+        
+        if let image = badgeImage {
+            badgeView.image = image
+            badgeView.isHidden = false
+        }
+        
+        if configuration.selectable {
+            checked = photo.order >= 0
+            selectable = photo.selectable
+        }
+        
     }
     
 }
