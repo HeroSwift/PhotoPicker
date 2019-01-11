@@ -37,7 +37,7 @@ public class AlbumList: UIView {
         view.showsVerticalScrollIndicator = false
         view.translatesAutoresizingMaskIntoConstraints = false
         
-        view.backgroundColor = configuration.albumCellBackgroundColorNormal
+        view.backgroundColor = configuration.albumBackgroundColorNormal
         view.separatorStyle = .none
         
         view.register(AlbumCell.self, forCellReuseIdentifier: cellIdentifier)

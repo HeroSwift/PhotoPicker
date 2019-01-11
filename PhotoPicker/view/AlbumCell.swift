@@ -100,8 +100,8 @@ class AlbumCell: UITableViewCell {
         
         contentView.addConstraints([
             NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumCellPaddingHorizontal),
-            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.albumCellPaddingHorizontal),
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumPaddingHorizontal),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.albumPaddingHorizontal),
             separatorHeightLayoutConstraint
         ])
         
@@ -131,14 +131,14 @@ class AlbumCell: UITableViewCell {
         
         contentView.addSubview(view)
         
-        let bottomLayoutConstraint = NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -configuration.albumCellPaddingVertical)
+        let bottomLayoutConstraint = NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -configuration.albumPaddingVertical)
         
         bottomLayoutConstraint.priority = .defaultLow
         
         contentView.addConstraints([
-            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: separatorView, attribute: .bottom, multiplier: 1, constant: configuration.albumCellPaddingVertical),
+            NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: separatorView, attribute: .bottom, multiplier: 1, constant: configuration.albumPaddingVertical),
             bottomLayoutConstraint,
-            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumCellPaddingHorizontal),
+            NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: configuration.albumPaddingHorizontal),
             NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: configuration.albumPosterWidth),
             NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: configuration.albumPosterHeight),
         ])
@@ -163,7 +163,7 @@ class AlbumCell: UITableViewCell {
         contentView.addSubview(view)
         
         contentView.addConstraints([
-            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: posterView, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: posterView, attribute: .right, multiplier: 1, constant: configuration.albumTitleMarginLeft),
         ])
         
@@ -186,7 +186,7 @@ class AlbumCell: UITableViewCell {
         contentView.addSubview(view)
         
         contentView.addConstraints([
-            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: titleView, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: view, attribute: .left, relatedBy: .equal, toItem: titleView, attribute: .right, multiplier: 1, constant: configuration.albumCountMarginLeft),
         ])
         
@@ -204,7 +204,7 @@ class AlbumCell: UITableViewCell {
         
         contentView.addConstraints([
             NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.albumCellPaddingHorizontal),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.albumPaddingHorizontal),
         ])
         
         return view
@@ -214,7 +214,7 @@ class AlbumCell: UITableViewCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         if highlighted {
-            backgroundColor = configuration.albumCellBackgroundColorPressed
+            backgroundColor = configuration.albumBackgroundColorPressed
         }
         else {
             backgroundColor = .clear

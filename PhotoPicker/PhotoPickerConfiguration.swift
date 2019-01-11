@@ -8,16 +8,16 @@ open class PhotoPickerConfiguration {
     //
     
     // 相册单元格默认时的背景色
-    public var albumCellBackgroundColorNormal = UIColor.white
+    public var albumBackgroundColorNormal = UIColor.white
     
     // 相册单元格按下时的背景色
-    public var albumCellBackgroundColorPressed = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.1)
+    public var albumBackgroundColorPressed = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.1)
     
     // 相册单元格的水平内间距
-    public var albumCellPaddingHorizontal: CGFloat = 12
+    public var albumPaddingHorizontal: CGFloat = 12
     
     // 相册单元格的垂直内间距
-    public var albumCellPaddingVertical: CGFloat = 6
+    public var albumPaddingVertical: CGFloat = 6
     
     // 相册封面图的宽度
     public var albumPosterWidth: CGFloat = 50
