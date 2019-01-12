@@ -117,6 +117,9 @@ open class PhotoPickerConfiguration {
     // 顶部栏高度
     public var topBarHeight: CGFloat = 44
     
+    // 顶部栏水平内间距
+    public var topBarPaddingHorizontal: CGFloat = 14
+    
     // 顶部栏背景色
     public var topBarBackgroundColor = UIColor.white
     
@@ -150,17 +153,11 @@ open class PhotoPickerConfiguration {
     // 取消按钮的标题颜色
     public var cancelButtonTitleTextColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
     
-    // 取消按钮到左边的距离
-    public var cancelButtonMarginLeft: CGFloat = 14
+    // 取消按钮宽度
+    public var cancelButtonWidth: CGFloat = 60
     
-    // 取消按钮到底部的距离
-    public var cancelButtonMarginBottom: CGFloat = 3
-    
-    // 取消按钮水平内间距，用来扩大点击区域
-    public var cancelButtonPaddingHorizontal: CGFloat = 8
-    
-    // 取消按钮垂直内间距，用来扩大点击区域
-    public var cancelButtonPaddingVertical: CGFloat = 8
+    // 取消按钮高度
+    public var cancelButtonHeight: CGFloat = 34
     
     // 取消按钮的标题
     public var cancelButtonTitle = "取消"

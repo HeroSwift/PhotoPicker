@@ -83,7 +83,7 @@ class AlbumCell: UITableViewCell {
         
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
-        view.preferredMaxLayoutWidth = UIScreen.main.bounds.width / 2
+        view.preferredMaxLayoutWidth = 200
         view.translatesAutoresizingMaskIntoConstraints = false
         
         view.font = configuration.albumTitleTextFont
