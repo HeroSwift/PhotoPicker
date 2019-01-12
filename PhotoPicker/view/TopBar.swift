@@ -5,7 +5,7 @@ public class TopBar: UIView {
     
     private var configuration: PhotoPickerConfiguration!
     
-    lazy var titleView: TitleButton = {
+    lazy var titleButton: TitleButton = {
         
         let view = TitleButton(configuration: configuration)
         

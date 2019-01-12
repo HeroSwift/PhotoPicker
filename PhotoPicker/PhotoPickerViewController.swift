@@ -30,20 +30,31 @@ public class PhotoPickerViewController: UIViewController {
     }
     
     // 当前选中的相册
-    private var currentAlbum: PHAssetCollection! {
+    private var currentAlbum: PHAssetCollection? {
         didSet {
             
             guard currentAlbum !== oldValue else {
                 return
             }
             
-            photoGridView.fetchResult = PhotoPickerManager.shared.fetchPhotoList(
-                album: currentAlbum,
-                configuration: configuration
-            )
+            let title: String
+            let fetchResult: PHFetchResult<PHAsset>
             
-            topBar.titleView.title = currentAlbum.localizedTitle!
+            if let album = currentAlbum {
+                title = album.localizedTitle!
+                fetchResult = PhotoPickerManager.shared.fetchPhotoList(
+                    album: album,
+                    configuration: configuration
+                )
+            }
+            else {
+                title = ""
+                fetchResult = PHFetchResult<PHAsset>()
+            }
             
+            topBar.titleButton.title = title
+            photoGridView.fetchResult = fetchResult
+
         }
     }
     
@@ -128,7 +139,7 @@ public class PhotoPickerViewController: UIViewController {
         
         topBar.cancelButton.addTarget(self, action: #selector(onCancelClick), for: .touchUpInside)
         
-        topBar.titleView.addTarget(self, action: #selector(onTitleClick), for: .touchUpInside)
+        topBar.titleButton.addTarget(self, action: #selector(onTitleClick), for: .touchUpInside)
         
         view.addSubview(topBar)
         
@@ -199,8 +210,7 @@ public class PhotoPickerViewController: UIViewController {
             guard manager.setup() else {
                 return
             }
-            self.updateAlbumList()
-            self.currentAlbum = self.albumListView.albumList[0].collection
+            self.setup()
         }
         
         manager.onPermissionsGranted = {
@@ -249,6 +259,15 @@ public class PhotoPickerViewController: UIViewController {
     public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    private func setup() {
+
+        updateAlbumList()
+        
+        let albumList = albumListView.albumList
+        currentAlbum = albumList.count > 0 ? albumList[0].collection : nil
+        
+    }
 
     private func updateAlbumList() {
         
@@ -258,7 +277,7 @@ public class PhotoPickerViewController: UIViewController {
     
     private func toggleAlbumList() {
         
-        let checked = !topBar.titleView.checked
+        let checked = !topBar.titleButton.checked
         
         if checked {
             albumListView.isHidden = false
@@ -271,7 +290,7 @@ public class PhotoPickerViewController: UIViewController {
             delay: 0,
             options: .curveEaseOut,
             animations: {
-                self.topBar.titleView.checked = checked
+                self.topBar.titleButton.checked = checked
                 self.view.layoutIfNeeded()
             },
             completion: { success in

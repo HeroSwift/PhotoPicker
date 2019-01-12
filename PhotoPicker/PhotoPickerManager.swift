@@ -170,16 +170,11 @@ class PhotoPickerManager: NSObject {
                 return
             }
             
-            let photoList = fetchPhotoList(album: album, configuration: configuration)
-            let photoCount = photoList.count
-            
-            if configuration.filterAlbum(title: title, count: photoCount) {
+            let fetchResult = fetchPhotoList(album: album, configuration: configuration)
+
+            if configuration.filterAlbum(title: title, count: fetchResult.count) {
                 result.append(
-                    AlbumAsset(
-                        collection: album,
-                        poster: photoCount > 0 ? PhotoAsset.build(asset: photoList[0]) : nil,
-                        count: photoCount
-                    )
+                    AlbumAsset.build(collection: album, fetchResult: fetchResult)
                 )
             }
             
