@@ -134,6 +134,9 @@ open class PhotoPickerConfiguration {
     // 底部栏高度
     public var bottomBarHeight: CGFloat = 44
     
+    // 底部栏水平内间距
+    public var bottomBarPaddingHorizontal: CGFloat = 14
+    
     // 底部栏背景色
     public var bottomBarBackgroundColor = UIColor(red: 0.15, green: 0.17, blue: 0.20, alpha: 1)
     
@@ -233,12 +236,6 @@ open class PhotoPickerConfiguration {
     
     // 确定按钮的圆角
     public var submitButtonBorderRadius: CGFloat = 4
-    
-    // 确定按钮到顶部的距离
-    public var submitButtonMarginTop: CGFloat = 7
-    
-    // 确定按钮到右边的距离
-    public var submitButtonMarginRight: CGFloat = 14
     
     // 确定按钮宽度
     public var submitButtonWidth: CGFloat = 58
