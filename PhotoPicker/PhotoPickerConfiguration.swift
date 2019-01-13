@@ -318,4 +318,8 @@ open class PhotoPickerConfiguration {
         return true
     }
     
+    open func compressPhoto(photo: PhotoAsset) -> PhotoAsset {
+        return photo
+    }
+    
 }

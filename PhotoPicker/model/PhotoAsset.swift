@@ -30,11 +30,15 @@ public class PhotoAsset {
             type = .audio
         }
         
-        return PhotoAsset(asset: asset, type: type)
+        return PhotoAsset(asset: asset, width: asset.pixelWidth, height: asset.pixelHeight, type: type)
         
     }
     
     public var asset: PHAsset
+    
+    public var width: Int
+    
+    public var height: Int
     
     public var type: AssetType
     
@@ -50,8 +54,10 @@ public class PhotoAsset {
     // 是否可选
     public var selectable = true
     
-    public init(asset: PHAsset, type: AssetType) {
+    public init(asset: PHAsset, width: Int, height: Int, type: AssetType) {
         self.asset = asset
+        self.width = width
+        self.height = height
         self.type = type
     }
 

@@ -111,26 +111,7 @@ public class PhotoGrid: UIView {
         }
         collectionView.scrollToItem(at: IndexPath(item: photoList.count - 1, section: 0), at: .bottom, animated: animated)
     }
-    
-    public func getSelectedPhotoList() -> [PhotoAsset] {
-        
-        var result = [PhotoAsset]()
-        
-        selectedPhotoList.forEach { photo in
-            result.append(photo)
-        }
-        
-        // 不计数就用照片原来的顺序
-        if !configuration.countable {
-            result.sort { a, b in
-                return a.index > b.index
-            }
-        }
-        
-        return result
-        
-    }
-    
+
     public override func layoutSubviews() {
         super.layoutSubviews()
         cellSize = getCellSize()

@@ -174,7 +174,7 @@ public class PhotoPickerViewController: UIViewController {
         bottomBar.selectedCount = 0
         
         bottomBar.submitButton.onClick = {
-            print(self.photoGridView.getSelectedPhotoList())
+            self.onSubmitClick()
         }
         
         bottomBar.translatesAutoresizingMaskIntoConstraints = false
@@ -312,10 +312,34 @@ public class PhotoPickerViewController: UIViewController {
         
     }
     
+    private func onSubmitClick() {
+        
+        var result = [PhotoAsset]()
+        
+        photoGridView.selectedPhotoList.forEach { photo in
+            result.append(photo)
+        }
+        
+        // 不计数就用照片原来的顺序
+        if !configuration.countable {
+            result.sort { a, b in
+                return a.index > b.index
+            }
+        }
+        
+        if !bottomBar.isRawChecked {
+            result = result.map { configuration.compressPhoto(photo: $0) }
+        }
+        
+        dismiss(animated: true, completion: nil)
+        
+        
+    }
+    
     @objc private func onCancelClick() {
         dismiss(animated: true, completion: nil)
     }
-    
+
     @objc private func onTitleClick() {
         toggleAlbumList()
     }

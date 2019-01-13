@@ -263,4 +263,13 @@ extension PhotoPickerManager {
         
     }
     
+    private func getImageSize(asset: PHAsset) {
+        cacheManager.requestImageData(for: asset, options: nil) { data, uri, orientation, info in
+            guard let data = data else {
+                return
+            }
+            print("\(uri) \(data.count)")
+        }
+    }
+    
 }
