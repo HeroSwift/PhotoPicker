@@ -346,18 +346,16 @@ public class PhotoPickerViewController: UIViewController {
                     )
                 }
                 if count == selectedList.count {
-                    self.delegate.photoPickerDidPick(self, assetList: result)
+                    self.delegate.photoPickerDidSubmit(self, assetList: result)
                 }
             }
         
         }
         
-        dismiss(animated: true, completion: nil)
-        
     }
     
     @objc private func onCancelClick() {
-        dismiss(animated: true, completion: nil)
+        delegate.photoPickerDidCancel(self)
     }
 
     @objc private func onTitleClick() {

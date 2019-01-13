@@ -3,8 +3,11 @@ import UIKit
 
 public protocol PhotoPickerDelegate {
     
+    // 点击取消按钮
+    func photoPickerDidCancel(_ photoPicker: PhotoPickerViewController)
+    
     // 点击确定按钮
-    func photoPickerDidPick(_ photoPicker: PhotoPickerViewController, assetList: [PickedAsset])
+    func photoPickerDidSubmit(_ photoPicker: PhotoPickerViewController, assetList: [PickedAsset])
     
     // 获取相册数据时发现没权限
     func photoPickerWillFetchWithoutPermissions(_ photoPicker: PhotoPickerViewController)
@@ -19,7 +22,9 @@ public protocol PhotoPickerDelegate {
 
 public extension PhotoPickerDelegate {
     
-    func photoPickerDidPick(_ photoPicker: PhotoPickerViewController, assetList: [PickedAsset]) { }
+    func photoPickerDidCancel(_ photoPicker: PhotoPickerViewController) { }
+    
+    func photoPickerDidSubmit(_ photoPicker: PhotoPickerViewController, assetList: [PickedAsset]) { }
     
     func photoPickerWillFetchWithoutPermissions(_ photoPicker: PhotoPickerViewController) { }
     
