@@ -335,15 +335,26 @@ public class PhotoPickerViewController: UIViewController {
         var count = 0
         
         let isRawChecked = bottomBar.isRawChecked
+        let urlPrefix = "file:/"
         
         selectedList.forEach { photo in
             
             PhotoPickerManager.shared.getAssetURL(asset: photo.asset) { url in
                 count += 1
                 if let url = url {
-                    result.append(
-                        PickedAsset(path: url.absoluteString, width: photo.width, height: photo.height, size: 0, isVideo: photo.type == .video, isRaw: isRawChecked)
-                    )
+                    
+                    var path = url.absoluteString
+                    if path.hasPrefix(urlPrefix) {
+                        path = NSString(string: path).substring(from: urlPrefix.count)
+                    }
+
+                    let info = try! FileManager.default.attributesOfItem(atPath: path)
+                    if let size = info[FileAttributeKey.size] as? Int {
+                        result.append(
+                            PickedAsset(path: path, width: photo.width, height: photo.height, size: size, isVideo: photo.type == .video, isRaw: isRawChecked)
+                        )
+                    }
+                    
                 }
                 if count == selectedList.count {
                     self.delegate.photoPickerDidSubmit(self, assetList: result)

@@ -237,36 +237,6 @@ class PhotoPickerManager: NSObject {
         }
     }
     
-    // 把图片保存到磁盘
-    func saveToDisk(filename: String, image: UIImage, compressionQuality: CGFloat = 0.7) -> String? {
-        
-        if let imageData = image.jpegData(compressionQuality: compressionQuality) as NSData? {
-            let filePath = getFilePath(dirname: NSTemporaryDirectory(), filename: filename)
-            if imageData.write(toFile: filePath, atomically: true) {
-                return filePath
-            }
-        }
-        
-        return nil
-        
-    }
-    
-    // 生成一个文件路径
-    func getFilePath(dirname: String, filename: String) -> String {
-        
-        let fileManager = FileManager.default
-        if !fileManager.fileExists(atPath: dirname) {
-            try? fileManager.createDirectory(atPath: dirname, withIntermediateDirectories: true, attributes: nil)
-        }
-
-        if dirname.hasSuffix("/") {
-            return dirname + filename
-        }
-        
-        return "\(dirname)/\(filename)"
-        
-    }
-    
 }
 
 extension PhotoPickerManager: PHPhotoLibraryChangeObserver {
