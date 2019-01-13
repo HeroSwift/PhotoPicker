@@ -185,7 +185,8 @@ open class PhotoPickerConfiguration {
     // 箭头图标
     public var titleButtonArrow = UIImage(named: "photo_picker_arrow")
     
-    
+    // 箭头动画时长
+    public var titleButtonArrowAnimationDuration: TimeInterval = 0.2
     
     //
     // MARK: - 原图按钮

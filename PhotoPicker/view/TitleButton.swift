@@ -11,29 +11,7 @@ class TitleButton: UIControl {
         }
     }
     
-    var checked = false {
-        didSet {
-            
-            guard checked != oldValue else {
-                return
-            }
-            
-            // - 0.01 可以让动画更舒服，不信可去掉试试
-            let pi = CGFloat.pi - 0.01
-            
-            if checked {
-                arrowView.transform = arrowView.transform.rotated(by: -pi)
-            }
-            else {
-                arrowView.transform = CGAffineTransform.identity
-            }
-            
-        }
-    }
-    
-    private var configuration: PhotoPickerConfiguration!
-    
-    private lazy var titleView: UILabel = {
+    lazy var titleView: UILabel = {
         
         let view = UILabel()
         
@@ -58,7 +36,7 @@ class TitleButton: UIControl {
         
     }()
     
-    private lazy var arrowView: UIImageView = {
+    lazy var arrowView: UIImageView = {
        
         let view = UIImageView()
         
@@ -74,6 +52,8 @@ class TitleButton: UIControl {
         return view
         
     }()
+    
+    private var configuration: PhotoPickerConfiguration!
     
     convenience init(configuration: PhotoPickerConfiguration) {
         

@@ -12,6 +12,8 @@ public class PhotoPickerViewController: UIViewController {
     private var albumListHeightLayoutConstraint: NSLayoutConstraint!
     private var albumListBottomLayoutConstraint: NSLayoutConstraint!
     
+    private var albumListVisible = false
+    
     // 默认给 1，避免初始化 albumListView 时读取到的高度为 0，无法判断是显示还是隐藏状态
     private var albumListHeight: CGFloat = 1 {
         didSet {
@@ -57,7 +59,7 @@ public class PhotoPickerViewController: UIViewController {
 
         }
     }
-    
+
     private lazy var albumListView: AlbumList = {
         
         let albumListView = AlbumList(configuration: configuration)
@@ -277,28 +279,36 @@ public class PhotoPickerViewController: UIViewController {
     
     private func toggleAlbumList() {
         
-        let checked = !topBar.titleButton.checked
+        let visible = !albumListVisible
         
-        if checked {
+        if visible {
             albumListView.isHidden = false
         }
         
-        albumListBottomLayoutConstraint.constant = checked ? albumListHeight : 0
+        // 位移动画
+        albumListBottomLayoutConstraint.constant = visible ? albumListHeight : 0
+        
+        // 旋转动画
+        // - 0.01 可以让动画更舒服，不信可去掉试试
+        let pi = CGFloat.pi - 0.01
+        let transform = visible ? topBar.titleButton.arrowView.transform.rotated(by: -pi) : CGAffineTransform.identity
 
         UIView.animate(
-            withDuration: 0.2,
+            withDuration: configuration.titleButtonArrowAnimationDuration,
             delay: 0,
             options: .curveEaseOut,
             animations: {
-                self.topBar.titleButton.checked = checked
+                self.topBar.titleButton.arrowView.transform = transform
                 self.view.layoutIfNeeded()
             },
             completion: { success in
-                if !checked {
+                if !visible {
                     self.albumListView.isHidden = true
                 }
             }
         )
+        
+        albumListVisible = visible
         
     }
     
