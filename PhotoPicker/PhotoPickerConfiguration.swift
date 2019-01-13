@@ -118,7 +118,7 @@ open class PhotoPickerConfiguration {
     public var topBarHeight: CGFloat = 44
     
     // 顶部栏水平内间距
-    public var topBarPaddingHorizontal: CGFloat = 14
+    public var topBarPaddingHorizontal: CGFloat = 0
     
     // 顶部栏背景色
     public var topBarBackgroundColor = UIColor.white
@@ -316,10 +316,6 @@ open class PhotoPickerConfiguration {
     
     open func filterAlbum(title: String, count: Int) -> Bool {
         return true
-    }
-    
-    open func compressPhoto(photo: PhotoAsset) -> PhotoAsset {
-        return photo
     }
     
 }

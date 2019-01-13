@@ -4,6 +4,7 @@ import Photos
 
 public class PhotoPickerViewController: UIViewController {
     
+    public var delegate: PhotoPickerDelegate!
     public var configuration: PhotoPickerConfiguration!
     
     private var topBarHeightLayoutConstraint: NSLayoutConstraint!
@@ -209,22 +210,22 @@ public class PhotoPickerViewController: UIViewController {
         let manager = PhotoPickerManager.shared
 
         manager.requestPermissions {
-            guard manager.setup() else {
+            guard manager.scan() else {
                 return
             }
             self.setup()
         }
         
         manager.onPermissionsGranted = {
-            
+            self.delegate.photoPickerDidPermissionsGranted(self)
         }
         
         manager.onPermissionsDenied = {
-            
+            self.delegate.photoPickerDidPermissionsDenied(self)
         }
         
         manager.onFetchWithoutPermissions = {
-            
+            self.delegate.photoPickerWillFetchWithoutPermissions(self)
         }
         
         manager.onAlbumListChange = {
@@ -313,26 +314,45 @@ public class PhotoPickerViewController: UIViewController {
     }
     
     private func onSubmitClick() {
+
+        var selectedList = [PhotoAsset]()
         
-        var result = [PhotoAsset]()
-        
+        // 先排序
         photoGridView.selectedPhotoList.forEach { photo in
-            result.append(photo)
+            selectedList.append(photo)
         }
         
         // 不计数就用照片原来的顺序
         if !configuration.countable {
-            result.sort { a, b in
+            selectedList.sort { a, b in
                 return a.index > b.index
             }
         }
         
-        if !bottomBar.isRawChecked {
-            result = result.map { configuration.compressPhoto(photo: $0) }
+        // 排序完成之后，转成 PickedAsset
+        
+        var result = [PickedAsset]()
+        var count = 0
+        
+        let isRawChecked = bottomBar.isRawChecked
+        
+        selectedList.forEach { photo in
+            
+            PhotoPickerManager.shared.getAssetURL(asset: photo.asset) { url in
+                count += 1
+                if let url = url {
+                    result.append(
+                        PickedAsset(path: url.absoluteString, width: photo.width, height: photo.height, size: 0, isVideo: photo.type == .video, isRaw: isRawChecked)
+                    )
+                }
+                if count == selectedList.count {
+                    self.delegate.photoPickerDidPick(self, assetList: result)
+                }
+            }
+        
         }
         
         dismiss(animated: true, completion: nil)
-        
         
     }
     

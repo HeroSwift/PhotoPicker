@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBAction func onClick(_ sender: Any) {
         
         let controller = PhotoPickerViewController()
+        controller.delegate = self
         controller.configuration = configuration
         controller.modalPresentationStyle = .overCurrentContext
         
@@ -32,3 +33,10 @@ class ViewController: UIViewController {
 
 }
 
+extension ViewController: PhotoPickerDelegate {
+    
+    func photoPickerDidPick(_ photoPicker: PhotoPickerViewController, assetList: [PickedAsset]) {
+        print(assetList)
+    }
+    
+}

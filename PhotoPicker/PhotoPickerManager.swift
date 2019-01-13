@@ -63,15 +63,15 @@ class PhotoPickerManager: NSObject {
     private var cacheManager = PHCachingImageManager()
     
     // 所有操作之前必须先确保拥有权限
-    public func requestPermissions(next: @escaping () -> Void) {
+    public func requestPermissions(callback: @escaping () -> Void) {
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized:
-            next()
+            callback()
             break
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { status in
                 if status == PHAuthorizationStatus.authorized {
-                    next()
+                    callback()
                     self.onPermissionsGranted?()
                 }
                 else {
@@ -86,7 +86,7 @@ class PhotoPickerManager: NSObject {
         }
     }
     
-    func setup() -> Bool {
+    func scan() -> Bool {
         
         guard albumList == nil else {
             return false
@@ -194,6 +194,10 @@ class PhotoPickerManager: NSObject {
         return cacheManager.requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: options, resultHandler: completion)
     }
     
+    func requestImageAsset(asset: PHAsset, size: CGSize, options: PHImageRequestOptions, completion: @escaping (UIImage?, [AnyHashable: Any]?) -> Void) -> PHImageRequestID {
+        return cacheManager.requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: options, resultHandler: completion)
+    }
+    
     func cancelImageRequest(_ requestID: PHImageRequestID) {
         cacheManager.cancelImageRequest(requestID)
     }
@@ -210,6 +214,57 @@ class PhotoPickerManager: NSObject {
     
     func stopAllCachingImages() {
         cacheManager.stopCachingImagesForAllAssets()
+    }
+    
+    func getAssetURL(asset: PHAsset, callback: @escaping (URL?) -> Void) {
+        if asset.mediaType == .image {
+            let options = PHContentEditingInputRequestOptions()
+            asset.requestContentEditingInput(with: options) { contentEditingInput, _ in
+                callback(contentEditingInput?.fullSizeImageURL)
+            }
+        }
+        else if asset.mediaType == .video {
+            let options = PHVideoRequestOptions()
+            options.version = .original
+            cacheManager.requestAVAsset(forVideo: asset, options: options) { asset, _, _ in
+                if let urlAsset = asset as? AVURLAsset {
+                    callback(urlAsset.url)
+                }
+                else {
+                    callback(nil)
+                }
+            }
+        }
+    }
+    
+    // 把图片保存到磁盘
+    func saveToDisk(filename: String, image: UIImage, compressionQuality: CGFloat = 0.7) -> String? {
+        
+        if let imageData = image.jpegData(compressionQuality: compressionQuality) as NSData? {
+            let filePath = getFilePath(dirname: NSTemporaryDirectory(), filename: filename)
+            if imageData.write(toFile: filePath, atomically: true) {
+                return filePath
+            }
+        }
+        
+        return nil
+        
+    }
+    
+    // 生成一个文件路径
+    func getFilePath(dirname: String, filename: String) -> String {
+        
+        let fileManager = FileManager.default
+        if !fileManager.fileExists(atPath: dirname) {
+            try? fileManager.createDirectory(atPath: dirname, withIntermediateDirectories: true, attributes: nil)
+        }
+
+        if dirname.hasSuffix("/") {
+            return dirname + filename
+        }
+        
+        return "\(dirname)/\(filename)"
+        
     }
     
 }
@@ -261,15 +316,6 @@ extension PhotoPickerManager {
         
         return fetchResult
         
-    }
-    
-    private func getImageSize(asset: PHAsset) {
-        cacheManager.requestImageData(for: asset, options: nil) { data, uri, orientation, info in
-            guard let data = data else {
-                return
-            }
-            print("\(uri) \(data.count)")
-        }
     }
     
 }
