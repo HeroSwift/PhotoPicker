@@ -227,10 +227,10 @@ open class PhotoPickerConfiguration {
     public var submitButtonTitleTextColor = UIColor.white
     
     // 确定按钮的背景色
-    public var submitButtonBackgroundColorNormal = UIColor(red: 0.10, green: 0.60, blue: 0.09, alpha: 1)
+    public var submitButtonBackgroundColorNormal = UIColor(red: 1, green: 0.53, blue: 0.02, alpha: 1)
     
     // 确定按钮的背景色
-    public var submitButtonBackgroundColorPressed = UIColor(red: 0.08, green: 0.47, blue: 0.08, alpha: 1)
+    public var submitButtonBackgroundColorPressed = UIColor(red: 1, green: 0.38, blue: 0.04, alpha: 1)
     
     // 确定按钮的圆角
     public var submitButtonBorderRadius: CGFloat = 4
