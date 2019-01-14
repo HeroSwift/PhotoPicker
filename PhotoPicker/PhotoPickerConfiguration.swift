@@ -248,9 +248,6 @@ open class PhotoPickerConfiguration {
     // MARK: - 各种可选配置
     //
     
-    // 是否可以多选
-    public var selectable = true
-    
     // 是否支持计数
     public var countable = true
 

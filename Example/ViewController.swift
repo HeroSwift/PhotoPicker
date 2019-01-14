@@ -20,6 +20,9 @@ class ViewController: UIViewController {
         controller.configuration = configuration
         controller.modalPresentationStyle = .overCurrentContext
         
+        configuration.maxSelectCount = 1
+        configuration.countable = false
+        
         present(controller, animated: true, completion: nil)
         
     }

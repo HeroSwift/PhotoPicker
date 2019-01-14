@@ -6,14 +6,7 @@ class PhotoCell: UICollectionViewCell {
     
     var onToggleChecked: (() -> Void)?
     
-    var configuration: PhotoPickerConfiguration! {
-        didSet {
-            guard configuration !== oldValue else {
-                return
-            }
-            selectButton.isHidden = !configuration.selectable
-        }
-    }
+    var configuration: PhotoPickerConfiguration!
     
     private var photo: PhotoAsset!
     private var assetIdentifier: String!
@@ -155,9 +148,7 @@ class PhotoCell: UICollectionViewCell {
             PhotoPickerManager.shared.cancelImageRequest(requestID)
             imageRequestID = nil
         }
-        if configuration.selectable {
-            checked = false
-        }
+        checked = false
 
         thumbnail = configuration.photoThumbnailLoadingPlaceholder
         badgeView.isHidden = true
@@ -218,10 +209,8 @@ class PhotoCell: UICollectionViewCell {
             badgeView.isHidden = false
         }
         
-        if configuration.selectable {
-            checked = photo.order >= 0
-            selectable = photo.selectable
-        }
+        checked = photo.order >= 0
+        selectable = photo.selectable
         
     }
     

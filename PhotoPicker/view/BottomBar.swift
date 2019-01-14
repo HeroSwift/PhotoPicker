@@ -21,16 +21,19 @@ public class BottomBar: UIView {
             guard selectedCount != oldValue else {
                 return
             }
+            var title = configuration.submitButtonTitle
             if selectedCount > 0 {
                 submitButton.isEnabled = true
                 submitButton.alpha = 1
-                submitButton.setTitle("\(configuration.submitButtonTitle)(\(selectedCount))", for: .normal)
+                if configuration.maxSelectCount > 1 {
+                    title = "\(configuration.submitButtonTitle)(\(selectedCount))"
+                }
             }
             else {
                 submitButton.isEnabled = false
                 submitButton.alpha = 0.5
-                submitButton.setTitle(configuration.submitButtonTitle, for: .normal)
             }
+            submitButton.setTitle(title, for: .normal)
         }
     }
     
