@@ -284,17 +284,20 @@ open class PhotoPickerConfiguration {
     // MARK: - 各种占位图
     //
     
+    // 相册封面图等待加载时的默认图
+    public var albumPosterLoadingPlaceholder = UIImage(named: "photo_picker_album_poster_loading_placeholder")
+    
     // 相册封面图加载错误时的默认图
-    public var albumPosterErrorPlaceholder = UIImage(named: "image")
+    public var albumPosterErrorPlaceholder = UIImage(named: "photo_picker_album_poster_error_placeholder")
     
     // 相册为空时的缩略图
-    public var albumEmptyPlaceholder = UIImage(named: "image")
+    public var albumEmptyPlaceholder = UIImage(named: "photo_picker_album_empty_placeholder")
     
     // 照片缩略图等待加载时的默认图
-    public var photoThumbnailLoadingPlaceholder = UIImage(named: "image")
+    public var photoThumbnailLoadingPlaceholder = UIImage(named: "photo_picker_photo_thumbnail_loading_placeholder")
     
     // 照片缩略图加载错误时的默认图
-    public var photoThumbnailErrorPlaceholder = UIImage(named: "image")
+    public var photoThumbnailErrorPlaceholder = UIImage(named: "photo_picker_photo_thumbnail_error_placeholder")
     
     //
     // MARK: - 照片角标
@@ -315,7 +318,7 @@ open class PhotoPickerConfiguration {
     }
     
     open func filterAlbum(title: String, count: Int) -> Bool {
-        return true
+        return count > 0
     }
     
 }

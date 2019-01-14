@@ -22,13 +22,6 @@ class PhotoPickerManager: NSObject {
     
     private var isDirty = false
     
-    deinit {
-        guard albumList != nil else {
-            return
-        }
-        PHPhotoLibrary.shared().unregisterChangeObserver(self)
-    }
-    
     // 所有照片
     private var allPhotos: PHFetchResult<PHAssetCollection>!
 
@@ -60,7 +53,23 @@ class PhotoPickerManager: NSObject {
     private var userAlbums: PHFetchResult<PHCollection>!
     
     // 缓存器
-    private var cacheManager = PHCachingImageManager()
+    private lazy var cacheManager: PHCachingImageManager = {
+       
+        let manager = PHCachingImageManager()
+        
+        // 需要快速滚动，最好设置为 false
+        manager.allowsCachingHighQualityImages = false
+        
+        return manager
+        
+    }()
+    
+    deinit {
+        guard albumList != nil else {
+            return
+        }
+        PHPhotoLibrary.shared().unregisterChangeObserver(self)
+    }
     
     // 所有操作之前必须先确保拥有权限
     public func requestPermissions(callback: @escaping () -> Void) {

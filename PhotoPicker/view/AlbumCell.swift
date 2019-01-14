@@ -57,6 +57,8 @@ class AlbumCell: UITableViewCell {
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         
+        view.image = configuration.albumPosterLoadingPlaceholder
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(view)
@@ -157,6 +159,7 @@ class AlbumCell: UITableViewCell {
             PhotoPickerManager.shared.cancelImageRequest(requestID)
             imageRequestID = nil
         }
+        poster = configuration.albumPosterLoadingPlaceholder
     }
     
     func bind(index: Int, album: AlbumAsset, posterSize: CGSize) {
