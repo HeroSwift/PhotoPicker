@@ -11,13 +11,7 @@ public class PhotoGrid: UIView {
     public var fetchResult: PHFetchResult<PHAsset>! {
         didSet {
             
-            var list = [PhotoAsset]()
-            
-            fetchResult.enumerateObjects { asset, _, _ in
-                list.append(PhotoAsset.build(asset: asset))
-            }
-            
-            photoList = list
+            photoList = PhotoPickerManager.shared.fetchResult2List(fetchResult: fetchResult, configuration: configuration)
             
             if selectedPhotoList.count > 0 {
                 selectedPhotoList = [PhotoAsset]()

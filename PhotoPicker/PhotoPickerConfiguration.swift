@@ -321,4 +321,8 @@ open class PhotoPickerConfiguration {
         return count > 0
     }
     
+    open func filterPhoto(width: Int, height: Int, type: AssetType) -> Bool {
+        return true
+    }
+    
 }

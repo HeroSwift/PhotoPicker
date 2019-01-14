@@ -180,16 +180,32 @@ class PhotoPickerManager: NSObject {
             }
             
             let fetchResult = fetchPhotoList(album: album, configuration: configuration)
-
-            if configuration.filterAlbum(title: title, count: fetchResult.count) {
+            let photoList = fetchResult2List(fetchResult: fetchResult, configuration: configuration)
+            
+            if configuration.filterAlbum(title: title, count: photoList.count) {
                 result.append(
-                    AlbumAsset.build(collection: album, fetchResult: fetchResult)
+                    AlbumAsset.build(collection: album, photoList: photoList)
                 )
             }
             
         }
         
         return result
+        
+    }
+    
+    func fetchResult2List(fetchResult: PHFetchResult<PHAsset>, configuration: PhotoPickerConfiguration) -> [PhotoAsset] {
+        
+        var list = [PhotoAsset]()
+        
+        fetchResult.enumerateObjects { asset, _, _ in
+            let photo = PhotoAsset.build(asset: asset)
+            if configuration.filterPhoto(width: photo.width, height: photo.height, type: photo.type) {
+                list.append(photo)
+            }
+        }
+        
+        return list
         
     }
 

@@ -4,12 +4,12 @@ import Photos
 
 public class AlbumAsset {
     
-    public static func build(collection: PHAssetCollection, fetchResult: PHFetchResult<PHAsset>) -> AlbumAsset {
+    public static func build(collection: PHAssetCollection, photoList: [PhotoAsset]) -> AlbumAsset {
         
         return AlbumAsset(
             collection: collection,
-            poster: fetchResult.count > 0 ? PhotoAsset.build(asset: fetchResult[0]) : nil,
-            count: fetchResult.count
+            poster: photoList.count > 0 ? photoList[0] : nil,
+            count: photoList.count
         )
         
     }
