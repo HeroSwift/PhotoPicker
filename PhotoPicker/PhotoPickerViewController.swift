@@ -171,7 +171,7 @@ public class PhotoPickerViewController: UIViewController {
        
         let bottomBar = BottomBar(configuration: configuration)
         
-        bottomBar.isRawChecked = false
+        bottomBar.isFullChecked = false
         bottomBar.selectedCount = 0
         
         bottomBar.submitButton.onClick = {
@@ -334,7 +334,7 @@ public class PhotoPickerViewController: UIViewController {
         var result = [PickedAsset]()
         var count = 0
         
-        let isRawChecked = bottomBar.isRawChecked
+        let isFullChecked = bottomBar.isFullChecked
         let urlPrefix = "file:/"
         
         selectedList.forEach { photo in
@@ -351,7 +351,7 @@ public class PhotoPickerViewController: UIViewController {
                     let info = try! FileManager.default.attributesOfItem(atPath: path)
                     if let size = info[FileAttributeKey.size] as? Int {
                         result.append(
-                            PickedAsset(path: path, width: photo.width, height: photo.height, size: size, isVideo: photo.type == .video, isRaw: isRawChecked)
+                            PickedAsset(path: path, width: photo.width, height: photo.height, size: size, isVideo: photo.type == .video, isFull: isFullChecked)
                         )
                     }
                     

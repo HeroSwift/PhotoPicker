@@ -11,15 +11,15 @@ public class PickedAsset {
     
     public var isVideo: Bool
     
-    public var isRaw: Bool
+    public var isFull: Bool
     
-    public init(path: String, width: Int, height: Int, size: Int, isVideo: Bool, isRaw: Bool) {
+    public init(path: String, width: Int, height: Int, size: Int, isVideo: Bool, isFull: Bool) {
         self.path = path
         self.width = width
         self.height = height
         self.size = size
         self.isVideo = isVideo
-        self.isRaw = isRaw
+        self.isFull = isFull
     }
     
 }

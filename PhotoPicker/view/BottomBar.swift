@@ -3,14 +3,14 @@ import UIKit
 
 public class BottomBar: UIView {
     
-    public var isRawChecked = false {
+    public var isFullChecked = false {
         didSet {
 
-            if isRawChecked {
-                rawButton.image = configuration.rawButtonImageChecked
+            if isFullChecked {
+                fullButton.image = configuration.fullButtonImageChecked
             }
             else {
-                rawButton.image = configuration.rawButtonImageUnchecked
+                fullButton.image = configuration.fullButtonImageUnchecked
             }
             
         }
@@ -36,9 +36,9 @@ public class BottomBar: UIView {
     
     private var configuration: PhotoPickerConfiguration!
     
-    lazy var rawButton: RawButton = {
+    lazy var fullButton: FullButton = {
        
-        let view = RawButton(configuration: configuration)
+        let view = FullButton(configuration: configuration)
         
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -91,12 +91,12 @@ public class BottomBar: UIView {
 
         backgroundColor = configuration.bottomBarBackgroundColor
         
-        rawButton.addTarget(self, action: #selector(onRawClick), for: .touchUpInside)
+        fullButton.addTarget(self, action: #selector(onFullClick), for: .touchUpInside)
         
     }
     
-    @objc private func onRawClick() {
-        isRawChecked = !isRawChecked
+    @objc private func onFullClick() {
+        isFullChecked = !isFullChecked
     }
     
 }
