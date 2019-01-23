@@ -295,7 +295,7 @@ public class PhotoPickerViewController: UIViewController {
         let transform = visible ? topBar.titleButton.arrowView.transform.rotated(by: -pi) : CGAffineTransform.identity
 
         UIView.animate(
-            withDuration: configuration.titleButtonArrowAnimationDuration,
+            withDuration: 0.2,
             delay: 0,
             options: .curveEaseOut,
             animations: {
