@@ -18,7 +18,7 @@ class PhotoPickerManager: NSObject {
     
     var onAlbumListChange: (() -> Void)?
     
-    var albumList: [AlbumAsset]!
+    var albumList: [Album]!
     
     private var isDirty = false
     
@@ -133,18 +133,18 @@ class PhotoPickerManager: NSObject {
     }
     
     // 获取所有照片
-    func fetchPhotoList(album: PHAssetCollection, configuration: PhotoPickerConfiguration) -> PHFetchResult<PHAsset> {
+    func fetchAssetList(album: PHAssetCollection, configuration: PhotoPickerConfiguration) -> PHFetchResult<PHAsset> {
         
         let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: configuration.photoSortField, ascending: configuration.photoSortAscending)]
-        options.predicate = NSPredicate(format: "mediaType IN %@", configuration.photoMediaTypes)
+        options.sortDescriptors = [NSSortDescriptor(key: configuration.assetSortField, ascending: configuration.assetSortAscending)]
+        options.predicate = NSPredicate(format: "mediaType IN %@", configuration.assetMediaTypes)
         
         return PHAsset.fetchAssets(in: album, options: options)
         
     }
     
     // 获取相册列表
-    func fetchAlbumList(configuration: PhotoPickerConfiguration) -> [AlbumAsset] {
+    func fetchAlbumList(configuration: PhotoPickerConfiguration) -> [Album] {
         
         var albumList = [PHAssetCollection]()
         
@@ -171,7 +171,7 @@ class PhotoPickerManager: NSObject {
             appendAlbum(album as? PHAssetCollection)
         }
         
-        var result = [AlbumAsset]()
+        var result = [Album]()
         
         albumList.forEach { album in
             
@@ -179,12 +179,12 @@ class PhotoPickerManager: NSObject {
                 return
             }
             
-            let fetchResult = fetchPhotoList(album: album, configuration: configuration)
-            let photoList = fetchResult2List(fetchResult: fetchResult, configuration: configuration)
+            let fetchResult = fetchAssetList(album: album, configuration: configuration)
+            let assetList = fetchResult2List(fetchResult: fetchResult, configuration: configuration)
             
-            if configuration.filterAlbum(title: title, count: photoList.count) {
+            if configuration.filterAlbum(title: title, count: assetList.count) {
                 result.append(
-                    AlbumAsset.build(collection: album, photoList: photoList)
+                    Album.build(collection: album, assetList: assetList)
                 )
             }
             
@@ -194,14 +194,14 @@ class PhotoPickerManager: NSObject {
         
     }
     
-    func fetchResult2List(fetchResult: PHFetchResult<PHAsset>, configuration: PhotoPickerConfiguration) -> [PhotoAsset] {
+    func fetchResult2List(fetchResult: PHFetchResult<PHAsset>, configuration: PhotoPickerConfiguration) -> [Asset] {
         
-        var list = [PhotoAsset]()
+        var list = [Asset]()
         
         fetchResult.enumerateObjects { asset, _, _ in
-            let photo = PhotoAsset.build(asset: asset)
-            if configuration.filterPhoto(width: photo.width, height: photo.height, type: photo.type) {
-                list.append(photo)
+            let asset = Asset.build(asset: asset)
+            if configuration.filterAsset(width: asset.width, height: asset.height, type: asset.type) {
+                list.append(asset)
             }
         }
         

@@ -56,23 +56,23 @@ open class PhotoPickerConfiguration {
     // MARK: - 照片网格
     //
     
-    // 照片网格的背景色
-    public var photoGridBackgroundColor = UIColor.white
+    // 网格的背景色
+    public var assetGridBackgroundColor = UIColor.white
     
     // 一行的照片数量
-    public var photoGridSpanCount: CGFloat = 3
+    public var assetGridSpanCount: CGFloat = 3
     
     // 网格的水平内间距
-    public var photoGridPaddingHorizontal: CGFloat = 2
+    public var assetGridPaddingHorizontal: CGFloat = 2
     
     // 网格的垂直内间距
-    public var photoGridPaddingVertical: CGFloat = 2
+    public var assetGridPaddingVertical: CGFloat = 2
     
     // 网格行间距
-    public var photoGridRowSpacing: CGFloat = 2
+    public var assetGridRowSpacing: CGFloat = 2
     
     // 网格列间距
-    public var photoGridColumnSpacing: CGFloat = 2
+    public var assetGridColumnSpacing: CGFloat = 2
 
     
     //
@@ -263,16 +263,16 @@ open class PhotoPickerConfiguration {
     }()
     
     // 列表缩略图的加载选项
-    public var photoThumbnailRequestOptions: PHImageRequestOptions = {
+    public var assetThumbnailRequestOptions: PHImageRequestOptions = {
         let options = PHImageRequestOptions()
         options.resizeMode = .exact
         return options
     }()
     
     // 获取照片列表的选项
-    public var photoSortField = "creationDate"
-    public var photoSortAscending = false
-    public var photoMediaTypes = [ PHAssetMediaType.image.rawValue ]
+    public var assetSortField = "creationDate"
+    public var assetSortAscending = false
+    public var assetMediaTypes = [ PHAssetMediaType.image.rawValue ]
     
     //
     // MARK: - 各种占位图
@@ -288,24 +288,24 @@ open class PhotoPickerConfiguration {
     public var albumEmptyPlaceholder = UIImage(named: "photo_picker_album_empty_placeholder")
     
     // 照片缩略图等待加载时的默认图
-    public var photoThumbnailLoadingPlaceholder = UIImage(named: "photo_picker_photo_thumbnail_loading_placeholder")
+    public var assetThumbnailLoadingPlaceholder = UIImage(named: "photo_picker_photo_thumbnail_loading_placeholder")
     
     // 照片缩略图加载错误时的默认图
-    public var photoThumbnailErrorPlaceholder = UIImage(named: "photo_picker_photo_thumbnail_error_placeholder")
+    public var assetThumbnailErrorPlaceholder = UIImage(named: "photo_picker_photo_thumbnail_error_placeholder")
     
     //
     // MARK: - 照片角标
     //
     
     // 角标到右边的距离
-    public var photoBadgeMarginRight: CGFloat = 5
+    public var assetBadgeMarginRight: CGFloat = 5
     
     // 角标到下边的距离
-    public var photoBadgeMarginBottom: CGFloat = 5
+    public var assetBadgeMarginBottom: CGFloat = 5
     
-    public var photoBadgeGifIcon = UIImage(named: "photo_picker_badge_gif")
-    public var photoBadgeLiveIcon = UIImage(named: "photo_picker_badge_live")
-    public var photoBadgeWebpIcon = UIImage(named: "photo_picker_badge_webp")
+    public var assetBadgeGifIcon = UIImage(named: "photo_picker_badge_gif")
+    public var assetBadgeLiveIcon = UIImage(named: "photo_picker_badge_live")
+    public var assetBadgeWebpIcon = UIImage(named: "photo_picker_badge_webp")
     
     public init() {
         
@@ -315,7 +315,7 @@ open class PhotoPickerConfiguration {
         return count > 0
     }
     
-    open func filterPhoto(width: Int, height: Int, type: AssetType) -> Bool {
+    open func filterAsset(width: Int, height: Int, type: AssetType) -> Bool {
         return width > 44 && height > 44
     }
     

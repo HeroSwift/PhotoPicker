@@ -13,23 +13,23 @@
 		9D3CD2D521E104EC00B1C2C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D3CD2D421E104EC00B1C2C4 /* Assets.xcassets */; };
 		9D3CD2D821E104EC00B1C2C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D3CD2D621E104EC00B1C2C4 /* LaunchScreen.storyboard */; };
 		9D3CD2DE21E1051F00B1C2C4 /* PhotoPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2DD21E1051F00B1C2C4 /* PhotoPickerManager.swift */; };
-		9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */; };
-		9D3CD2E421E2EB2400B1C2C4 /* PhotoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */; };
-		9D3CD2E621E2EBBA00B1C2C4 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */; };
+		9D3CD2E121E2E9B000B1C2C4 /* AssetGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E021E2E9B000B1C2C4 /* AssetGrid.swift */; };
+		9D3CD2E421E2EB2400B1C2C4 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E321E2EB2400B1C2C4 /* Asset.swift */; };
+		9D3CD2E621E2EBBA00B1C2C4 /* AssetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E521E2EBBA00B1C2C4 /* AssetCell.swift */; };
 		9D3CD2E821E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */; };
 		9D3CD2EC21E3234200B1C2C4 /* AlbumList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2EB21E3234200B1C2C4 /* AlbumList.swift */; };
 		9D3CD2EE21E324D000B1C2C4 /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2ED21E324D000B1C2C4 /* AlbumCell.swift */; };
-		9D3CD2F021E3253500B1C2C4 /* AlbumAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2EF21E3253500B1C2C4 /* AlbumAsset.swift */; };
+		9D3CD2F021E3253500B1C2C4 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3CD2EF21E3253500B1C2C4 /* Album.swift */; };
 		9D63C53821EB6A5A003A91E4 /* PickedAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D63C53721EB6A5A003A91E4 /* PickedAsset.swift */; };
 		9D63C53A21EB7F60003A91E4 /* PhotoPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D63C53921EB7F60003A91E4 /* PhotoPickerDelegate.swift */; };
 		9D83171A21E4AFB7000B1211 /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D83171921E4AFB7000B1211 /* SelectButton.swift */; };
-		9DABF1D021E8ACB500270DF7 /* AssetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DABF1CF21E8ACB500270DF7 /* AssetType.swift */; };
 		9DB2CEBD21E586AD0065C7C2 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEBC21E586AD0065C7C2 /* BottomBar.swift */; };
 		9DB2CEBF21E58B380065C7C2 /* FullButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEBE21E58B380065C7C2 /* FullButton.swift */; };
 		9DB2CEC321E5AC270065C7C2 /* SimpleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC121E5AC270065C7C2 /* SimpleButton.swift */; };
 		9DB2CEC621E5DB890065C7C2 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC521E5DB890065C7C2 /* PhotoPickerViewController.swift */; };
 		9DB2CEC821E5E5780065C7C2 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC721E5E5780065C7C2 /* TopBar.swift */; };
 		9DB2CECA21E5F0F00065C7C2 /* TitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB2CEC921E5F0F00065C7C2 /* TitleButton.swift */; };
+		9DFE534F21F81AFB00E27DD9 /* AssetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFE534E21F81AFB00E27DD9 /* AssetType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,23 +53,23 @@
 		9D3CD2D721E104EC00B1C2C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D3CD2D921E104EC00B1C2C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D3CD2DD21E1051F00B1C2C4 /* PhotoPickerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerManager.swift; sourceTree = "<group>"; };
-		9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoGrid.swift; sourceTree = "<group>"; };
-		9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAsset.swift; sourceTree = "<group>"; };
-		9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		9D3CD2E021E2E9B000B1C2C4 /* AssetGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetGrid.swift; sourceTree = "<group>"; };
+		9D3CD2E321E2EB2400B1C2C4 /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
+		9D3CD2E521E2EBBA00B1C2C4 /* AssetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCell.swift; sourceTree = "<group>"; };
 		9D3CD2E721E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerConfiguration.swift; sourceTree = "<group>"; };
 		9D3CD2EB21E3234200B1C2C4 /* AlbumList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumList.swift; sourceTree = "<group>"; };
 		9D3CD2ED21E324D000B1C2C4 /* AlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
-		9D3CD2EF21E3253500B1C2C4 /* AlbumAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumAsset.swift; sourceTree = "<group>"; };
+		9D3CD2EF21E3253500B1C2C4 /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		9D63C53721EB6A5A003A91E4 /* PickedAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickedAsset.swift; sourceTree = "<group>"; };
 		9D63C53921EB7F60003A91E4 /* PhotoPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerDelegate.swift; sourceTree = "<group>"; };
 		9D83171921E4AFB7000B1211 /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
-		9DABF1CF21E8ACB500270DF7 /* AssetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetType.swift; sourceTree = "<group>"; };
 		9DB2CEBC21E586AD0065C7C2 /* BottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
 		9DB2CEBE21E58B380065C7C2 /* FullButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullButton.swift; sourceTree = "<group>"; };
 		9DB2CEC121E5AC270065C7C2 /* SimpleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleButton.swift; sourceTree = "<group>"; };
 		9DB2CEC521E5DB890065C7C2 /* PhotoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewController.swift; sourceTree = "<group>"; };
 		9DB2CEC721E5E5780065C7C2 /* TopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
 		9DB2CEC921E5F0F00065C7C2 /* TitleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleButton.swift; sourceTree = "<group>"; };
+		9DFE534E21F81AFB00E27DD9 /* AssetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,8 +139,8 @@
 		9D3CD2DF21E2E99600B1C2C4 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				9D3CD2E021E2E9B000B1C2C4 /* PhotoGrid.swift */,
-				9D3CD2E521E2EBBA00B1C2C4 /* PhotoCell.swift */,
+				9D3CD2E021E2E9B000B1C2C4 /* AssetGrid.swift */,
+				9D3CD2E521E2EBBA00B1C2C4 /* AssetCell.swift */,
 				9D3CD2EB21E3234200B1C2C4 /* AlbumList.swift */,
 				9D3CD2ED21E324D000B1C2C4 /* AlbumCell.swift */,
 				9DB2CEBE21E58B380065C7C2 /* FullButton.swift */,
@@ -155,10 +155,10 @@
 		9D3CD2E221E2EB1100B1C2C4 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				9D3CD2E321E2EB2400B1C2C4 /* PhotoAsset.swift */,
-				9D3CD2EF21E3253500B1C2C4 /* AlbumAsset.swift */,
-				9DABF1CF21E8ACB500270DF7 /* AssetType.swift */,
+				9D3CD2E321E2EB2400B1C2C4 /* Asset.swift */,
+				9D3CD2EF21E3253500B1C2C4 /* Album.swift */,
 				9D63C53721EB6A5A003A91E4 /* PickedAsset.swift */,
+				9DFE534E21F81AFB00E27DD9 /* AssetType.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -285,19 +285,19 @@
 			files = (
 				9D83171A21E4AFB7000B1211 /* SelectButton.swift in Sources */,
 				9D3CD2E821E2EE4100B1C2C4 /* PhotoPickerConfiguration.swift in Sources */,
-				9D3CD2E621E2EBBA00B1C2C4 /* PhotoCell.swift in Sources */,
+				9D3CD2E621E2EBBA00B1C2C4 /* AssetCell.swift in Sources */,
 				9D3CD2DE21E1051F00B1C2C4 /* PhotoPickerManager.swift in Sources */,
 				9D3CD2EE21E324D000B1C2C4 /* AlbumCell.swift in Sources */,
 				9DB2CEBF21E58B380065C7C2 /* FullButton.swift in Sources */,
-				9D3CD2F021E3253500B1C2C4 /* AlbumAsset.swift in Sources */,
+				9D3CD2F021E3253500B1C2C4 /* Album.swift in Sources */,
 				9D63C53A21EB7F60003A91E4 /* PhotoPickerDelegate.swift in Sources */,
 				9DB2CEC821E5E5780065C7C2 /* TopBar.swift in Sources */,
 				9D63C53821EB6A5A003A91E4 /* PickedAsset.swift in Sources */,
 				9DB2CEC621E5DB890065C7C2 /* PhotoPickerViewController.swift in Sources */,
 				9D3CD2EC21E3234200B1C2C4 /* AlbumList.swift in Sources */,
-				9D3CD2E121E2E9B000B1C2C4 /* PhotoGrid.swift in Sources */,
-				9D3CD2E421E2EB2400B1C2C4 /* PhotoAsset.swift in Sources */,
-				9DABF1D021E8ACB500270DF7 /* AssetType.swift in Sources */,
+				9D3CD2E121E2E9B000B1C2C4 /* AssetGrid.swift in Sources */,
+				9D3CD2E421E2EB2400B1C2C4 /* Asset.swift in Sources */,
+				9DFE534F21F81AFB00E27DD9 /* AssetType.swift in Sources */,
 				9DB2CEBD21E586AD0065C7C2 /* BottomBar.swift in Sources */,
 				9DB2CECA21E5F0F00065C7C2 /* TitleButton.swift in Sources */,
 				9DB2CEC321E5AC270065C7C2 /* SimpleButton.swift in Sources */,

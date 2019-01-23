@@ -45,7 +45,7 @@ public class PhotoPickerViewController: UIViewController {
             
             if let album = currentAlbum {
                 title = album.localizedTitle!
-                fetchResult = PhotoPickerManager.shared.fetchPhotoList(
+                fetchResult = PhotoPickerManager.shared.fetchAssetList(
                     album: album,
                     configuration: configuration
                 )
@@ -56,7 +56,7 @@ public class PhotoPickerViewController: UIViewController {
             }
             
             topBar.titleButton.title = title
-            photoGridView.fetchResult = fetchResult
+            assetGridView.fetchResult = fetchResult
 
         }
     }
@@ -109,28 +109,28 @@ public class PhotoPickerViewController: UIViewController {
         
     }()
     
-    private lazy var photoGridView: PhotoGrid = {
+    private lazy var assetGridView: AssetGrid = {
     
-        let photoGridView = PhotoGrid(configuration: configuration)
+        let assetGridView = AssetGrid(configuration: configuration)
         
-        photoGridView.translatesAutoresizingMaskIntoConstraints = false
+        assetGridView.translatesAutoresizingMaskIntoConstraints = false
         
-        photoGridView.onSelectedPhotoListChange = {
-            self.bottomBar.selectedCount = photoGridView.selectedPhotoList.count
+        assetGridView.onSelectedAssetListChange = {
+            self.bottomBar.selectedCount = assetGridView.selectedAssetList.count
         }
         
-        view.insertSubview(photoGridView, belowSubview: albumListView)
+        view.insertSubview(assetGridView, belowSubview: albumListView)
         
         view.addConstraints([
             
-            NSLayoutConstraint(item: photoGridView, attribute: .top, relatedBy: .equal, toItem: topBar, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: photoGridView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: photoGridView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: photoGridView, attribute: .bottom, relatedBy: .equal, toItem: bottomBar, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: assetGridView, attribute: .top, relatedBy: .equal, toItem: topBar, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: assetGridView, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: assetGridView, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: assetGridView, attribute: .bottom, relatedBy: .equal, toItem: bottomBar, attribute: .top, multiplier: 1, constant: 0),
             
         ])
         
-        return photoGridView
+        return assetGridView
         
     }()
     
@@ -315,11 +315,11 @@ public class PhotoPickerViewController: UIViewController {
     
     private func onSubmitClick() {
 
-        var selectedList = [PhotoAsset]()
+        var selectedList = [Asset]()
         
         // 先排序
-        photoGridView.selectedPhotoList.forEach { photo in
-            selectedList.append(photo)
+        assetGridView.selectedAssetList.forEach { asset in
+            selectedList.append(asset)
         }
         
         // 不计数就用照片原来的顺序
@@ -337,9 +337,9 @@ public class PhotoPickerViewController: UIViewController {
         let isFullChecked = bottomBar.isFullChecked
         let urlPrefix = "file:/"
         
-        selectedList.forEach { photo in
+        selectedList.forEach { asset in
             
-            PhotoPickerManager.shared.getAssetURL(asset: photo.asset) { url in
+            PhotoPickerManager.shared.getAssetURL(asset: asset.asset) { url in
                 count += 1
                 if let url = url {
                     
@@ -351,7 +351,7 @@ public class PhotoPickerViewController: UIViewController {
                     let info = try! FileManager.default.attributesOfItem(atPath: path)
                     if let size = info[FileAttributeKey.size] as? Int {
                         result.append(
-                            PickedAsset(path: path, width: photo.width, height: photo.height, size: size, isVideo: photo.type == .video, isFull: isFullChecked)
+                            PickedAsset(path: path, width: asset.width, height: asset.height, size: size, isVideo: asset.type == .video, isFull: isFullChecked)
                         )
                     }
                     

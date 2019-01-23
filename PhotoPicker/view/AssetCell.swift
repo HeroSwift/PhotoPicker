@@ -2,13 +2,13 @@
 import UIKit
 import Photos
 
-class PhotoCell: UICollectionViewCell {
+class AssetCell: UICollectionViewCell {
     
     var onToggleChecked: (() -> Void)?
     
     var configuration: PhotoPickerConfiguration!
     
-    private var photo: PhotoAsset!
+    private var asset: Asset!
     private var assetIdentifier: String!
     private var imageRequestID: PHImageRequestID?
     
@@ -20,7 +20,7 @@ class PhotoCell: UICollectionViewCell {
             
             selectButton.checked = checked
             
-            selectButton.order = configuration.countable && photo.order >= 0 ? photo.order + 1 : -1
+            selectButton.order = configuration.countable && asset.order >= 0 ? asset.order + 1 : -1
             
         }
     }
@@ -43,7 +43,7 @@ class PhotoCell: UICollectionViewCell {
                 thumbnailView.image = thumbnail
             }
             else {
-                thumbnailView.image = configuration.photoThumbnailErrorPlaceholder
+                thumbnailView.image = configuration.assetThumbnailErrorPlaceholder
             }
         }
     }
@@ -56,7 +56,7 @@ class PhotoCell: UICollectionViewCell {
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         
-        view.image = configuration.photoThumbnailLoadingPlaceholder
+        view.image = configuration.assetThumbnailLoadingPlaceholder
         
         contentView.insertSubview(view, at: 0)
         
@@ -108,8 +108,8 @@ class PhotoCell: UICollectionViewCell {
         
         contentView.addConstraints([
             
-            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -configuration.photoBadgeMarginBottom),
-            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.photoBadgeMarginRight),
+            NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: -configuration.assetBadgeMarginBottom),
+            NSLayoutConstraint(item: view, attribute: .right, relatedBy: .equal, toItem: contentView, attribute: .right, multiplier: 1, constant: -configuration.assetBadgeMarginRight),
             
         ])
         
@@ -150,7 +150,7 @@ class PhotoCell: UICollectionViewCell {
         }
         checked = false
 
-        thumbnail = configuration.photoThumbnailLoadingPlaceholder
+        thumbnail = configuration.assetThumbnailLoadingPlaceholder
         badgeView.isHidden = true
 
     }
@@ -159,28 +159,28 @@ class PhotoCell: UICollectionViewCell {
         onToggleChecked?()
     }
     
-    func bind(photo: PhotoAsset, size: CGSize) {
+    func bind(asset: Asset, size: CGSize) {
         
-        self.photo = photo
+        self.asset = asset
         
-        let asset = photo.asset
+        let nativeAsset = asset.asset
         
-        assetIdentifier = asset.localIdentifier
+        assetIdentifier = nativeAsset.localIdentifier
         
-        if photo.thumbnail == nil {
+        if asset.thumbnail == nil {
             imageRequestID = PhotoPickerManager.shared.requestImage(
-                asset: asset,
+                asset: nativeAsset,
                 size: size,
-                options: configuration.photoThumbnailRequestOptions
+                options: configuration.assetThumbnailRequestOptions
             ) { [weak self] image, info in
                 
-                guard let _self = self, _self.assetIdentifier == asset.localIdentifier else {
+                guard let _self = self, _self.assetIdentifier == nativeAsset.localIdentifier else {
                     return
                 }
                 
                 // 此回调会连续触发，这里只缓存高清图
                 if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 0 {
-                    photo.thumbnail = image
+                    asset.thumbnail = image
                 }
                 
                 _self.imageRequestID = nil
@@ -189,19 +189,19 @@ class PhotoCell: UICollectionViewCell {
             }
         }
         else {
-            thumbnailView.image = photo.thumbnail
+            thumbnailView.image = asset.thumbnail
         }
         
         var badgeImage: UIImage? = nil
         
-        if photo.type == .gif {
-            badgeImage = configuration.photoBadgeGifIcon
+        if asset.type == .gif {
+            badgeImage = configuration.assetBadgeGifIcon
         }
-        else if photo.type == .live {
-            badgeImage = configuration.photoBadgeLiveIcon
+        else if asset.type == .live {
+            badgeImage = configuration.assetBadgeLiveIcon
         }
-        else if photo.type == .webp {
-            badgeImage = configuration.photoBadgeWebpIcon
+        else if asset.type == .webp {
+            badgeImage = configuration.assetBadgeWebpIcon
         }
         
         if let image = badgeImage {
@@ -209,8 +209,8 @@ class PhotoCell: UICollectionViewCell {
             badgeView.isHidden = false
         }
         
-        checked = photo.order >= 0
-        selectable = photo.selectable
+        checked = asset.order >= 0
+        selectable = asset.selectable
         
     }
     

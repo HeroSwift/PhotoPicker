@@ -2,14 +2,14 @@
 import UIKit
 import Photos
 
-public class AlbumAsset {
+public class Album {
     
-    public static func build(collection: PHAssetCollection, photoList: [PhotoAsset]) -> AlbumAsset {
+    public static func build(collection: PHAssetCollection, assetList: [Asset]) -> Album {
         
-        return AlbumAsset(
+        return Album(
             collection: collection,
-            poster: photoList.count > 0 ? photoList[0] : nil,
-            count: photoList.count
+            poster: assetList.count > 0 ? assetList[0] : nil,
+            count: assetList.count
         )
         
     }
@@ -22,11 +22,11 @@ public class AlbumAsset {
 
     public var collection: PHAssetCollection
     
-    public var poster: PhotoAsset?
+    public var poster: Asset?
     
     public var count: Int
     
-    public init(collection: PHAssetCollection, poster: PhotoAsset?, count: Int) {
+    public init(collection: PHAssetCollection, poster: Asset?, count: Int) {
         self.collection = collection
         self.poster = poster
         self.count = count

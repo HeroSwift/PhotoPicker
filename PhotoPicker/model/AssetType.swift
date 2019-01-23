@@ -1,4 +1,5 @@
 
 public enum AssetType {
-    case video, audio, image, gif, live, webp;
+    case video, image, gif, live, webp;
 }
+

@@ -3,9 +3,9 @@ import UIKit
 
 public class AlbumList: UIView {
     
-    public var onAlbumClick: ((AlbumAsset) -> Void)?
+    public var onAlbumClick: ((Album) -> Void)?
     
-    public var albumList = [AlbumAsset]() {
+    public var albumList = [Album]() {
         didSet {
             tableView.reloadData()
         }

@@ -2,9 +2,9 @@
 import UIKit
 import Photos
 
-public class PhotoAsset {
+public class Asset {
     
-    public static func build(asset: PHAsset) -> PhotoAsset {
+    public static func build(asset: PHAsset) -> Asset {
         
         var type = AssetType.image
         
@@ -26,11 +26,8 @@ public class PhotoAsset {
         else if asset.mediaType == .video {
             type = .video
         }
-        else if asset.mediaType == .audio {
-            type = .audio
-        }
         
-        return PhotoAsset(asset: asset, width: asset.pixelWidth, height: asset.pixelHeight, type: type)
+        return Asset(asset: asset, width: asset.pixelWidth, height: asset.pixelHeight, type: type)
         
     }
     

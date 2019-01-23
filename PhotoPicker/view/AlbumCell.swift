@@ -162,7 +162,7 @@ class AlbumCell: UITableViewCell {
         poster = configuration.albumPosterLoadingPlaceholder
     }
     
-    func bind(index: Int, album: AlbumAsset, posterSize: CGSize) {
+    func bind(index: Int, album: Album, posterSize: CGSize) {
         
         if let poster = album.poster {
             
