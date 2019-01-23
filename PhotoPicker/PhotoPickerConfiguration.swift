@@ -107,7 +107,7 @@ open class PhotoPickerConfiguration {
     public var selectButtonImageCheckedCountable = UIImage(named: "photo_picker_select_button_checked_countable")
     
     // 当选择的照片数量到达上线后的蒙层颜色
-    public var photoOverlayColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
+    public var assetOverlayColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
     
     
     //
@@ -288,10 +288,10 @@ open class PhotoPickerConfiguration {
     public var albumEmptyPlaceholder = UIImage(named: "photo_picker_album_empty_placeholder")
     
     // 照片缩略图等待加载时的默认图
-    public var assetThumbnailLoadingPlaceholder = UIImage(named: "photo_picker_photo_thumbnail_loading_placeholder")
+    public var assetThumbnailLoadingPlaceholder = UIImage(named: "photo_picker_asset_thumbnail_loading_placeholder")
     
     // 照片缩略图加载错误时的默认图
-    public var assetThumbnailErrorPlaceholder = UIImage(named: "photo_picker_photo_thumbnail_error_placeholder")
+    public var assetThumbnailErrorPlaceholder = UIImage(named: "photo_picker_asset_thumbnail_error_placeholder")
     
     //
     // MARK: - 照片角标

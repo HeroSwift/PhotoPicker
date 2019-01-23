@@ -123,7 +123,7 @@ class AssetCell: UICollectionViewCell {
         let view = UIView()
 
         view.isHidden = true
-        view.backgroundColor = configuration.photoOverlayColor
+        view.backgroundColor = configuration.assetOverlayColor
         view.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(view)
