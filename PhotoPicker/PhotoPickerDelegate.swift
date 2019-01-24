@@ -22,10 +22,6 @@ public protocol PhotoPickerDelegate {
 
 public extension PhotoPickerDelegate {
     
-    func photoPickerDidCancel(_ photoPicker: PhotoPickerViewController) { }
-    
-    func photoPickerDidSubmit(_ photoPicker: PhotoPickerViewController, assetList: [PickedAsset]) { }
-    
     func photoPickerWillFetchWithoutPermissions(_ photoPicker: PhotoPickerViewController) { }
     
     func photoPickerDidPermissionsGranted(_ photoPicker: PhotoPickerViewController) { }

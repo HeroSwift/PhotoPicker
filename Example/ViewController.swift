@@ -38,6 +38,10 @@ class ViewController: UIViewController {
 
 extension ViewController: PhotoPickerDelegate {
     
+    func photoPickerDidCancel(_ photoPicker: PhotoPickerViewController) {
+        photoPicker.dismiss(animated: true, completion: nil)
+    }
+    
     func photoPickerDidSubmit(_ photoPicker: PhotoPickerViewController, assetList: [PickedAsset]) {
         print(assetList)
         photoPicker.dismiss(animated: true, completion: nil)

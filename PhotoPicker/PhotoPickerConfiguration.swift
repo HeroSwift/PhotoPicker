@@ -269,9 +269,13 @@ open class PhotoPickerConfiguration {
         return options
     }()
     
-    // 获取照片列表的选项
+    // 排序字段
     public var assetSortField = "creationDate"
+    
+    // 是否正序
     public var assetSortAscending = false
+    
+    // 支持的文件类型
     public var assetMediaTypes = [ PHAssetMediaType.image.rawValue ]
     
     //
