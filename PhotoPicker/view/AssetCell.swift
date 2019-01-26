@@ -40,6 +40,7 @@ class AssetCell: UICollectionViewCell {
     private var thumbnail: UIImage? {
         didSet {
             if let thumbnail = thumbnail {
+                selectButton.isHidden = thumbnail == configuration.assetThumbnailLoadingPlaceholder
                 thumbnailView.image = thumbnail
             }
             else {
@@ -189,7 +190,7 @@ class AssetCell: UICollectionViewCell {
             }
         }
         else {
-            thumbnailView.image = asset.thumbnail
+            thumbnail = asset.thumbnail
         }
         
         var badgeImage: UIImage? = nil
