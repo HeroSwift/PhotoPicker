@@ -1,7 +1,7 @@
 
 import UIKit
 
-public protocol PhotoPickerDelegate {
+@objc public protocol PhotoPickerDelegate {
     
     // 点击取消按钮
     func photoPickerDidCancel(_ photoPicker: PhotoPickerViewController)

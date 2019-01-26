@@ -4,8 +4,8 @@ import Photos
 
 public class PhotoPickerViewController: UIViewController {
     
-    public var delegate: PhotoPickerDelegate!
-    public var configuration: PhotoPickerConfiguration!
+    @objc public var delegate: PhotoPickerDelegate!
+    @objc public var configuration: PhotoPickerConfiguration!
     
     private var topBarHeightLayoutConstraint: NSLayoutConstraint!
     private var bottomBarHeightLayoutConstraint: NSLayoutConstraint!
@@ -237,6 +237,10 @@ public class PhotoPickerViewController: UIViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        guard topBarHeightLayoutConstraint != nil else {
+            return
+        }
+        
         var height = view.bounds.height
         
         if #available(iOS 11.0, *) {
@@ -325,19 +329,21 @@ public class PhotoPickerViewController: UIViewController {
         // 不计数就用照片原来的顺序
         if !configuration.countable {
             selectedList.sort { a, b in
-                return a.index > b.index
+                return a.index < b.index
             }
         }
         
         // 排序完成之后，转成 PickedAsset
+        let isRawChecked = bottomBar.isRawChecked
+        
+        var count = 0
+        let urlPrefix = "file://"
         
         var result = [PickedAsset]()
-        var count = 0
         
-        let isRawChecked = bottomBar.isRawChecked
-        let urlPrefix = "file:/"
-        
-        selectedList.forEach { asset in
+        result = selectedList.map { asset in
+            
+            let item = PickedAsset(path: "", width: asset.width, height: asset.height, size: 0, isVideo: asset.type == .video, isRaw: isRawChecked)
             
             PhotoPickerManager.shared.getAssetURL(asset: asset.asset) { url in
                 count += 1
@@ -347,20 +353,22 @@ public class PhotoPickerViewController: UIViewController {
                     if path.hasPrefix(urlPrefix) {
                         path = NSString(string: path).substring(from: urlPrefix.count)
                     }
-
+                    
+                    item.path = path
+                    
                     let info = try! FileManager.default.attributesOfItem(atPath: path)
                     if let size = info[FileAttributeKey.size] as? Int {
-                        result.append(
-                            PickedAsset(path: path, width: asset.width, height: asset.height, size: size, isVideo: asset.type == .video, isRaw: isRawChecked)
-                        )
+                        item.size = size
                     }
                     
                 }
-                if count == selectedList.count {
+                if count == result.count {
                     self.delegate.photoPickerDidSubmit(self, assetList: result)
                 }
             }
-        
+            
+            return item
+            
         }
         
     }
@@ -371,6 +379,14 @@ public class PhotoPickerViewController: UIViewController {
 
     @objc private func onTitleClick() {
         toggleAlbumList()
+    }
+    
+    @objc public func show() {
+
+        DispatchQueue.main.async {
+            UIApplication.shared.keyWindow?.rootViewController?.present(self, animated: true, completion: nil)
+        }
+        
     }
     
 }

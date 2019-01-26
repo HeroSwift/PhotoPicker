@@ -1,17 +1,20 @@
 
-public class PickedAsset {
+import Foundation
+import Photos
+
+@objc public class PickedAsset: NSObject {
     
-    public var path: String
+    @objc public var path: String
     
-    public var width: Int
+    @objc public var width: Int
     
-    public var height: Int
+    @objc public var height: Int
     
-    public var size: Int
+    @objc public var size: Int
     
-    public var isVideo: Bool
+    @objc public var isVideo: Bool
     
-    public var isRaw: Bool
+    @objc public var isRaw: Bool
     
     public init(path: String, width: Int, height: Int, size: Int, isVideo: Bool, isRaw: Bool) {
         self.path = path
