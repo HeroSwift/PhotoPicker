@@ -190,28 +190,28 @@ open class PhotoPickerConfiguration {
     //
     
     // 原图按钮的标题字体
-    public var fullButtonTitleTextFont = UIFont.systemFont(ofSize: 13)
+    public var rawButtonTitleTextFont = UIFont.systemFont(ofSize: 13)
     
     // 原图按钮的标题颜色
-    public var fullButtonTitleTextColor = UIColor.white
+    public var rawButtonTitleTextColor = UIColor.white
     
     // 原图按钮的标题到图标的距离
-    public var fullButtonTitleMarginLeft: CGFloat = 6
+    public var rawButtonTitleMarginLeft: CGFloat = 6
     
     // 原图按钮水平内间距，用来扩大点击区域
-    public var fullButtonPaddingHorizontal: CGFloat = 8
+    public var rawButtonPaddingHorizontal: CGFloat = 8
     
     // 原图按钮垂直内间距，用来扩大点击区域
-    public var fullButtonPaddingVertical: CGFloat = 8
+    public var rawButtonPaddingVertical: CGFloat = 8
     
     // 原图按钮未选中时的图片
-    public var fullButtonImageUnchecked = UIImage(named: "photo_picker_full_button_unchecked")
+    public var rawButtonImageUnchecked = UIImage(named: "photo_picker_raw_button_unchecked")
     
     // 原图按钮选中时的图片
-    public var fullButtonImageChecked = UIImage(named: "photo_picker_full_button_checked")
+    public var rawButtonImageChecked = UIImage(named: "photo_picker_raw_button_checked")
     
     // 原图按钮的标题
-    public var fullButtonTitle = "原图"
+    public var rawButtonTitle = "原图"
     
     //
     // MARK: - 确定按钮
