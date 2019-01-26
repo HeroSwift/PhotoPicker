@@ -8,7 +8,44 @@ class AssetCell: UICollectionViewCell {
     
     var configuration: PhotoPickerConfiguration!
     
-    private var asset: Asset!
+    private var size = CGSize.zero
+    
+    private var asset: Asset! {
+        didSet {
+
+            let nativeAsset = asset.asset
+            let cacheThumbnail = asset.thumbnail
+            
+            assetIdentifier = nativeAsset.localIdentifier
+            
+            if cacheThumbnail == nil {
+                imageRequestID = PhotoPickerManager.shared.requestImage(
+                    asset: nativeAsset,
+                    size: size,
+                    options: configuration.assetThumbnailRequestOptions
+                ) { [weak self] image, info in
+                    
+                    guard let _self = self, _self.assetIdentifier == nativeAsset.localIdentifier else {
+                        return
+                    }
+                    
+                    // 此回调会连续触发，这里只缓存高清图
+                    if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 0 {
+                        _self.asset.thumbnail = image
+                    }
+                    
+                    _self.imageRequestID = nil
+                    _self.thumbnail = image
+                    
+                }
+            }
+            else {
+                thumbnail = cacheThumbnail
+            }
+            
+        }
+    }
+    
     private var assetIdentifier: String!
     private var imageRequestID: PHImageRequestID?
     
@@ -162,37 +199,9 @@ class AssetCell: UICollectionViewCell {
     
     func bind(asset: Asset, size: CGSize) {
         
+        self.size = size
         self.asset = asset
-        
-        let nativeAsset = asset.asset
-        
-        assetIdentifier = nativeAsset.localIdentifier
-        
-        if asset.thumbnail == nil {
-            imageRequestID = PhotoPickerManager.shared.requestImage(
-                asset: nativeAsset,
-                size: size,
-                options: configuration.assetThumbnailRequestOptions
-            ) { [weak self] image, info in
-                
-                guard let _self = self, _self.assetIdentifier == nativeAsset.localIdentifier else {
-                    return
-                }
-                
-                // 此回调会连续触发，这里只缓存高清图
-                if let degraded = info?[PHImageResultIsDegradedKey] as? NSNumber, degraded == 0 {
-                    asset.thumbnail = image
-                }
-                
-                _self.imageRequestID = nil
-                _self.thumbnail = image
-                
-            }
-        }
-        else {
-            thumbnail = asset.thumbnail
-        }
-        
+
         var badgeImage: UIImage? = nil
         
         if asset.type == .gif {
