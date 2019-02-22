@@ -266,6 +266,8 @@ import Photos
     @objc public var assetThumbnailRequestOptions: PHImageRequestOptions = {
         let options = PHImageRequestOptions()
         options.resizeMode = .exact
+        options.isSynchronous = false
+        options.isNetworkAccessAllowed = false
         return options
     }()
     
@@ -274,9 +276,6 @@ import Photos
     
     // 是否正序
     @objc public var assetSortAscending = false
-    
-    // 支持的文件类型
-    @objc public var assetMediaTypes = [ PHAssetMediaType.image.rawValue ]
     
     //
     // MARK: - 各种占位图
@@ -320,7 +319,7 @@ import Photos
     }
     
     open func filterAsset(width: Int, height: Int, type: AssetType) -> Bool {
-        return width > 44 && height > 44
+        return width > 44 && height > 44 && type != .video
     }
     
 }
