@@ -229,20 +229,6 @@ class PhotoPickerManager: NSObject {
         cacheManager.cancelImageRequest(requestID)
     }
     
-    // size 是像素单位
-    func startCachingImages(assets: [PHAsset], size: CGSize, options: PHImageRequestOptions) {
-        cacheManager.startCachingImages(for: assets, targetSize: size, contentMode: .aspectFill, options: options)
-    }
-    
-    // size 是像素单位
-    func stopCachingImages(assets: [PHAsset], size: CGSize, options: PHImageRequestOptions) {
-        cacheManager.stopCachingImages(for: assets, targetSize: size, contentMode: .aspectFill, options: options)
-    }
-    
-    func stopAllCachingImages() {
-        cacheManager.stopCachingImagesForAllAssets()
-    }
-    
     func getAssetURL(asset: PHAsset, callback: @escaping (URL?) -> Void) {
         if asset.mediaType == .image {
             let options = PHContentEditingInputRequestOptions()
