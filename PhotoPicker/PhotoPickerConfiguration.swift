@@ -325,12 +325,15 @@ import Photos
 
     }
 
-    open func filterAlbum(title: String, count: Int) -> Bool {
-        return count > 0
+    open func filter(album: Album) -> Bool {
+        return album.count > 0
     }
 
-    open func filterAsset(width: Int, height: Int, type: AssetType) -> Bool {
-        return width > imageMinWidth && height > imageMinHeight && type != .video
+    open func filter(asset: Asset) -> Bool {
+        if asset.type != .video {
+            return asset.width > imageMinWidth && asset.height > imageMinHeight
+        }
+        return true
     }
 
 }

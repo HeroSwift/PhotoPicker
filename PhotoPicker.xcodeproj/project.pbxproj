@@ -125,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				9DB2CEC021E5AC270065C7C2 /* SimpleButton */,
+				9D536671222E19FE00BE39AE /* enum */,
 				9D3CD2E221E2EB1100B1C2C4 /* model */,
 				9D3CD2DF21E2E99600B1C2C4 /* view */,
 				9D3CD2C021E104CF00B1C2C4 /* Info.plist */,
@@ -169,12 +170,19 @@
 		9D3CD2E221E2EB1100B1C2C4 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				9D3CD2E321E2EB2400B1C2C4 /* Asset.swift */,
 				9D3CD2EF21E3253500B1C2C4 /* Album.swift */,
+				9D3CD2E321E2EB2400B1C2C4 /* Asset.swift */,
 				9D63C53721EB6A5A003A91E4 /* PickedAsset.swift */,
-				9DFE534E21F81AFB00E27DD9 /* AssetType.swift */,
 			);
 			path = model;
+			sourceTree = "<group>";
+		};
+		9D536671222E19FE00BE39AE /* enum */ = {
+			isa = PBXGroup;
+			children = (
+				9DFE534E21F81AFB00E27DD9 /* AssetType.swift */,
+			);
+			path = enum;
 			sourceTree = "<group>";
 		};
 		9DB2CEC021E5AC270065C7C2 /* SimpleButton */ = {
