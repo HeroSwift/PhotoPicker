@@ -233,10 +233,10 @@ import Photos
     @objc public var submitButtonBorderRadius: CGFloat = 4
 
     // 确定按钮宽度
-    @objc public var submitButtonWidth: CGFloat = 58
+    @objc public var submitButtonWidth: CGFloat = 66
 
     // 确定按钮高度
-    @objc public var submitButtonHeight: CGFloat = 28
+    @objc public var submitButtonHeight: CGFloat = 30
 
     // 确定按钮的标题
     @objc public var submitButtonTitle = "确定"
