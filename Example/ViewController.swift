@@ -22,7 +22,10 @@ class ViewController: UIViewController {
 
         configuration.maxSelectCount = 1
         configuration.countable = false
-
+        
+        configuration.cancelButtonTitle = "Cancel 11"
+        configuration.rawButtonTitle = "肉啊揉揉揉揉"
+        configuration.submitButtonTitle = "Submit1234123"
         present(controller, animated: true, completion: nil)
 
 
