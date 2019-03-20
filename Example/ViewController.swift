@@ -46,9 +46,10 @@ extension ViewController: PhotoPickerDelegate {
     // 点击确定按钮
     func photoPickerDidSubmit(_ photoPicker: PhotoPickerViewController, assetList: [PickedAsset]) {
         photoPicker.dismiss(animated: true, completion: nil)
+        print(assetList[0].path)
     }
     
-    func photoPickerWillFetchWithoutPermissions(_ photoPicker: PhotoPickerViewController) { }
+    func photoPickerDidPermissionsNotGranted(_ photoPicker: PhotoPickerViewController) { }
     
     func photoPickerDidPermissionsGranted(_ photoPicker: PhotoPickerViewController) { }
     
