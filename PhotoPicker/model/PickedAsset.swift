@@ -13,7 +13,7 @@ import Photos
     @objc public var height: Int
     
     @objc public var size: Int
-
+    
     @objc public var isVideo: Bool
     
     @objc public var isRaw: Bool
