@@ -322,11 +322,8 @@ public class PhotoPickerViewController: UIViewController {
         
         // 排序完成之后，转成 PickedAsset
         let isOriginalChecked = bottomBar.isOriginalChecked
-        let imageBase64Enabled = configuration.imageBase64Enabled
-        
+
         var count = 0
-        let urlPrefix = "file://"
-        
         var result = [PickedAsset]()
         
         selectedList.forEach { asset in
@@ -335,30 +332,13 @@ public class PhotoPickerViewController: UIViewController {
             
             result.append(item)
             
-            saveToSandbox(asset: asset) { url in
-                count += 1
-                if let url = url {
+            saveToSandbox(asset: asset) { (path, base64, size) in
                 
-                    var path = url.absoluteString
-                    if path.hasPrefix(urlPrefix) {
-                        path = NSString(string: path).substring(from: urlPrefix.count)
-                    }
-                    
-                    item.path = path
-                    
-                    if !item.isVideo && imageBase64Enabled {
-                        if let imageData = NSData(contentsOf: URL(fileURLWithPath: path)) {
-                            item.base64 = imageData.base64EncodedString()
-                        }
-                    }
-                    
-                    let info = try! FileManager.default.attributesOfItem(atPath: path)
-                    if let size = info[FileAttributeKey.size] as? Int {
-                        item.size = size
-                    }
-                    
-                }
-
+                item.path = path
+                item.base64 = base64
+                item.size = size
+                
+                count += 1
                 if count == result.count {
                     DispatchQueue.main.async {
                         self.delegate.photoPickerDidSubmit(self, assetList: result)
@@ -370,53 +350,72 @@ public class PhotoPickerViewController: UIViewController {
         
     }
     
-    private func saveToSandbox(asset: Asset, callback: @escaping (URL?) -> Void) {
+    private func isAlphaImage(image: UIImage) -> Bool {
+        guard let alphaInfo = image.cgImage?.alphaInfo else {
+            return false
+        }
+        return alphaInfo == .first || alphaInfo == .last || alphaInfo == .premultipliedFirst || alphaInfo == .premultipliedLast
+    }
+    
+    private func saveToSandbox(asset: Asset, callback: @escaping (String, String, Int) -> Void) {
+
+        let options = PHImageRequestOptions()
+        options.version = .original
         
-        let nativeAsset = asset.asset
-        let nativeIsImage = nativeAsset.mediaType == .image
-        let nativeResources = PHAssetResource.assetResources(for: nativeAsset)
+        var imageBase64Enabled = configuration.imageBase64Enabled
+        if asset.asset.mediaType == .video {
+            imageBase64Enabled = false
+        }
         
-        var outputResources = [PHAssetResource]()
-        // 从 nativeResources 过滤出图片，因为 live photo 会包含 mov 视频
-        nativeResources.forEach { item in
-            let extname = URL(fileURLWithPath: item.originalFilename).pathExtension
-            if nativeIsImage && extname.uppercased() == "MOV" {
+        PHImageManager.default().requestImageData(for: asset.asset, options: options, resultHandler: { (imageData, dataUTI, orientation, info) in
+            guard let imageData = imageData else {
                 return
             }
-            outputResources.append(item)
-        }
-        
-        guard outputResources.count > 0 else {
-            return callback(nil)
-        }
-        guard let outputVersion = outputResources.last else {
-            return callback(nil)
-        }
-        
-        var dirname = NSTemporaryDirectory()
-        if !dirname.hasSuffix("/") {
-            dirname += "/"
-        }
-        
-        var extname = URL(fileURLWithPath: outputVersion.originalFilename).pathExtension
-        if !extname.isEmpty {
-            extname = "." + extname
-        }
-        
-        let path = dirname + UUID().uuidString + extname
-        let url = URL(fileURLWithPath: path)
-
-        let options = PHAssetResourceRequestOptions()
-        options.isNetworkAccessAllowed = true
-        
-        PHAssetResourceManager.default().writeData(for: outputVersion, toFile: url, options: options) { error in
-            if error == nil {
-                callback(url)
+            
+            var extname = ".jpg"
+            var newData = imageData
+            
+            if dataUTI == "public.heif" || dataUTI == "public.heic" {
+                guard let ciImage = CIImage(data: imageData), let colorSpace = ciImage.colorSpace else {
+                    return
+                }
+                let context = CIContext()
+                guard let jpgData = context.jpegRepresentation(of: ciImage, colorSpace: colorSpace) else {
+                    return
+                }
+                newData = jpgData
             }
             else {
-                callback(nil)
+                guard let uiImage = UIImage(data: newData) else {
+                    return
+                }
+                if self.isAlphaImage(image: uiImage) {
+                    extname = ".png"
+                }
             }
-        }
+            
+            guard let nsData = newData as NSData? else {
+                return
+            }
+            
+            var dirname = NSTemporaryDirectory()
+            if !dirname.hasSuffix("/") {
+                dirname += "/"
+            }
+            
+            let path = dirname + UUID().uuidString + extname
+
+            if nsData.write(toFile: path, atomically: true) {
+                var base64 = ""
+                if imageBase64Enabled {
+                    base64 = nsData.base64EncodedString()
+                }
+                callback(path, base64, nsData.length)
+            }
+            
+        })
+        
+        
         
     }
     
